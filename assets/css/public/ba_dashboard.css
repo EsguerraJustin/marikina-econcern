@@ -1,0 +1,152 @@
+/* max-width 1280px (rule #15). Horizontal padding is 0 and the bottom inset
+   is 48px: the previous 120px/140px bottom was reserved for a fixed mobile
+   bottom-nav bar, which this project does not have (app_shell_start.php ships
+   a drawer sidebar + sticky topnav only), so it was ~120px of dead whitespace
+   on every phone. 24px horizontal came from .mc-shell-main already. */
+.mc-ba-dashboard-page{width:100%;max-width:1280px;margin-inline:auto;padding:16px 0 48px;position:relative;z-index:2;min-width:0;overflow-wrap:break-word;word-break:normal}
+@media(min-width:768px){.mc-ba-dashboard-page{padding:24px 0 48px}}
+.mc-ba-dashboard-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px;align-items:start;width:100%;min-width:0}
+.mc-ba-dashboard-stack{display:flex;flex-direction:column;gap:16px;min-width:0;width:100%}
+@media(max-width:767.98px){.mc-ba-dashboard-grid{grid-template-columns:1fr;gap:14px}}
+.mc-ba-card{background:var(--ba-surface);border:1px solid var(--ba-border)!important;border-radius:var(--ba-radius-md);margin-bottom:0;padding:0!important;min-width:0;width:100%;overflow-wrap:break-word;word-break:normal}
+.mc-ba-card .card-body{padding:18px 18px!important;min-width:0;overflow-wrap:break-word;word-break:normal}
+@media(max-width:575.98px){.mc-ba-card .card-body{padding:16px 14px!important}}
+.mc-ba-card.mc-ba-card-primary{border:1px solid var(--ba-border)!important;background:var(--ba-surface);border-radius:var(--ba-radius-md)}
+.mc-ba-card-primary .card-body{padding:20px 20px!important}
+@media(max-width:575.98px){.mc-ba-card-primary .card-body{padding:16px 14px!important}}
+.mc-ba-card-secondary{background:var(--ba-surface);border:1px solid var(--ba-border-strong)!important;border-radius:var(--ba-radius-md)}
+.mc-ba-card-secondary .card-body{padding:16px 18px!important}
+@media(max-width:575.98px){.mc-ba-card-secondary .card-body{padding:14px!important}}
+.mc-ba-weather-card{background:var(--ba-surface-2);border:1px solid var(--ba-border)!important;border-radius:var(--ba-radius-md)}
+.mc-ba-weather-card .card-body{padding:16px 18px!important}
+@media(max-width:575.98px){.mc-ba-weather-card .card-body{padding:14px!important}}
+.mc-ba-weather-now{display:flex;align-items:center;gap:12px;margin:6px 0 14px;min-width:0}
+.mc-ba-weather-icon{font-size:3rem;line-height:1;flex-shrink:0}
+.mc-ba-weather-temp{font:700 2.4rem/1 Montserrat,system-ui,sans-serif;color:var(--ba-text);min-width:0;overflow-wrap:break-word}
+.mc-ba-weather-cond{font-size:.88rem;color:var(--ba-text-muted);margin-top:3px;min-width:0;overflow-wrap:break-word}
+.mc-ba-weather-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 14px;min-width:0}
+.mc-ba-weather-stat{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:8px 4px;text-align:center;min-width:0;overflow-wrap:break-word}
+.mc-ba-weather-stat strong{display:flex;align-items:center;justify-content:center;gap:4px;font-size:.82rem;color:var(--ba-text);margin:0}
+.mc-ba-weather-stat span{display:block;font-size:.7rem;color:var(--ba-text-muted);margin-top:2px}
+.mc-ba-forecast{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;min-width:0}
+.mc-ba-forecast-day{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:10px 10px;min-width:0;overflow-wrap:break-word}
+.mc-ba-forecast-date{font-size:.76rem;color:var(--ba-text-muted);font-weight:600;font-family:Montserrat,system-ui,sans-serif}
+.mc-ba-forecast-cond{font-size:.8rem;font-weight:600;color:var(--ba-text);margin:4px 0 6px;overflow-wrap:break-word}
+.mc-ba-forecast-temp{font-size:.8rem;margin-bottom:4px}
+.mc-ba-forecast-temp .mc-ba-temp-hi{color:var(--ba-danger);font-weight:700}
+.mc-ba-forecast-temp .mc-ba-temp-lo{color:var(--ba-primary);font-weight:700}
+.mc-ba-forecast-rain{font-size:.72rem;color:var(--ba-text-muted);display:flex;align-items:center;gap:4px;margin-top:4px}
+.mc-ba-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 12px;min-width:0}
+.mc-ba-stat{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:10px 6px;text-align:center;min-width:0;overflow-wrap:break-word}
+.mc-ba-stat strong{display:block;font:700 1.4rem/1.1 Montserrat,system-ui,sans-serif;color:var(--ba-primary)}
+/* font-family was missing here, so common.css:11 forced Merriweather (the
+   body serif) on the tile caption while every other caption in the project
+   is Montserrat. */
+.mc-ba-stat span{display:block;font-size:.7rem;font-family:'Montserrat',system-ui,sans-serif;color:var(--ba-text-muted);margin-top:3px}
+.mc-ba-holiday-card{background:var(--ba-surface);border:1px solid var(--ba-border)!important;border-radius:var(--ba-radius-md);margin-bottom:0;padding:0!important;min-width:0;width:100%;overflow-wrap:break-word}
+.mc-ba-holiday-card .card-body{padding:18px 18px!important;min-width:0;overflow-wrap:break-word}
+@media(max-width:575.98px){.mc-ba-holiday-card .card-body{padding:16px 14px!important}}
+/* ---------------- Hero band ----------------
+   The page previously had no hero at all — just a bare .mc-ba-page-header
+   with an h2 — while its admin twin (admin/ba_dashboard.php:257) renders a
+   full hero band. Now matches the flat/tokenised hero contract used by the
+   admin list pages (admin/concerns.css:4). */
+.mc-ba-dash-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+.mc-ba-dash-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;padding:20px 24px;flex-wrap:wrap}
+@media(max-width:520px){.mc-ba-dash-hero-inner{padding:16px}}
+.mc-ba-dash-hero-title-row{display:flex;align-items:center;gap:16px;min-width:0}
+.mc-ba-dash-hero-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:none}
+.mc-ba-dash-hero-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-ba-dash-hero-title{min-width:0}
+.mc-ba-dash-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-ba-dash-hero-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+@media(max-width:767.98px){
+  .mc-ba-dash-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+  .mc-ba-dash-hero-title-row{width:100%;flex:1 1 auto}
+}
+@media(max-width:576px){
+  .mc-ba-dash-hero-icon-wrap{width:44px;height:44px}
+  .mc-ba-dash-hero-icon-wrap .lucide{width:20px;height:20px}
+  .mc-ba-dash-hero-title h1{font-size:1.375rem}
+}
+.mc-ba-page-header{min-width:0;overflow-wrap:break-word}.mc-ba-row-title{font:700 1.05rem/1.2 Montserrat,system-ui,sans-serif;color:var(--ba-text);margin:0 0 2px;min-width:0;overflow-wrap:break-word}
+.mc-ba-announce-item{border-bottom:1px solid var(--ba-border);padding:12px 0;margin-bottom:12px;min-width:0;overflow-wrap:break-word}
+.mc-ba-announce-item:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.mc-ba-announce-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;min-width:0}
+.mc-ba-announce-title{font:600 .98rem/1.25 system-ui,sans-serif;color:var(--ba-text);margin:0;min-width:0;overflow-wrap:break-word}
+.mc-ba-announce-meta{font-size:.78rem;color:var(--ba-text-muted);flex-shrink:0}
+.mc-ba-announce-excerpt{font-size:.86rem;color:var(--ba-text-muted);margin:6px 0 0;line-height:1.45;min-width:0;overflow-wrap:break-word}
+.mc-ba-report-item{border-bottom:1px solid var(--ba-border);padding:8px 0;margin-bottom:8px;min-width:0;overflow-wrap:break-word}
+.mc-ba-report-item:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.mc-ba-report-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px;min-width:0}
+.mc-ba-report-no{font-size:.82rem;font-weight:600;color:var(--ba-text);min-width:0;overflow-wrap:break-word}
+.mc-ba-report-meta{font-size:.76rem;color:var(--ba-text-muted);flex-shrink:0}
+html,body{overflow-x:hidden!important;max-width:100vw!important}
+/* min-width:0 only. The previous rule also forced max-width:100%!important on
+   .mc-shell-main, which silently cancelled the 1600px shell cap (common.css:140).
+   Harmless today because .mc-ba-dashboard-page sets its own 1280px, but an
+   !important landmine on a 1:1 page stylesheet. */
+.mc-app-shell,.mc-shell-main{min-width:0!important;overflow-wrap:break-word!important}
+.mc-ba-card .card-body .btn,.mc-ba-holiday-card .card-body .btn,.mc-ba-card .btn,.mc-ba-holiday-card .btn{width:100%}
+@media(max-width:575.98px){
+  /* 40px floor, not 34px: every button inside every BasuraAlert card was
+     34px tall on phones, 6px below the admin side's 36px .btn-sm and well
+     under the 40x40 minimum tap target. */
+  .mc-ba-card .card-body .btn,.mc-ba-holiday-card .card-body .btn,.mc-ba-card .btn,.mc-ba-holiday-card .btn{padding-inline:14px!important;font-size:.8125rem!important;width:100%!important;white-space:normal!important;line-height:1.3!important;min-height:40px!important;height:auto!important}
+  .mc-ba-card .card-body .d-grid,.mc-ba-holiday-card .card-body .d-grid{width:100%!important}
+}
+/* PH holiday banner action row — content-width + single-line labels on desktop;
+   full-width stacked with wrapping on phones. Overrides the width:100% above
+   for this row only. */
+.mc-action-row{display:grid;gap:8px;width:100%;min-width:0}
+@media(min-width:576px){
+  .mc-action-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .mc-action-row>.btn{width:auto!important;white-space:nowrap}
+}
+@media(max-width:575.98px){
+  .mc-action-row>.btn{width:100%!important;white-space:normal!important}
+}
+.lucide-14{width:14px!important;height:14px!important}
+.lucide-16{width:16px!important;height:16px!important}
+.lucide-20{width:20px!important;height:20px!important}
+.lucide-24{width:24px!important;height:24px!important}
+.modal.mh{z-index:1080!important}
+.modal-backdrop{z-index:1075!important;background:rgba(15,23,42,.62)}
+.mh .modal-dialog{max-width:none;width:min(1180px,calc(100vw - 32px));margin:calc(68px + .75rem) auto .75rem}
+.mh .modal-content{display:flex;flex-direction:column;max-height:calc(100vh - (68px + 1.5rem));overflow:hidden;width:100%;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);background:var(--ba-surface)}
+.mh .modal-header{flex-shrink:0;display:flex;gap:12px;align-items:flex-start;padding:18px 22px;background:var(--ba-primary);border-bottom:1px solid rgba(0,0,0,.08);border-radius:var(--ba-radius-md) 14px 0 0;position:relative}
+.mh .modal-header>div:first-of-type{flex-grow:1;min-width:0;padding-right:56px}
+.mh .modal-header h1.modal-title{font:700 1.18rem/1.38 Montserrat,system-ui,sans-serif;margin:0 0 6px;color:var(--ba-surface);white-space:normal;overflow-wrap:break-word;word-break:normal;display:flex;align-items:center;gap:10px}
+.mh .modal-header div.small{opacity:1!important;color:var(--ba-surface)!important;font-weight:500;font-size:.88rem;line-height:1.45}
+.mh .modal-header .btn-close{flex-shrink:0;width:40px;height:40px;padding:0;margin:0;position:absolute;top:16px;right:22px;z-index:6}
+.mh .modal-body{flex-grow:1;overflow-y:auto;padding:24px 26px;margin:0;min-height:0}
+.mh .mhl{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--ba-border)}
+.mh .mhl .badge{line-height:1.45;padding:6px 12px;font-size:.76rem;font-family:Montserrat,system-ui,sans-serif;font-weight:600}
+.mh .mht{margin-left:auto}
+.mh .mhg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;width:100%;min-width:0}
+.mh .mhm{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);display:flex;flex-direction:column;min-width:0;min-height:100%}
+.mh .mhmh{padding:13px 16px;border-bottom:1px solid var(--ba-border);display:flex;justify-content:space-between;align-items:center;gap:10px;border-radius:9px 9px 0 0}
+.mh .mhmh.c{background:var(--ba-primary-tint);border-bottom:2px solid var(--ba-primary)}
+.mh .mhmh-n{font:700 1.04rem/1.2 Montserrat,system-ui,sans-serif;color:var(--ba-text);margin:0}
+.mh .mhmh-c{font-size:.76rem;color:var(--ba-text-muted);font-weight:600;font-family:Montserrat,system-ui,sans-serif;flex-shrink:0}
+.mh .mhmb{padding:15px 16px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.mh .mhmb-e{font-size:.78rem;color:var(--ba-text-muted);text-align:center;padding:12px 0}
+.mh .mhe{border-bottom:1px solid var(--ba-surface-2);padding:13px 11px 14px;display:flex;gap:14px;align-items:flex-start;min-width:0}
+.mh .mhe:last-child{border-bottom:0;padding-bottom:5px}
+.mh .mhe.t{background:var(--ba-surface)beb;border:1px solid var(--ba-warning);border-radius:8px;padding:12px 13px;margin:3px 0 6px}
+.mh .mhe.p{opacity:.93}
+.mh .mhd{flex-shrink:0;min-width:42px;text-align:center}
+.mh .mhd-d{font-size:.74rem;text-transform:uppercase;color:var(--ba-text-muted);font-family:Montserrat,system-ui,sans-serif;letter-spacing:.2px;font-weight:600;margin:0 0 3px}
+.mh .mhd-dy{font:700 1.4rem/1 Montserrat,system-ui,sans-serif;color:var(--ba-text);margin:0}
+.mh .mhd.td .mhd-dy{color:var(--ba-primary)}
+.mh .mhi{flex-grow:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.mh .mhi-n{font:600 .92rem/1.4 system-ui,sans-serif;color:var(--ba-text);margin:0;padding-top:1px;white-space:normal;overflow-wrap:break-word;word-break:normal}
+.mh .mhi-b{display:flex;flex-wrap:wrap;align-items:center;gap:5px 6px;margin-top:2px}
+.mh .mhi-b .badge{line-height:1.4;padding:4px 10px;font-size:.72rem;font-weight:600;font-family:Montserrat,system-ui,sans-serif;white-space:nowrap;flex-shrink:0}
+.mh .modal-footer{flex-shrink:0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;padding:15px 22px;border-top:1px solid var(--ba-border);background:var(--ba-surface);border-radius:0 0 14px 14px}
+.mh .mhn{font-size:.8rem;color:var(--ba-text-muted);line-height:1.45;flex-grow:1;min-width:220px}
+.mh .mha{display:flex;flex-wrap:wrap;gap:8px;flex-shrink:0}
+.mh .mha .btn{display:inline-flex;align-items:center;gap:6px}
+@media(max-width:767.98px){.mh .modal-dialog{width:min(calc(100vw - 20px),1180px);margin:calc(56px + .5rem) auto .5rem}.mh .modal-content{max-height:calc(100vh - (56px + 1rem))}.mh .modal-header{padding:15px 16px;flex-direction:column;gap:10px}.mh .modal-header>div:first-of-type{padding-right:52px}.mh .modal-header .btn-close{top:13px;right:14px;width:38px;height:38px}.mh .modal-body{padding:15px 15px}.mh .mhg{grid-template-columns:1fr;gap:14px}.mh .modal-footer{padding:13px 15px;flex-direction:column;align-items:stretch}.mh .mhn{min-width:0}.mh .mha{justify-content:stretch}.mh .mha .btn{flex-grow:1;justify-content:center}.mh .mht{margin-left:0;width:100%;text-align:center}}
+@media(min-width:768px) and (max-width:1199.98px){.mh .mhg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1200px){.mh .mhg{grid-template-columns:repeat(4,minmax(0,1fr))}}

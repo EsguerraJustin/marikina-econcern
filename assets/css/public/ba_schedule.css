@@ -1,0 +1,316 @@
+﻿.mc-ba-schedule-page{max-width:1280px;margin:auto;padding:16px 0 48px}@media(min-width:768px){.mc-ba-schedule-page{padding:24px 0 48px}}.mc-ba-sched-hero{background:#F6F4ED;border:1px solid #3368A024;overflow:hidden;margin-bottom:var(--ba-space-4)}.mc-ba-sched-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);padding:var(--ba-space-4) var(--ba-space-5)}.mc-ba-sched-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0}.mc-ba-sched-hero-icon-wrap{flex:0 0 52px;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;border:1px solid #0001}.mc-ba-sched-hero-icon-wrap .lucide{color:#fff;stroke-width:2.15}.mc-ba-sched-hero-title{min-width:0}.mc-ba-sched-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}.mc-ba-sched-hero-title p{margin:0}.mc-ba-sched-hero-brand{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end}.mc-ba-sched-brand-img{display:block;object-fit:contain;border-radius:var(--ba-radius-md);background:var(--ba-surface);padding:3px;border:1px solid var(--ba-border)}/* Column classes: see the note in public/ba_waste.css. Floors mirror the
+   grid tracks (72+200+160+100+110+100+100 = 842px < the 920px container
+   min-width, so there is 78px of slack). */
+.mc-ba-sched-col-ref{min-width:72px}
+.mc-ba-sched-col-sched{min-width:200px}
+.mc-ba-sched-col-waste{min-width:160px}
+.mc-ba-sched-col-type{min-width:100px}
+.mc-ba-sched-col-when{min-width:110px}
+.mc-ba-sched-col-time{min-width:100px}
+.mc-ba-sched-col-brgy{min-width:100px}
+@media(max-width:767.98px){
+  .mc-ba-sched-col-ref,.mc-ba-sched-col-sched,.mc-ba-sched-col-waste,.mc-ba-sched-col-type,.mc-ba-sched-col-when,.mc-ba-sched-col-time,.mc-ba-sched-col-brgy{min-width:0}
+}
+@media (max-width:767.98px){.mc-ba-sched-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}.mc-ba-sched-hero-title-row{width:100%;flex:1 1 auto}.mc-ba-sched-hero-title{width:100%}.mc-ba-sched-hero-brand{flex:none;width:100%;align-items:stretch}.mc-ba-sched-hero-brand > div{width:100%;text-align:left!important}.mc-ba-sched-hero-brand .btn-group{width:100%;flex-wrap:wrap}.mc-ba-sched-brand-img{margin-left:0!important}}@media (max-width:440px){.mc-ba-sched-hero-brand .btn-group > .btn:not(:first-child){border-radius:.25rem}.mc-ba-sched-hero-brand .btn{padding:.42rem .55rem;font-size:.8rem;line-height:1.25;white-space:normal}}.mc-ba-sched-search-wrap{position:relative;width:100%}.mc-ba-sched-search-icon{position:absolute;left:14px;top:14px;color:var(--ba-primary);pointer-events:none;z-index:2;stroke-width:2.1}.mc-ba-sched-info{margin-top:var(--ba-space-4);display:flex;align-items:center;gap:8px;font:var(--ba-small);color:var(--ba-text-muted)}.mc-ba-sched-info .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.1}.mc-ba-schedule-table-wrap{border-radius:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}.mc-ba-schedule-table{display:flex;flex-direction:column;width:100%;min-width:920px;background:var(--ba-surface)}.mc-ba-sched-row{display:grid;grid-template-columns:minmax(72px,82px) minmax(200px,2.7fr) minmax(160px,2.2fr) minmax(100px,1.1fr) minmax(110px,1.05fr) minmax(100px,1.15fr) minmax(100px,1.15fr);align-items:stretch}/* TABLE MODE ONLY â€” (0,2,0) here and (0,2,0) for .mc-stacked-card
+   .mc-ba-sched-cell in common.css, and this sheet loads after common.css, so
+   unscoped this flex declaration overrode the card layout's display:grid and
+   broke every phone label mid-word. Same fix as public/ba_waste.css. */
+@media(min-width:768px){
+.mc-ba-sched-head .mc-ba-sched-cell,.mc-ba-schedule-tbody .mc-ba-sched-cell{padding:14px;background:#fff;display:flex;align-items:center;min-width:0}
+}.mc-th-wrap{display:flex;align-items:center;gap:8px;width:100%;font:700 .82rem/1.25 Montserrat,sans-serif;color:var(--ba-text);white-space:nowrap}.mc-th-icon{width:16px;height:16px;flex-shrink:0;color:var(--ba-primary);stroke-width:2}.mc-ba-schedule-tbody .mc-ba-sched-row{border-bottom:1px solid var(--ba-border)}.mc-ba-schedule-tbody .mc-ba-sched-row:last-child{border-bottom:0}.mc-ba-schedule-tbody .mc-ba-sched-row:hover{background:var(--ba-surface-2)}.mc-ba-schedule-tbody .mc-ba-sched-col-sched{align-items:flex-start}.mc-cell-wrap{display:flex;align-items:flex-start;gap:8px;width:100%;min-width:0}.mc-cell-icon{width:14px;height:14px;flex-shrink:0;margin-top:4px;color:#4A5568}.mc-cell-content{min-width:0;flex:1;color:#2B3441;font-size:.9rem;line-height:1.45;overflow-wrap:break-word;word-break:normal}.mc-cell-content strong{color:#1F2937;font-weight:700;line-height:1.3}.mc-ba-sched-secondary{color:#4A5568!important;font-size:.82rem;line-height:1.4;margin-top:4px}.mc-cell-content a{color:#3368A0;text-decoration:none;font-weight:600;font-size:.82rem}.mc-cell-content a:hover{text-decoration:underline}.ba-pub-ref-btn{background:#fff;color:#1F2937!important;border:1px solid #D9DDE2!important;border-radius:6px;font-weight:600}.ba-pub-ref-btn:hover{background:#F6F8FB;color:#3368A0!important;border-color:var(--ba-border)!important}.mc-cell-content .badge{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;padding:4px 10px;line-height:1.2;border-radius:var(--ba-radius-pill);white-space:nowrap;font-family:Montserrat,sans-serif;font-weight:600}.mc-cell-content .badge .lucide{width:12px;height:12px;flex-shrink:0}.mc-ba-sched-empty{padding:60px 20px;text-align:center;color:var(--ba-text-muted);font-size:.9rem;grid-column:1/-1}.lucide-14{width:14px!important;height:14px!important}.lucide-16{width:16px!important;height:16px!important}.sw,.sg{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.swd{font:700 .76rem/1.3 Montserrat,sans-serif;text-align:center;color:#4A5568;letter-spacing:.2px;padding:8px 0;text-transform:uppercase}.sg{width:100%;min-width:0}.sc{position:relative;background:#fff;border:1px solid #D9DDE2;border-radius:8px;padding:9px 8px 10px;min-height:110px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;overflow:hidden;cursor:pointer}.sc:hover{background:#F7FAFD;border-color:#3368A050}.sce{background:#F6F7F9;border-color:#E2E8F0;opacity:.65;cursor:default}.sce:hover{background:#F6F7F9;border-color:#E2E8F0}.sc.t{border:2px solid #3368A0;padding:8px 7px 9px;background:#FFF}.sn{font:700 .95rem/1 Montserrat,sans-serif;color:#1A2330;min-width:22px;min-height:22px;display:flex;align-items:center;justify-content:center;padding:2px 6px;border-radius:var(--ba-radius-pill);background:var(--ba-surface)}.sn.t{background:#3368A0;color:#fff}.sb{display:flex;flex-direction:column;align-items:stretch;gap:4px;width:100%;min-width:0;flex:1}.eb{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:var(--ba-radius-pill);font:600 .7rem/1.25 Montserrat,sans-serif;min-width:0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#E9ECEF;color:#1F2937;cursor:pointer;border:0;flex-shrink:0}.eb:hover{filter:brightness(.94)}.eb:focus-visible,.mb:focus-visible{outline:2px solid #3368A0;outline-offset:2px;border-radius:8px}.eb.bg-success{background:#36B37E20!important;color:#1E7D52!important}.eb.bg-secondary{background:#6C757D20!important;color:#495057!important}.eb.bg-info,.eb.bg-primary{background:#3368A020!important;color:#25507E!important}.eb.bg-danger{background:#C5303020!important;color:#9B2C2C!important}.eb.bg-warning.text-dark{background:#D69E2E22!important;color:#744210!important}.ei{font-size:.74rem}.et{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mb{display:inline-flex;align-items:center;padding:2px 6px 3px;margin-top:1px;color:#3368A0;font:700 .68rem/1.3 Montserrat,sans-serif;background:transparent;border:0;cursor:pointer}.mb:hover{text-decoration:underline;color:#25507E}.modal.sm{z-index:1080!important}.modal.sm .modal-backdrop{z-index:1075!important}.modal.sm .modal-dialog{max-width:none;width:min(860px,calc(100vw - 32px));margin:calc(68px + .75rem) auto .75rem}.modal.sm .modal-content{display:flex;flex-direction:column;max-height:calc(100vh - (68px + 1.5rem));overflow:hidden;border:1px solid var(--ba-border);border-radius:14px;background:var(--ba-surface)}.modal.sm .modal-header{flex-shrink:0;display:flex;gap:12px;align-items:flex-start;padding:16px 20px;background:#3368A0;border-bottom:1px solid rgba(0,0,0,.08);border-radius:14px 14px 0 0;position:relative}.modal.sm .modal-header>div:first-child{flex:1;min-width:0;padding-right:48px}.modal.sm .modal-title{font:700 1.05rem/1.35 Montserrat,sans-serif;margin:0 0 3px;color:#fff;overflow-wrap:break-word;word-break:normal;display:flex;align-items:center;gap:8px}.modal.sm #scDaySubtitle{opacity:1!important;color:#fff!important;font-weight:500;font-size:.84rem;line-height:1.4}.modal.sm .btn-close{width:38px;height:38px;padding:0;position:absolute;top:15px;right:20px;z-index:5}.modal.sm .modal-body{flex:1;overflow-y:auto;padding:2px 0 0;min-height:0}.modal.sm .modal-footer{flex-shrink:0;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:13px 20px;border-top:1px solid #E2E8F0;background:#fff;border-radius:0 0 14px 14px}.dl{display:flex;flex-direction:column}.di{border-bottom:1px solid #E2E8F0;padding:16px 20px;background:#fff;display:flex;flex-direction:column;gap:9px;min-width:0}.di:last-child{border-bottom:0}.di:hover{background:#F7FAFD}.dh{display:flex;align-items:flex-start;gap:10px;min-width:0}.dh .rb{background:#fff;color:#1F2937!important;border:1px solid #D9DDE2!important;border-radius:6px;font-weight:700;font-size:.82rem;font-family:JetBrains Mono,monospace}.dh .rb:hover{background:#F6F8FB;color:#3368A0!important;border-color:var(--ba-border)!important}.dt{font:700 .98rem/1.35 sans-serif;color:#1A2330;margin:0;flex:1;min-width:0;overflow-wrap:break-word;word-break:normal}.db{display:flex;flex-wrap:wrap;align-items:center;gap:5px 7px;margin:1px 0}.db .badge{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;padding:4px 10px;line-height:1.3;border-radius:var(--ba-radius-pill);white-space:nowrap;font-family:Montserrat,sans-serif;font-weight:600}.db .badge .lucide{width:12px;height:12px}.db .badge.bg-info,.db .badge.bg-light.text-dark{background:#3368A01A!important;color:#3368A0!important;border-color:#3368A033!important}.db .badge.bg-warning.text-dark{background:#C8DFDB8C!important;color:#2F6A5C!important;border-color:#4A8F7E38!important}.db .badge.bg-danger{background:#F443361F!important;color:#C53030!important;border-color:#F4433638!important}.dm{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 12px;margin-top:2px}.dm>div{display:inline-flex;align-items:flex-start;gap:6px;color:#2B3441;font-size:.86rem;line-height:1.4;min-width:0}.dm .lucide{width:14px;height:14px;flex-shrink:0;color:#4A5568;margin-top:2px}.de{padding:48px 20px;text-align:center;color:#4A5568;font-size:.92rem}.di .btn-outline-primary{color:#3368A0;border-color:#3368A0;font-weight:600;font-size:.76rem;padding:4px 10px;line-height:1.3;border-radius:8px}.di .btn-outline-primary:hover{background:#3368A0;color:#fff}@media(max-width:520px){.swd{font-size:.68rem;padding:6px 0;letter-spacing:0}.sg{gap:5px}.sc{min-height:78px;padding:6px 5px 7px;gap:4px;border-radius:6px}.sc.t{padding:5px 4px 6px}.sn{font-size:.82rem;min-width:18px;min-height:18px;padding:1px 4px}.eb{font-size:.62rem;padding:3px 6px;gap:3px}.mb{font-size:.62rem;padding:1px 5px 2px;margin-top:0}}@media(max-width:767.98px){.dm{grid-template-columns:1fr;gap:5px}.modal.sm .modal-dialog{width:min(calc(100vw - 20px),860px);margin:calc(56px + .5rem) auto .5rem}.modal.sm .modal-content{max-height:calc(100vh - (56px + 1rem))}.modal.sm .modal-header{padding:14px 16px;gap:10px}.modal.sm .modal-header>div:first-child{padding-right:46px}.modal.sm .btn-close{top:13px;right:15px;width:36px;height:36px}.modal.sm .modal-footer{padding:12px 15px;gap:10px}.di{padding:14px 15px;gap:8px}.dt{font-size:.94rem}}
+/* Mobile: the phone card layout is now the shared .mc-stacked-card primitive
+   in common.css, opted into by the one class on .mc-ba-schedule-table-wrap.
+   What stays here is what is specific to this page: releasing the 920px floor
+   and dropping the scroll box. The label/cell/row block and the
+   `content:attr(data-label)` rule were deleted â€” byte-identical copies of the
+   same block were in 17 other sheets. */
+@media (max-width:767.98px){
+  .mc-ba-schedule-table-wrap{overflow:visible}
+  .mc-ba-schedule-table{min-width:0;width:100%}
+}
+
+/* ===================================================================
+   Calendar view (view=calendar)
+   ===================================================================
+   The month grid is `.sw` (weekday header) + `.sg` (days), two independent
+   `repeat(7,1fr)` grids, both with min-width:0 â€” so below ~700px each cell
+   collapsed to roughly 80px. After the cell padding and the pill's own
+   padding and icon, that left about 31px of text at 11.2px, and every waste
+   label rendered as "Wetâ€¦" / "Dry â€¦" / "Cleaâ€¦". The old max-width:520px block
+   made it strictly worse by shrinking the font to .62rem in an even narrower
+   cell.
+
+   The fix is the Rule #6 pattern: a real pixel min-width plus horizontal
+   scroll on the CARD, so the grid never squeezes. `.mc-cal-grid` wraps both
+   grids so the header and the days can never end up at different widths.
+
+   Selectors are written `.sg .sc` / `.sg .eb` rather than `.sc` / `.eb`
+   because the base rules above are minified onto one line at (0,1,0), and
+   these have to win. */
+.mc-cal{--mc-cal-gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mc-cal-grid{min-width:760px}
+/* The card carried 48px of inset: .mc-neo-card contributes 24px and
+   .card-body.p-4 contributed another 24px inside it. Zero the card and let
+   .card-body own the inset, so there is exactly one gutter. */
+.mc-app-shell .mc-neo-card.mc-cal{padding:0}
+.mc-cal>.card-body{padding:var(--ba-space-5)}
+@media(max-width:575.98px){.mc-cal>.card-body{padding:var(--ba-space-3)}}
+
+/* ONE gap for both grids. The minified base sets .sw,.sg{gap:8px}, and the old
+   max-width:520px block then overrode .sg alone to 5px â€” so the weekday header
+   and the day grid drifted apart by up to 9px by SAT. Two independent
+   repeat(7,1fr) grids only stay aligned while their gaps are identical. */
+.mc-cal .sw,.mc-cal .sg{gap:var(--mc-cal-gap)}
+/* The header sat flush on top of the grid; it needs its own band. */
+.mc-cal .sw{margin-bottom:6px}
+
+.mc-cal-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--ba-space-3);margin-bottom:var(--ba-space-3);
+}
+.mc-cal-title{
+  font:var(--ba-h3);margin:0;text-align:center;min-width:0;
+  overflow-wrap:break-word;word-break:normal;
+}
+.mc-cal-nav{
+  display:inline-flex;align-items:center;gap:4px;flex-shrink:0;
+  min-height:40px;padding:0 14px;border-radius:var(--ba-radius-pill);
+  border:1px solid var(--ba-border);background:var(--ba-surface);
+  color:var(--ba-text);font:var(--ba-caption);
+  font-family:'Montserrat',system-ui,sans-serif;
+  text-decoration:none;white-space:nowrap;
+}
+.mc-cal-nav:hover{background:var(--ba-surface-2);border-color:var(--ba-border-strong)}
+.mc-cal-nav:focus-visible{outline:2px solid var(--ba-primary);outline-offset:2px}
+.mc-cal-nav .lucide{width:16px;height:16px;flex-shrink:0;stroke-width:2.1}
+.mc-cal-now{margin-bottom:var(--ba-space-3);text-align:center}
+.mc-cal-now-link{
+  display:inline-flex;align-items:center;gap:6px;min-height:36px;
+  padding:0 12px;border-radius:var(--ba-radius-pill);
+  background:rgba(51,104,160,.10);color:var(--ba-primary);
+  font:var(--ba-caption);font-weight:600;text-decoration:none;
+}
+.mc-cal-now-link:hover{background:rgba(51,104,160,.16)}
+
+/* Waste name wraps to a second line instead of ellipsising. This is the
+   single declaration the whole calendar fix rests on. */
+.sg .eb{
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  line-height:1.25;
+  overflow-wrap:break-word;
+  word-break:normal;
+  max-width:100%;
+}
+.sg .et{white-space:normal;overflow:visible;text-overflow:clip}
+/* ...but never more than two lines. .sc is overflow:hidden, so a third line
+   pushed by a long waste name was simply clipped, and the "+N more" control
+   below it with it. Two lines is the floor the cell height is built on. */
+.sg .eb .et{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+/* The day number was background:var(--ba-surface) â€” white on a white cell, so
+   invisible on every day except today. */
+.sg .sn{
+  background:var(--ba-surface-2);
+  border:1px solid var(--ba-border);
+}
+
+/* "+N more" sat on its own line below the pills, costing a third row in an
+   already-cramped cell. It now shares the row and trails the last pill. */
+.sg .sb{flex-flow:row wrap;align-items:center;align-content:flex-start;gap:4px}
+/* ...as a chip rather than bare blue text, so it does not read as part of the
+   pill it is sitting against. */
+.sg .mb{
+  margin-top:0;flex:0 0 auto;
+  min-height:20px;padding:0 8px;border-radius:var(--ba-radius-pill);
+  background:var(--ba-primary-tint);
+}
+.sg .mb:hover{background:rgba(51,104,160,.16);text-decoration:none}
+.sg .sc-count{display:none}
+
+/* Empty lead/trail cells burned min-height:110px of grey for a week that had
+   no dates in it at all. */
+.sg .sce{
+  min-height:0;
+  background:transparent;
+  border-color:transparent;
+  opacity:1;
+}
+
+/* Bounded row height, declared BEFORE the 520px block on purpose. Only two pills
+   are ever emitted and .et is clamped to two lines above, so a day's content is
+   bounded; the 110px floor came from the era when an unbounded name could
+   inflate a whole week. Placed after that block it would have outranked its
+   min-height:64px at (0,3,0) vs (0,2,0) and silently killed it. */
+.mc-cal .sg .sc{min-height:120px}
+/* The day cell is a button (role/tabindex/aria-label on the PHP), so it needs
+   the focus ring the .eb pills already had. offset -2px so the 1px cell border
+   sits inside the ring instead of being drawn over. */
+.mc-cal .sg .sc:focus-visible{outline:2px solid var(--ba-primary);outline-offset:-2px}
+
+@media (max-width:520px){
+  /* The old .eb{font-size:.62rem} shrink is deliberately NOT reinstated: the
+     min-width floor means the cell is no longer narrow, and a smaller font in
+     the same space is what produced "Wetâ€¦". Sizes below are the 520px values
+     for chrome only. */
+  .mc-cal-bar{gap:8px}
+  .mc-cal-title{font-size:1rem}
+  .mc-cal-nav{padding:0 10px;min-height:36px}
+  .swd{font-size:.68rem;padding:6px 0;letter-spacing:0}
+  /* .sg{gap:5px} was deleted: .mc-cal .sw,.mc-cal .sg{gap:var(--mc-cal-gap)}
+     outranks it at (0,2,0) vs (0,1,0), so it was already dead â€” and leaving it
+     is exactly the trap that caused the original drift, since it read as though
+     the two grids still had different gaps. */
+  .sg .sc{min-height:64px;padding:6px 5px 7px;gap:4px;border-radius:6px}
+  .sg .sc.t{padding:5px 4px 6px}
+  .sg .sn{font-size:.82rem;min-width:18px;min-height:18px;padding:1px 4px}
+  .sg .eb{font-size:.66rem;padding:3px 6px;gap:3px}
+  .sg .mb{font-size:.64rem;padding:1px 5px 2px}
+}
+
+/* ------------------------------------------------------------------
+   PHONE: the whole month, no sideways scroll.
+
+   The Rule #6 treatment (a pixel floor plus a horizontal scroller) is right for a
+   data table and wrong for a month grid. At a 760px floor a 375px phone had to
+   scroll twice its own width to read one month, with no affordance saying the
+   grid moved â€” which is what the screenshot showed. Below 768px the floor is
+   released and each day collapses to its number plus a count chip; the cell is
+   still the same button, so tapping it opens the same day-detail modal and the
+   JS is untouched.
+
+   The 760px floor stays as the desktop base: at >=1280px the card is ~1232px
+   wide, so nothing scrolls and every waste name is legible.
+   ------------------------------------------------------------------ */
+@media (max-width:767.98px){
+  .mc-cal{--mc-cal-gap:6px;overflow-x:visible}
+  .mc-cal-grid{min-width:0}
+
+  .mc-cal-bar{gap:6px}
+  .mc-cal-title{font-size:.98rem}
+  /* 44px icon-only squares. The links already carry
+     aria-label="Previous month" / "Next month", so the text is redundant here
+     and was costing the title the width it needs. */
+  .mc-cal-nav{width:44px;min-width:44px;min-height:44px;padding:0;justify-content:center}
+  .mc-cal-nav span{display:none}
+  .mc-cal-now{margin-bottom:var(--ba-space-2)}
+
+  .mc-cal .sw{margin-bottom:4px}
+  .mc-cal .swd{font-size:.6rem;padding:3px 0;letter-spacing:0}
+
+  .mc-cal .sg .sc{
+    min-height:64px;padding:8px 4px;gap:6px;
+    border-radius:var(--ba-radius-sm);
+    align-items:center;justify-content:flex-start;
+  }
+  .mc-cal .sg .sc.t{padding:3px 1px 4px}
+  /* The waste pills cannot fit a 41px column, and a 2px-truncated one is worse
+     than a count. The number of collections is the useful signal at this width;
+     the names are one tap away in the modal that already exists. */
+  .mc-cal .sg .sb{display:none}
+
+  .mc-cal .sg .sn{
+    width:100%;min-width:0;min-height:24px;padding:2px;
+    font-size:.85rem;background:transparent;border-color:transparent;
+  }
+  .mc-cal .sg .sc.t .sn{background:var(--ba-primary);border-color:var(--ba-primary)}
+  .mc-cal .sg .sc.has-items .sn{
+    background:var(--ba-primary-tint);
+    border-color:var(--ba-border-blue);color:var(--ba-primary);
+  }
+  /* Today AND has collections: the two rules above are the same specificity, so
+     has-items won and left #fff on the pale tint. Restate the solid fill. */
+  .mc-cal .sg .sc.has-items.t .sn{background:var(--ba-primary);border-color:var(--ba-primary);color:#fff}
+  .mc-cal .sg .sc-count{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:24px;height:24px;padding:0 6px;
+    border-radius:var(--ba-radius-pill);
+    background:var(--ba-primary-tint);color:var(--ba-primary);
+    font:700 .68rem/1 'Montserrat',system-ui,sans-serif;
+  }
+  .mc-cal .sg .sc.t .sc-count{background:var(--ba-primary);color:#fff}
+}
+
+/* NOTE ON A PRE-EXISTING DUPLICATE
+   This sheet carried the .mc-ba-sched-col-* block and the stacked-card
+   @media block TWICE: once at the top (lines 4-13) and again in full at the
+   bottom. The bottom copy is now gone â€” it was the stacked-card half, which
+   .mc-stacked-card replaced. The column-class half still appears twice; it is
+   harmless (identical declarations) and left alone rather than widen this
+   change. Worth a separate cleanup. *//* Calendar UI refresh (2026-09): desktop overlap fix + legend + dots + phone agenda (option b). Scoped at (0,2,0)+ so the minified base and pinned rules stay intact. */
+.mc-cal-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block}
+.mc-cal-dot.dot-success{background:#1E7D52}
+.mc-cal-dot.dot-secondary{background:#6C757D}
+.mc-cal-dot.dot-info{background:#25507E}
+.mc-cal-dot.dot-danger{background:#B02A2A}
+.mc-cal-dot.dot-primary{background:#3368A0}
+.mc-cal-dot.dot-warning{background:#9A6B0A}
+.mc-cal-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:0 0 14px;padding:10px 14px;background:var(--ba-surface-2);border:1px solid var(--ba-border);border-radius:10px}
+.mc-cal-legend-item{display:inline-flex;align-items:center;gap:7px;font:600 .75rem/1.3 Montserrat,system-ui,sans-serif;color:var(--ba-text);white-space:nowrap}
+.mc-cal .sg .sb{flex-direction:column;flex-flow:column nowrap;align-items:stretch;align-content:flex-start;gap:6px}
+.mc-cal .sg .eb{width:100%;justify-content:flex-start;min-height:30px;padding:6px 10px;gap:6px}
+.mc-cal .sg .mb{width:100%;min-height:30px;display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;font-size:.7rem;font-weight:700;border-radius:8px;border:1px dashed var(--ba-border-strong);background:var(--ba-surface-2);color:var(--ba-primary);margin-top:0}
+.mc-cal .sg .mb:hover{background:rgba(51,104,160,.14);text-decoration:none}
+.mc-cal .sg .sc{min-height:136px;padding:10px;gap:8px;align-items:stretch}
+.mc-cal .sg .sn{align-self:flex-start}
+.mc-cal .sg .sc-dots{display:none}
+.mc-cal-agenda{display:none}
+@media (max-width:767.98px){
+.mc-cal-legend{gap:6px 12px;margin-bottom:10px;padding:8px 10px}
+.mc-cal-legend-item{font-size:.7rem}
+.mc-cal .sg .sc-dots{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:10px}
+.mc-cal .sg .sc-dots .mc-cal-dot{width:8px;height:8px}
+.mc-cal .sg .sc{min-height:64px;padding:8px 4px;gap:6px;align-items:center;justify-content:flex-start;}
+.mc-cal-agenda{display:block;margin-top:14px;border-top:1px solid var(--ba-border);padding-top:12px}
+.mc-cal-agenda-title{display:flex;align-items:center;gap:8px;margin:0 0 10px;font:700 .9rem/1.3 Montserrat,system-ui,sans-serif;color:var(--ba-text)}
+.mc-cal-agenda-title .lucide{color:var(--ba-primary)}
+.mc-cal-agenda-total{margin-left:auto;font:600 .72rem/1 Montserrat,system-ui,sans-serif;color:var(--ba-text-muted);background:var(--ba-surface-2);border:1px solid var(--ba-border);border-radius:var(--ba-radius-pill);padding:4px 10px;white-space:nowrap}
+.mc-cal-agenda-list{display:flex;flex-direction:column;gap:8px}
+.mc-cal-agenda-item{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:10px 12px;text-align:left;background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:12px;cursor:pointer}
+.mc-cal-agenda-item:hover{border-color:var(--ba-primary);background:#F7FAFD}
+.mc-cal-agenda-item:focus-visible{outline:2px solid var(--ba-primary);outline-offset:2px}
+.mc-cal-agenda-date{display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;width:46px;min-height:46px;border-radius:10px;background:var(--ba-surface-2);border:1px solid var(--ba-border)}
+.mc-cal-agenda-date strong{font:700 1.05rem/1 Montserrat,system-ui,sans-serif;color:var(--ba-text)}
+.mc-cal-agenda-date small{font:700 .62rem/1 Montserrat,system-ui,sans-serif;color:var(--ba-text-muted);text-transform:uppercase;margin-top:3px}
+.mc-cal-agenda-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.mc-cal-agenda-day{font:700 .8rem/1.35 Montserrat,system-ui,sans-serif;color:var(--ba-text);overflow-wrap:break-word}
+.mc-cal-agenda-sub{display:flex;align-items:center;gap:6px;min-width:0;font-size:.76rem;line-height:1.4;color:var(--ba-text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mc-cal-agenda-dots{display:inline-flex;align-items:center;gap:3px;flex-shrink:0}
+.mc-cal-agenda-dots .mc-cal-dot{width:8px;height:8px}
+.mc-cal-agenda-meta{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;color:var(--ba-text-muted)}
+.mc-cal-agenda-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 6px;border-radius:var(--ba-radius-pill);background:var(--ba-primary-tint);color:var(--ba-primary);font:700 .7rem/1 Montserrat,system-ui,sans-serif}
+.mc-cal-agenda-empty{padding:24px 12px;text-align:center;color:var(--ba-text-muted);font-size:.85rem}
+}
+
+/* Calendar pills refresh: rounded-rect entries with icon chip + airier stack. Additive overrides only; pinned rules untouched. */
+.mc-cal .sg .sb{gap:8px}
+.mc-cal .sg .eb{position:relative;width:100%;justify-content:flex-start;min-height:30px;padding:6px 12px;gap:10px;border-radius:9px;border:1px solid transparent;font-size:.72rem;font-weight:700;line-height:1.35;box-shadow:none}
+.mc-cal .sg .eb.bg-success{border-color:#1E7D5233}
+.mc-cal .sg .eb.bg-secondary{border-color:#6C757D33}
+.mc-cal .sg .eb.bg-info,.mc-cal .sg .eb.bg-primary{border-color:#3368A033}
+.mc-cal .sg .eb.bg-danger{border-color:#C5303033}
+.mc-cal .sg .eb.bg-warning{border-color:#9A6B0A33}
+.mc-cal .sg .eb:hover{filter:none;box-shadow:0 1px 4px rgba(26,35,48,.14)}
+.mc-cal .sg .eb.bg-success:hover{box-shadow:0 1px 4px rgba(30,125,82,.25)}
+.mc-cal .sg .eb.bg-secondary:hover{box-shadow:0 1px 4px rgba(108,117,125,.25)}
+.mc-cal .sg .eb.bg-info:hover,.mc-cal .sg .eb.bg-primary:hover{box-shadow:0 1px 4px rgba(51,104,160,.25)}
+.mc-cal .sg .eb.bg-danger:hover{box-shadow:0 1px 4px rgba(176,42,42,.22)}
+.mc-cal .sg .eb.bg-warning:hover{box-shadow:0 1px 4px rgba(154,107,10,.22)}
+.mc-cal .sg .eb .ei{font-size:.78rem;flex-shrink:0;width:20px;height:20px;display:inline-flex;align-items:center;align-self:center;justify-content:center;border-radius:6px;line-height:1}
+.mc-cal .sg .eb.bg-success .ei{background:#1E7D5226}
+.mc-cal .sg .eb.bg-secondary .ei{background:#6C757D26}
+.mc-cal .sg .eb.bg-info .ei,.mc-cal .sg .eb.bg-primary .ei{background:#3368A026}
+.mc-cal .sg .eb.bg-danger .ei{background:#C5303026}
+.mc-cal .sg .eb.bg-warning .ei{background:#9A6B0A26}
+.mc-cal .sg .eb .et{line-height:1.2;align-self:center;margin:0}
+.mc-cal .sg .mb{width:100%;min-height:30px;display:inline-flex;align-items:center;justify-content:center;margin-top:2px;padding:6px 10px;font-size:.68rem;font-weight:700;border-radius:9px;border:1px dashed var(--ba-border-strong);background:transparent;color:var(--ba-primary)}
+.mc-cal .sg .mb:hover{background:rgba(51,104,160,.1);text-decoration:none}
+
+/* List row-pick modal: rows are buttons that open the shared schedule detail modal. */
+.mc-ba-schedule-tbody .mc-ba-sched-row[data-detail]{cursor:pointer}
+.mc-ba-schedule-tbody .mc-ba-sched-row[data-detail]:focus-visible{outline:2px solid var(--ba-primary);outline-offset:-2px}
+

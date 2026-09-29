@@ -1,0 +1,81 @@
+@charset "UTF-8";
+.lucide-14{width:14px!important;height:14px!important}
+
+/* Callout blocks: flat 1px bordered panels, theme tokens only.
+   Replaces the old Bootstrap .border-start + .border-3 accent bars. */
+.mr-note{
+  border:1px solid var(--ba-border);
+  border-radius:var(--ba-radius-md);
+  padding:12px 14px;
+  margin:0 0 16px;
+  overflow-wrap:break-word;
+  word-break:normal;
+}
+.mr-note--resolution{background:var(--ba-surface-2);border-color:rgba(74,143,126,.28)}
+.mr-note--rating{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.22)}
+.lucide-16{width:16px!important;height:16px!important}
+.lucide-20{width:20px!important;height:20px!important}
+.lucide-24{width:24px!important;height:24px!important}
+.mc-ba-my-reports-page{max-width:1280px;margin-inline:auto;padding:16px 0 48px}
+@media(min-width:768px){.mc-ba-my-reports-page{padding:24px 0 48px}}
+.mc-ba-my-reports-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+.mc-ba-my-reports-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);position:relative;padding:var(--ba-space-4) var(--ba-space-5)}
+@media(max-width:480px){.mc-ba-my-reports-hero-inner{padding:var(--ba-space-4)}}
+.mc-ba-my-reports-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0}
+.mc-ba-my-reports-hero-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.mc-ba-my-reports-hero-icon-wrap .lucide{color:#fff;stroke-width:2.15}
+.mc-ba-my-reports-hero-title{min-width:0}
+.mc-ba-my-reports-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-ba-my-reports-hero-title p{margin:0}
+.mc-ba-my-reports-hero-brand{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end}
+.mc-ba-my-reports-new-btn{display:inline-flex;align-items:center;gap:6px;font:600 .85rem/1 'Montserrat',system-ui,sans-serif;border-radius:var(--ba-radius-pill);padding:10px 20px;border:1px solid #2B5889;background:#3368A0;color:#fff}
+.mc-ba-my-reports-new-btn .lucide{color:#fff;stroke-width:2.1}
+.mc-ba-my-reports-brand-img{display:block;object-fit:contain;border-radius:10px;background:var(--ba-surface);padding:3px;border:1px solid var(--ba-border)}
+/* Mobile hero: stack title + brand so they never collide */
+@media (max-width:767.98px){
+  .mc-ba-my-reports-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+  .mc-ba-my-reports-hero-title-row{width:100%;flex:1 1 auto}
+  .mc-ba-my-reports-hero-title{width:100%}
+  .mc-ba-my-reports-hero-brand{flex:none;width:100%;align-items:stretch}
+  .mc-ba-my-reports-new-btn{width:100%}
+  .mc-ba-my-reports-brand-img{width:36px;height:36px;margin-left:0!important;margin-top:10px;align-self:flex-start}
+}
+.mc-ba-my-reports-search-wrap{position:relative;width:100%}
+.mc-ba-my-reports-search-icon{position:absolute;left:14px;top:14px;color:var(--ba-primary);pointer-events:none;z-index:2;stroke-width:2.1}
+.mc-ba-my-reports-info{margin-top:var(--ba-space-4);padding:0 2px;display:flex;align-items:center;gap:8px;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-ba-my-reports-info .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.1}
+.mc-ba-my-reports-table-wrap{border-radius:var(--ba-radius-md);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mc-ba-my-reports-table{display:flex;flex-direction:column;width:100%;min-width:880px;background:var(--ba-surface)}
+.mc-my-rep-row{display:grid;grid-template-columns:minmax(110px,.95fr) minmax(160px,1.5fr) minmax(110px,.9fr) minmax(110px,1fr) minmax(120px,1.05fr) minmax(110px,.9fr) minmax(90px,.7fr);align-items:stretch}
+.mc-my-rep-head .mc-my-rep-cell{padding:14px;display:flex;align-items:center;background:var(--ba-surface)}
+.mc-th-wrap{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;font:700 .82rem/1.25 'Montserrat',system-ui,sans-serif;color:var(--ba-text);white-space:nowrap}
+.mc-th-icon{width:16px;height:16px;flex-shrink:0;color:#3368A0;stroke-width:2}
+.mc-ba-my-reports-tbody .mc-my-rep-row{border-bottom:1px solid var(--ba-border)}
+.mc-ba-my-reports-tbody .mc-my-rep-row:last-child{border-bottom:0 none}
+.mc-ba-my-reports-tbody .mc-my-rep-row:hover{background:var(--ba-surface-2)}
+/* TABLE MODE ONLY. (0,2,0) here, (0,2,0) for .mc-stacked-card .mc-my-rep-cell
+   in common.css, and this sheet loads after common.css — so unscoped this flex
+   declaration overrode the card layout's display:grid and broke every phone
+   label mid-word. Same fix as public/ba_waste.css and public/ba_schedule.css. */
+@media(min-width:768px){
+  .mc-ba-my-reports-tbody .mc-my-rep-cell{padding:14px;background:var(--ba-surface);display:flex;align-items:center;min-width:0}
+}
+.mc-cell-wrap{display:flex;align-items:flex-start;justify-content:flex-start;gap:8px;width:100%;min-width:0}
+.mc-cell-content{min-width:0;flex:1 1 auto;max-width:100%;color:var(--ba-text);font-size:.9rem;line-height:1.45;overflow-wrap:break-word;word-break:normal}
+.mc-cell-content strong{color:var(--ba-text);font-weight:700;line-height:1.3}
+.mc-cell-content a{color:var(--ba-primary);text-decoration:none;font-weight:600}
+.mc-cell-content a:hover{text-decoration:underline}
+.ba-pub-ref-btn{background:var(--ba-surface);color:var(--ba-text)!important;border:1px solid var(--ba-border)!important;border-radius:var(--ba-radius-sm);font-weight:600;font-size:.82rem;padding:6px 14px;min-height:40px;display:inline-flex;align-items:center;justify-content:center}
+.ba-pub-ref-btn:hover{background:var(--ba-surface-2);color:var(--ba-primary)!important;border-color:var(--ba-border-blue)!important}
+.mc-cell-content .badge{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;padding:4px 10px;line-height:1.2;border-radius:var(--ba-radius-pill);white-space:nowrap;font-family:Montserrat,sans-serif;font-weight:600}
+.mc-ba-sched-empty{padding:60px 20px;text-align:center;color:var(--ba-text-muted);font-size:.9rem;grid-column:1/-1!important}
+/* Mobile: the phone card layout is now the shared .mc-stacked-card
+   primitive in common.css, opted into by the one class on
+   .mc-ba-my-reports-table-wrap. What stays here is what is specific to this
+   page: releasing the grid's min-width and dropping the scroll box. The
+   label/cell/row block and the `content:attr(data-label)` rule were deleted —
+   they were byte-identical copies of the same block in 17 other sheets. */
+@media (max-width:767.98px){
+  .mc-ba-my-reports-table-wrap{overflow:visible}
+  .mc-ba-my-reports-table{min-width:0;width:100%}
+}

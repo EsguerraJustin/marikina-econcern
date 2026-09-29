@@ -1,0 +1,144 @@
+/* =========================================================
+   BasuraAlert / Marikina Concern · Design Phase Tokens
+   File: assets/css/variables.css  (SHARED · imported FIRST)
+   Theme: Pure Minimalism Only
+   Typography: Montserrat 600 (headings) · Merriweather 400/700 (body)
+   Palette:  User-approved 4-tone — #3368A0 · #66A3BF · #C8DFDB · #F2EFE7
+   ========================================================= */
+
+
+/* -------- FONT FACES (Google Fonts CDN in head.php; fallback stack here) ------- */
+/* NOTE: woff2/woff local files removed — using Google Fonts CDN via head.php
+   to avoid missing-file 404s and invisible-text. Fallback stack preserved. */
+
+
+/* -------- CORE :root TOKENS (every selector inherits) -------- */
+:root {
+
+    /* ==== Typography scale (Montserrat Headings · Merriweather Body) ==== */
+    --ba-h1: 600 1.625rem/1.2 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --ba-h2: 600 1.375rem/1.3 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --ba-h3: 600 1.125rem/1.35 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --ba-body: 400 1rem/1.6 'Merriweather', Georgia, 'Times New Roman', serif;
+    --ba-small: 400 0.875rem/1.5 'Merriweather', Georgia, 'Times New Roman', serif;
+    --ba-caption: 600 0.75rem/1.4 'Montserrat', system-ui, sans-serif;
+    --ba-fs-h1: 1.625rem;
+    --ba-fs-h2: 1.375rem;
+    --ba-fs-h3: 1.125rem;
+    --ba-fs-body: 1rem;
+    --ba-fs-small: 0.875rem;
+    --ba-fs-caption: 0.75rem;
+
+
+    /* ==== Color Palette (USER-APPROVED 4-TONE) ==== */
+    /* Core user palette (from attached swatch image):
+       #3368A0 (Deep Blue — Primary)
+       #66A3BF (Sky Blue  — Primary-Light / Secondary)
+       #C8DFDB (Mint Sage — Accent-Light / Surface-2 Alt)
+       #F2EFE7 (Cream Ivory — Paper / BG) */
+
+    --ba-primary:         #3368A0;   /* Deep Blue (user swatch 1) */
+    --ba-primary-rgb:     51, 104, 160;
+    --ba-primary-light:   #66A3BF;   /* Sky Blue (user swatch 2) */
+    --ba-primary-light-rgb: 102, 163, 191;
+    --ba-primary-tint:    rgba(51,104,160,.08);
+    --ba-primary-contrast:#FFFFFF;
+
+    --ba-secondary:       #66A3BF;   /* Sky Blue alias (user swatch 2) */
+    --ba-secondary-light: #C8DFDB;   /* Mint Sage (user swatch 3) */
+    --ba-accent:          #3368A0;   /* Keep deep blue as main accent too */
+
+    /* Semantic status colors (user palette tinted, WCAG AA kept) */
+    --ba-info:            #3368A0;   /* Info = primary blue */
+    --ba-success:         #4A8F7E;   /* Mint-dark (from #C8DFDB family) */
+    --ba-success-light:   #C8DFDB;   /* Mint Sage tint */
+    --ba-warning:         #D6932E;   /* Warm amber, keeps cream palette harmony */
+    --ba-warning-light:   rgba(214,147,46,.10);
+    --ba-danger:          #A84444;   /* Soft terracotta red, not jarring */
+    --ba-danger-light:    rgba(168,68,68,.08);
+
+    /* Surface / Background (cream + mint layers, user swatch 3+4) */
+    --ba-bg:              #F2EFE7;   /* Cream Ivory Paper (user swatch 4) */
+    --ba-surface:         #FFFFFF;
+    --ba-surface-2:       #F7F5EF;   /* Slightly deeper cream for card headers / stripes */
+    --ba-surface-mint:    #C8DFDB;   /* Mint Sage (user swatch 3) — accent bg tile */
+
+    --ba-border:          #E5E1D6;   /* Warm cream border (matches #F2EFE7) */
+    --ba-border-strong:   #D5CFBF;
+    --ba-border-blue:     rgba(51,104,160,.22);
+
+    --ba-text:            #1F2937;   /* Slate-800 — ink on cream */
+    --ba-text-muted:      #5A6473;   /* Slate-600 — meta */
+    --ba-text-invert:     #FFFFFF;
+
+
+    /* ==== Spacing scale (8-pt grid) · MINIMALISM WHITESPACE BUMP ==== */
+    --ba-space-1: 4px;
+    --ba-space-2: 8px;
+    --ba-space-3: 12px;
+    --ba-space-4: 16px;
+    --ba-space-5: 24px;
+    --ba-space-6: 32px;
+    --ba-space-7: 72px;   /* bumped 48 → 72 per min reference massive section whitespace */
+    --ba-space-8: 96px;
+
+
+    /* ==== Radius scale · MINIMALISM PILL FOCUS ==== */
+    --ba-radius-sm:   6px;
+    --ba-radius-md:   10px;   /* soft 10px on cards only */
+    --ba-radius-lg:   16px;
+    --ba-radius-pill: 9999px;   /* PRIMARY button radius = pill, not md 14px */
+
+
+    /* ==== Elevation shadows · PURE MINIMALISM (only flat micro-shadows, NO skeu casts) ==== */
+    /* Note: All skeu raised/pressed/recess tokens removed per Code Review issues 1-2. */
+    --ba-shadow-sm: 0 1px 2px rgba(31,41,55,.04);
+    --ba-shadow-md: 0 1px 3px rgba(31,41,55,.06);
+    --ba-shadow-lg: 0 2px 8px rgba(31,41,55,.08);
+
+    /* Minimalism dot-grid texture (reference top-left dotted pattern aesthetic) */
+    --ba-texture-dotgrid: radial-gradient(circle, rgba(31,41,55,.10) 1px, transparent 1px);
+
+
+    /* -------- Ionic ↔ BasuraAlert bridge (auto-paints ion components if loaded) ------- */
+    --ion-color-primary:            #3368A0;
+    --ion-color-primary-rgb:        51,104,160;
+    --ion-color-primary-contrast:   #FFFFFF;
+    --ion-color-primary-contrast-rgb: 255,255,255;
+    --ion-color-primary-shade:      #2C5B8C;
+    --ion-color-primary-tint:       #4C7DB0;
+
+    --ion-color-secondary:          #66A3BF;
+    --ion-color-secondary-rgb:      102,163,191;
+    --ion-color-secondary-contrast:#FFFFFF;
+
+    --ion-color-tertiary:           #4A8F7E;
+    --ion-color-tertiary-rgb:       74,143,126;
+    --ion-color-tertiary-contrast:  #FFFFFF;
+
+    --ion-color-success:            #4A8F7E;
+    --ion-color-warning:            #D6932E;
+    --ion-color-danger:             #A84444;
+    --ion-color-info:               #3368A0;
+
+    --ion-background-color:         #F2EFE7;
+    --ion-background-color-rgb:     242,239,231;
+    --ion-text-color:               #1F2937;
+    --ion-text-color-rgb:           31,41,55;
+    --ion-border-color:             #E5E1D6;
+    --ion-toolbar-background:       #3368A0;
+    --ion-toolbar-color:            #FFFFFF;
+}
+
+/* Lucide stroke icon alignment utility (applies to inline SVG of Lucide icons) */
+.lucide {
+    vertical-align: text-bottom;
+    flex-shrink: 0;
+    display: inline-block;
+    stroke-width: 2;
+}
+.lucide-16 { width:16px; height:16px; }
+.lucide-20 { width:20px; height:20px; }
+.lucide-24 { width:24px; height:24px; }
+.lucide-32 { width:32px; height:32px; }
+.lucide-48 { width:48px; height:48px; }

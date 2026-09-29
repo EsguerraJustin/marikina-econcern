@@ -1,0 +1,41 @@
+{
+  "input": {
+    "maxFileSize": 52428800
+  },
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "parsableStyle": true,
+    "compress": false,
+    "topFilesLength": 20,
+    "showLineNumbers": true,
+    "copyToClipboard": false
+  },
+  "include": [],
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "storage/qa_harnesses/**",
+      "storage/mock_emails/**",
+      "storage/mock_images/**",
+      "storage/fixtures/images/**",
+      "storage/qa_harnesses/_tmp_sessions/**",
+      "uploads/**",
+      "vendor/**",
+      "node_modules/**",
+      "repomix-output.xml",
+      "deploy.zip",
+      "deploy.zip.zip",
+      "app_error.log",
+      ".env",
+      "e_concern.sql"
+    ]
+  },
+  "security": {
+    "enableSecurityCheck": true
+  },
+  "tokenCount": {
+    "encoding": "o200k_base"
+  }
+}

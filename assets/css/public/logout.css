@@ -1,0 +1,247 @@
+@charset "UTF-8";
+/* ====================================================================
+   BasuraAlert / Marikina Concern - Public Portal
+   logout.css  (page-specific ONLY)
+   --------------------------------------------------------------------
+   Scope: Logout / Goodbye page — centered goodbye card,
+          farewell illustration, return-to-login CTA.
+   Loaded THIRD on page (after variables.css -> common.css).
+   Sizing budget: <= 10240 bytes uncompressed.
+   Palette: #3368A0 · #66A3BF · #C8DFDB · #F2EFE7 (user approved)
+   ==================================================================== */
+
+
+/* ======================================================
+   0 · PAGE WRAPPER LAYOUT (mobile first, responsive)
+   ====================================================== */
+.mc-logout-page {
+    max-width: 1140px;
+    margin-inline: auto;
+    padding: var(--ba-space-4) var(--ba-space-4) var(--ba-space-7);
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (min-width: 768px) {
+    .mc-logout-page { padding: var(--ba-space-5) var(--ba-space-5) var(--ba-space-7); }
+}
+
+
+/* ======================================================
+   1 · GOODBYE CARD (centered, soft skeu paper)
+   ====================================================== */
+.mc-logout-card {
+    width: 100%;
+    max-width: 520px;
+    background: var(--ba-surface);
+    border: 1px solid rgba(51,104,160,0.14);
+    border-radius: var(--ba-radius-lg);
+    padding: var(--ba-space-6) var(--ba-space-5);
+    box-shadow: var(--ba-shadow-md);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+@media (min-width: 576px) {
+    .mc-logout-card { padding: var(--ba-space-7) var(--ba-space-6); }
+}
+.mc-logout-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+        var(--ba-primary) 0%,
+        var(--ba-primary-light) 50%,
+        #C8DFDB 100%);
+    pointer-events: none;
+}
+.mc-logout-card::after {
+    content: "";
+    position: absolute;
+    right: -60px; bottom: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,223,219,0.45) 0%, rgba(200,223,219,0) 70%);
+    pointer-events: none;
+}
+
+.mc-logout-icon-wrap {
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,
+        var(--ba-primary) 0%,
+        var(--ba-primary-light) 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--ba-space-5);
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.55) inset,
+        0 5px  0 rgba(51,104,160,0.18),
+        0 10px 28px rgba(51,104,160,0.22);
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 480px) {
+    .mc-logout-icon-wrap { width: 80px; height: 80px; }
+}
+.mc-logout-icon-wrap .lucide {
+    width: 46px; height: 46px;
+    color: #fff;
+    stroke-width: 2;
+}
+@media (max-width: 480px) {
+    .mc-logout-icon-wrap .lucide { width: 38px; height: 38px; }
+}
+
+.mc-logout-brand-seal {
+    position: absolute;
+    top: var(--ba-space-4);
+    right: var(--ba-space-4);
+    width: 40px; height: 40px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #fff;
+    padding: 2px;
+    box-shadow: var(--ba-shadow-sm);
+    z-index: 1;
+}
+@media (max-width: 480px) {
+    .mc-logout-brand-seal { width: 34px; height: 34px; }
+}
+
+.mc-logout-title {
+    font: var(--ba-h1);
+    color: var(--ba-text);
+    margin: 0 0 var(--ba-space-2);
+    position: relative;
+    z-index: 1;
+}
+.mc-logout-title span {
+    color: var(--ba-primary);
+}
+
+.mc-logout-subtitle {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0 0 var(--ba-space-5);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+}
+
+.mc-logout-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--ba-space-3);
+    margin: 0 0 var(--ba-space-5);
+    position: relative;
+    z-index: 1;
+}
+.mc-logout-divider::before,
+.mc-logout-divider::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--ba-border);
+}
+.mc-logout-divider span {
+    font: var(--ba-caption);
+    color: var(--ba-text-muted);
+    letter-spacing: 0.04em;
+    font-family: 'Montserrat', system-ui, sans-serif;
+}
+
+.mc-logout-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ba-space-3);
+    position: relative;
+    z-index: 1;
+}
+.mc-logout-btn-primary {
+    width: 100%;
+    min-height: 50px;
+    padding-inline: var(--ba-space-5);
+}
+.mc-logout-btn-secondary {
+    width: 100%;
+    min-height: 48px;
+    padding-inline: var(--ba-space-5);
+}
+
+.mc-logout-note {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--ba-space-3);
+    margin-top: var(--ba-space-5);
+    padding: var(--ba-space-4);
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-primary-tint);
+    border: 1px solid rgba(51,104,160,0.14);
+    text-align: left;
+    position: relative;
+    z-index: 1;
+}
+.mc-logout-note .lucide {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    color: var(--ba-primary);
+    stroke-width: 2.1;
+    margin-top: 1px;
+}
+.mc-logout-note p {
+    margin: 0;
+    font: var(--ba-small);
+    color: var(--ba-text);
+    line-height: 1.6;
+}
+.mc-logout-note strong {
+    color: var(--ba-primary);
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-weight: 600;
+}
+
+.mc-logout-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ba-space-4);
+    margin-top: var(--ba-space-5);
+    padding-top: var(--ba-space-4);
+    border-top: 1px solid var(--ba-border);
+    position: relative;
+    z-index: 1;
+}
+.mc-logout-foot-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    text-decoration: none;
+}
+.mc-logout-foot-link:hover {
+    color: var(--ba-primary);
+    text-decoration: underline;
+}
+.mc-logout-foot-link .lucide { width: 15px; height: 15px; stroke-width: 2.1; }
+
+
+/* ======================================================
+   2 · RESPONSIVE BREAKPOINTS
+   ====================================================== */
+@media (max-width: 576px) {
+    .mc-logout-card { padding: var(--ba-space-5) var(--ba-space-4); }
+    .mc-logout-title { font-size: var(--ba-fs-h2); }
+    .mc-logout-divider span { font-size: .65rem; }
+}
+
+
+/* ======================================================
+   (END) · logout.css page-specific only
+   ====================================================== */

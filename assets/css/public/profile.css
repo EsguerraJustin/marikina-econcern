@@ -1,0 +1,122 @@
+@charset "UTF-8";
+/* =========================================================
+   public/profile.php — Citizen Profile
+   Aligned 1:1 with the admin/profile.php reference design.
+
+   Rule #14 (Pure Minimalism): flat fills, 1px borders, no gradients,
+   no skeuomorphic shadows, no translateY click animations.
+   The previous sheet carried a 3-stop linear-gradient hero, a
+   radial-gradient ::before, inset-bevel icon/chip shadows, a
+   translateY(1px) active and a translateY(-1px) hover. All of that
+   block was unreachable — the page rendered Bootstrap `.card
+   border-0 shadow-sm`, which kills the 1px token border with
+   `border:0!important` and substitutes a 0 .5rem 1rem rgba(0,0,0,.15)
+   Bootstrap shadow that is outside the token scale.
+   This sheet is now wired to real markup.
+
+   The hero icon-wrap, tabs/chip and search blocks that used to live
+   here matched zero markup on this page and were removed rather than
+   left as dead weight.
+   ========================================================= */
+
+/* ---------------- Page container ----------------
+   max-width 1280px stays inside PROJECT_GUIDE rule #15. Horizontal
+   padding is 0 because .mc-shell-main (common.css:176) already
+   supplies 24px, so the shell padding is not doubled. */
+.mc-profile-page{max-width:1280px;margin-inline:auto;padding:16px 0 48px}
+@media(min-width:768px){.mc-profile-page{padding:24px 0 48px}}
+
+/* ---------------- Hero band ----------------
+   Matches admin/concerns.css:4. */
+.mc-profile-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+.mc-profile-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);position:relative;padding:20px 24px;flex-wrap:wrap}
+@media(max-width:520px){.mc-profile-hero-inner{padding:16px}}
+.mc-profile-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0}
+.mc-profile-hero-title{min-width:0}
+.mc-profile-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-profile-hero-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+
+/* ---------------- Photo controls ----------------
+   The tile is the shared .mc-avatar primitive (common.css) rendered by
+   includes/partials/avatar.php. The explicit buttons sit in the hero beside
+   it because the only other affordance is a 40px camera badge on the tile
+   itself, which is easy to miss and has no visible label. */
+.mc-profile-photo-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px;min-width:0}
+.mc-profile-photo-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.mc-profile-photo-btn{min-height:44px;height:44px;padding-inline:18px;border-radius:var(--ba-radius-md);background:transparent;border:1px solid rgba(51,104,160,.20);color:var(--ba-primary);box-shadow:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font:600 .82rem/1 'Montserrat',sans-serif;transition:background-color .18s,border-color .15s,color .15s,opacity .15s}
+.mc-profile-photo-btn:hover{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.28);color:var(--ba-primary)}
+.mc-profile-photo-btn--danger{color:var(--ba-danger);border-color:rgba(168,68,68,.22)}
+.mc-profile-photo-btn--danger:hover:not(:disabled){background:var(--ba-danger-light);border-color:rgba(168,68,68,.32);color:var(--ba-danger)}
+/* No photo on file: removing one is a no-op, so the control is disarmed.
+   avatar.js keeps this in sync after every upload/delete. */
+.mc-profile-photo-btn:disabled{opacity:.45;cursor:not-allowed}
+.mc-profile-photo-btn .lucide{width:15px;height:15px;stroke-width:2.1}
+.mc-profile-photo-hint{font:var(--ba-caption);color:var(--ba-text-muted);margin:0;line-height:1.5;text-align:right}
+#cAvatarAlert:not(:empty){width:100%}
+
+/* ---------------- Card ----------------
+   Same contract as .mc-admin-section-card (admin/concerns.css:29):
+   surface fill, 1px border, radius-md, overflow hidden, shadow-sm. */
+.mc-profile-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;margin-bottom:24px;transition:border-color .18s ease}
+.mc-profile-card:last-child{margin-bottom:0}
+.mc-profile-card:hover{border-color:var(--ba-border-strong)}
+.mc-profile-card-head{padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--ba-border);background:var(--ba-surface-2)}
+.mc-profile-card-head h2,.mc-profile-card-head h3{font:var(--ba-h3);margin:0;display:inline-flex;align-items:center;gap:8px;min-width:0;overflow-wrap:break-word;word-break:normal}
+.mc-profile-card-head .lucide{color:var(--ba-primary);stroke-width:2.1;flex-shrink:0}
+.mc-profile-card-body{padding:var(--ba-space-4) var(--ba-space-5)}
+@media(max-width:575.98px){.mc-profile-card-body{padding:var(--ba-space-4)}}
+
+/* Read-only summary rows in the identity card. */
+.mc-profile-field{margin-bottom:12px;overflow-wrap:break-word;word-break:normal;hyphens:auto}
+.mc-profile-field:last-child{margin-bottom:0}
+.mc-profile-field dt{font:var(--ba-small);color:var(--ba-text-muted);margin-bottom:2px}
+.mc-profile-field dd{margin:0;font-weight:600;color:var(--ba-text)}
+
+/* ---------------- 2FA / notification switches ----------------
+   The bare .form-check-input is a 16px target on both the admin and
+   citizen profile pages. The label row is what the citizen actually
+   taps, so it is given a 44px hit area (PROJECT_GUIDE rule: 40x40
+   minimum, common.css:76 field rhythm is 44px). */
+.mc-profile-switch-row{display:flex;align-items:center;gap:var(--ba-space-3);min-height:44px;padding:6px 0;cursor:pointer}
+.mc-profile-switch-row .form-check-input{flex-shrink:0;width:20px;height:20px;margin:0;cursor:pointer}
+.mc-profile-switch-row .form-check-input:focus{outline:3px solid var(--ba-primary);outline-offset:2px}
+.mc-profile-switch-text{min-width:0;overflow-wrap:break-word;word-break:normal}
+.mc-profile-switch-text strong{display:block;font:600 .9rem/1.35 'Montserrat',sans-serif;color:var(--ba-text)}
+
+/* ---------------- Password rule checklist ----------------
+   Layout only; the neutral/ok colouring is the shared .mc-pwrule
+   primitive in common.css, driven by assets/js/password-rules.js. */
+.mc-profile-pw-hint{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;padding:14px 16px;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);background:var(--ba-surface-2)}
+.mc-profile-pw-hint-title{font:600 .78rem/1.3 'Montserrat',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:var(--ba-text-muted);margin-bottom:2px}
+.mc-profile-pw-hint-item{font:var(--ba-caption)}
+.mc-profile-pw-hint-item .lucide{width:13px;height:13px;stroke-width:2.2;flex-shrink:0}
+
+/* ---------------- Status badges ---------------- */
+.mc-status-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);font-family:'Montserrat',system-ui,sans-serif;letter-spacing:0.02em;line-height:1.4;border:1px solid transparent;white-space:nowrap}
+.mc-status-badge .lucide{flex-shrink:0;stroke-width:2.2}
+.mc-status-new{background:rgba(51,104,160,0.10);color:var(--ba-primary);border-color:rgba(51,104,160,0.20)}
+.mc-status-new .lucide{color:var(--ba-primary)}
+.mc-status-ongoing{background:rgba(102,163,191,0.14);color:#2A6785;border-color:rgba(102,163,191,0.28)}
+.mc-status-ongoing .lucide{color:#2A6785}
+.mc-status-ack{background:rgba(200,223,219,0.55);color:#2F6A5C;border-color:rgba(74,143,126,0.22)}
+.mc-status-ack .lucide{color:#2F6A5C}
+.mc-status-completed{background:var(--ba-success);color:#fff;border-color:var(--ba-success)}
+.mc-status-completed .lucide{color:#fff}
+.mc-status-cancelled{background:var(--ba-danger);color:#fff;border-color:var(--ba-danger)}
+.mc-status-cancelled .lucide{color:#fff}
+.mc-status-muted{background:var(--ba-surface-2);color:var(--ba-text-muted);border-color:var(--ba-border)}
+.mc-status-muted .lucide{color:var(--ba-text-muted)}
+
+/* ---------------- Mobile ---------------- */
+@media(max-width:767.98px){
+  .mc-profile-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+  .mc-profile-hero-title-row{width:100%;flex:1 1 auto}
+  .mc-profile-photo-actions{align-items:flex-start;width:100%}
+  .mc-profile-photo-btns{justify-content:flex-start}
+  .mc-profile-photo-hint{text-align:left}
+}
+@media(max-width:576px){
+  .mc-profile-hero-title h1{font-size:1.375rem}
+  .mc-profile-photo-btns{flex-direction:column;width:100%}
+  .mc-profile-photo-btn{width:100%}
+}

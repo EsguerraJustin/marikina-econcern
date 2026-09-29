@@ -1,0 +1,96 @@
+# Marikina E-Concern — Apache config
+# Local XAMPP: HTTP allowed (localhost exception). Production: forces HTTPS.
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# --- HTTPS redirect (skip localhost for local XAMPP) ---
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} !^localhost$ [NC]
+RewriteCond %{HTTP_HOST} !^127\.0\.0\.1$ [NC]
+RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# --- Protect secrets ---
+RewriteRule ^\.env(\.example)?$ - [F,L]
+RewriteRule ^\.env\..*$ - [F,L]
+RewriteRule ^app_error\.log$ - [F,L]
+
+# --- Protect internal documentation ---
+# PROJECT_GUIDE.md is a developer document that lives in the deployable webroot.
+# It was being served in full: GET /PROJECT_GUIDE.md returned HTTP 200 with a
+# Content-Length matching the file byte-for-byte, exposing the credentials it
+# documents. The values are now redacted, but the document itself is internal
+# and must not be web-reachable regardless of its current contents — a future
+# edit that pastes a working key back in would silently re-open the hole.
+RewriteRule ^PROJECT_GUIDE\.md$ - [F,L]
+# repomix.config.json and composer.json describe the build; composer.json also
+# names every dev dependency and therefore the project's attack surface.
+RewriteRule ^composer\.(json|lock)$ - [F,L]
+RewriteRule ^repomix\.config\.json$ - [F,L]
+
+# Generic backstop: any stray markdown, or any dotfile, must never be served.
+# Documentation belongs in the repo, not in a download.
+# EXCEPTION: .well-known/ must stay public (TWA assetlinks.json + future ACME).
+RewriteRule ^\.well-known/ - [L]
+RewriteRule \.(md|markdown)$ - [F,L]
+RewriteRule (^|/)\. - [F,L]
+
+# --- Protect storage/ EXCEPT the evidence-photo directory ---
+# storage/ holds QA harnesses, mock email dumps, fixtures and cached fixtures,
+# none of which should be web-reachable. But ba_store_image_mock() writes
+# resident evidence photos to storage/mock_images/ and hands back
+# app_url('/storage/mock_images/<file>') (includes/BasuraAlert/External.php:727),
+# which the blanket rule below turned into a hard 403 — every uploaded report
+# photo and feedback photo rendered as a broken image. Exempt just that one
+# directory; everything else under storage/ stays forbidden.
+RewriteRule ^storage/(?!mock_images/) - [F,L]
+
+
+Options -Indexes
+DirectoryIndex index.php index.html
+
+# --- MIME types for PWA ---
+<IfModule mod_mime.c>
+AddType application/javascript .js
+AddType text/css .css
+AddType application/manifest+json .webmanifest
+AddType application/json .json
+AddType image/svg+xml .svg
+</IfModule>
+
+# --- TWA Digital Asset Links (must be application/json, no redirect) ---
+<FilesMatch "assetlinks\.json$">
+<IfModule mod_headers.c>
+Header set Cache-Control "public, max-age=3600"
+</IfModule>
+</FilesMatch>
+
+# --- Service Worker scope header ---
+<FilesMatch "^sw\.js$">
+<IfModule mod_headers.c>
+Header set Service-Worker-Allowed "/"
+Header set Cache-Control "no-cache, no-store, must-revalidate"
+</IfModule>
+</FilesMatch>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- Deny direct .env access even without mod_rewrite ---
+<FilesMatch "^\.env">
+Require all denied
+</FilesMatch>
+<FilesMatch "app_error\.log">
+Require all denied
+</FilesMatch>
+
+# --- Uploads: no PHP execution ---
+<IfModule mod_rewrite.c>
+RewriteRule ^uploads/.*\.php$ - [F,L]
+# Same for the now-web-reachable evidence-photo directory.
+RewriteRule ^storage/mock_images/.*\.php$ - [F,L]
+</IfModule>

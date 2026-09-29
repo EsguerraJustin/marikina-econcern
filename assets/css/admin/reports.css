@@ -1,0 +1,543 @@
+@charset "UTF-8";
+
+/* =========================================================
+   admin/reports.php — page-level styles
+   Theme: Pure Minimalism (PROJECT_GUIDE.md Rule #14/#15).
+   No gradients, no skeuomorphic shadows, no translateY clicks.
+   Tokens: assets/css/variables.css   Primitives: assets/css/common.css
+
+   Previous file (16 Sep, never wired to the markup) was 100% dead code and
+   carried the exact things Rule #14 bans:
+     .mc-admin-reports-hero          linear-gradient(135deg,...) + radial blob
+     .mc-admin-summary-card::after   3px linear-gradient(90deg,...) stripe, 4 variants
+     .mc-admin-reports-breakdown-bar linear-gradient(90deg,...)
+     .mc-admin-reports-csv-btn       3-layer skeu shadow + :active translateY(1px)
+   All removed.
+   ========================================================= */
+
+/* ---------- Page shell ---------- */
+/* No horizontal padding — .mc-shell-main already supplies 24px. */
+.mc-admin-reports-page {
+    max-width: 1600px;
+    margin-inline: auto;
+    padding: 16px 0 48px;
+}
+@media (min-width: 768px) {
+    .mc-admin-reports-page { padding: 24px 0 48px; }
+}
+
+/* ---------- Hero ---------- */
+.mc-admin-hero {
+    background-color: #1F4570;
+    background-image: url('../../img/Header-bg-light.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* multiply, not overlay: overlay LIGHTENS a dark base wherever
+       background-size:cover samples a bright part of the JPEG, which washes
+       the navy out and leaves the white title low-contrast. multiply always
+       darkens, so the hero is deterministic at any viewport. */
+    background-blend-mode: multiply;
+    border-radius: var(--ba-radius-md);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: var(--ba-shadow-md);
+}
+.mc-admin-hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+.mc-admin-hero-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+.mc-admin-hero-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--ba-radius-md);
+    background: rgba(255,255,255,.14);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+    /* Without an explicit color the Lucide SVG inherits body ink
+       (--ba-text #1F2937) via stroke:currentColor and vanishes on navy. */
+    color: #fff;
+}
+.mc-admin-hero-icon .lucide {
+    color: #fff;
+    stroke: #fff;
+    stroke-width: 2.1;
+    width: 24px;
+    height: 24px;
+}
+.mc-admin-hero-title { min-width: 0; color: #fff; }
+.mc-admin-hero-title h1 {
+    font: var(--ba-h1);
+    color: #fff;
+    margin: 0 0 4px;
+    letter-spacing: -.01em;
+}
+.mc-admin-hero-title p {
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font: var(--ba-small);
+    max-width: 68ch;
+}
+.mc-admin-hero-seal {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--ba-border);
+    padding: 3px;
+    /* Deliberately NO filter. MarikinaLogo.jpg is dark-blue artwork on a WHITE
+       background, so inverting it turns the white disc black (invisible against
+       the navy hero) and the blue artwork pale yellow - unreadable. The
+       `invert(1) brightness(.92)` on the BasuraAlert heroes belongs to
+       Basura Module Logo.jpg, which is a monochrome mark. This mirrors the
+       app's existing .mc-topnav-seal treatment of the same file. */
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+
+/* ---------- Section card (shared by the filter panel) ---------- */
+.mc-admin-section-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-section-body { padding: 16px 20px; }
+
+/* ---------- Filter panel ---------- */
+.mc-admin-rp-fields {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (min-width: 576px) {
+    .mc-admin-rp-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 992px) {
+    .mc-admin-rp-fields { grid-template-columns: 170px 170px minmax(0, 1fr) auto; align-items: end; }
+}
+.mc-admin-rp-field { min-width: 0; }
+.mc-admin-rp-field .form-control,
+.mc-admin-rp-field .form-select { min-height: 44px; height: 44px; }
+.mc-admin-rp-apply { min-height: 44px; height: 44px; white-space: nowrap; }
+
+.mc-admin-rp-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 14px;
+}
+/* 40px minimum tap target (design-polish checklist item 13). */
+.mc-admin-rp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: var(--ba-radius-pill);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    color: var(--ba-text);
+    cursor: pointer;
+    box-shadow: var(--ba-shadow-sm);
+    transition: background-color .18s ease, border-color .15s ease, color .15s ease;
+}
+.mc-admin-rp-chip:hover { background: #EDE7DA; border-color: var(--ba-border-strong); }
+.mc-admin-rp-chip.active {
+    background: var(--ba-primary);
+    border-color: var(--ba-primary);
+    color: #fff;
+}
+.mc-admin-rp-chip .lucide { width: 14px; height: 14px; stroke-width: 2.1; }
+
+.mc-admin-rp-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ba-border);
+}
+.mc-admin-rp-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.mc-admin-rp-export { min-height: 44px; height: 44px; }
+.mc-admin-rp-export[aria-disabled="true"] {
+    opacity: .5;
+    pointer-events: none;
+}
+.mc-admin-rp-reset { min-height: 44px; height: 44px; }
+.mc-admin-rp-range {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-rp-range.is-error { color: var(--ba-danger) !important; }
+
+/* ---------- KPI tiles ---------- */
+/* auto-fit, not a fixed column count: 6 tiles leave a ragged cell in a 4-up
+   grid at some widths (same reasoning as admin/ba_dashboard.css). */
+.mc-admin-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+.mc-admin-kpi-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    padding: 16px 18px;
+    box-shadow: var(--ba-shadow-sm);
+    transition: border-color .2s ease;
+}
+@media (hover:hover) {
+    /* Rule #14: no translateY hover — flat border tint only. */
+    .mc-admin-kpi-card:hover { border-color: var(--ba-border-strong); }
+}
+.mc-admin-kpi-head { margin-bottom: 10px; }
+.mc-admin-kpi-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--ba-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.mc-admin-kpi-icon .lucide { width: 18px; height: 18px; stroke-width: 2.1; }
+/* One tint per concern status. The names match the `chip` values in
+   reports.php's STATUS_META / Total tile — keep the two in sync. */
+.mc-admin-kpi-icon--navy  { background: rgba(31,69,112,.12);  color: #1F4570; }   /* Total   */
+.mc-admin-kpi-icon--blue  { background: rgba(51,104,160,.10); color: var(--ba-primary); } /* New    */
+.mc-admin-kpi-icon--amber { background: rgba(214,147,46,.12); color: var(--ba-warning); } /* Ongoing */
+.mc-admin-kpi-icon--sky   { background: rgba(102,163,191,.16); color: #2A6785; }   /* Acknowledge */
+.mc-admin-kpi-icon--mint  { background: rgba(74,143,126,.12); color: var(--ba-success); } /* Completed */
+.mc-admin-kpi-icon--red   { background: rgba(168,68,68,.10);  color: var(--ba-danger); }  /* Cancelled */
+.mc-admin-kpi-label {
+    font: var(--ba-caption);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ba-text-muted);
+    margin: 0 0 2px;
+}
+.mc-admin-kpi-value {
+    font: 700 1.85rem/1.1 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0;
+    letter-spacing: -.02em;
+}
+/* A status nobody has used yet should not shout. */
+.mc-admin-kpi-card.is-zero .mc-admin-kpi-value { color: var(--ba-text-muted); }
+.mc-admin-kpi-card.is-zero .mc-admin-kpi-icon { opacity: .55; }
+
+/* ---------- Chart + distribution row ---------- */
+.mc-admin-rp-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+@media (min-width: 992px) {
+    .mc-admin-rp-split { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+}
+.mc-admin-rp-panel {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    padding: 18px 20px;
+    min-width: 0;
+}
+.mc-admin-rp-panel-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+.mc-admin-rp-panel-title {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-rp-panel-title .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+.mc-admin-rp-panel-sub {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0 0 14px;
+}
+.mc-admin-rp-peak {
+    font: var(--ba-caption);
+    color: var(--ba-text-muted);
+    white-space: nowrap;
+}
+
+/* Daily volume SVG chart. Scrolls horizontally past ~60 bars so a long range
+   never compresses bars into a 1px sliver. */
+.mc-admin-rp-chart-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+}
+.mc-admin-rp-chart { display: block; height: auto; }
+.mc-admin-rp-chart .rp-grid { stroke: var(--ba-border); stroke-width: 1; shape-rendering: crispEdges; }
+.mc-admin-rp-chart .rp-axis-text {
+    font: 600 10px/1 'Montserrat', sans-serif;
+    fill: var(--ba-text-muted);
+}
+.mc-admin-rp-chart .rp-bar { fill: var(--ba-primary); }
+.mc-admin-rp-chart .rp-bar:hover { fill: var(--ba-primary-light); }
+.mc-admin-rp-chart .rp-zero { fill: var(--ba-border-strong); }
+.mc-admin-rp-chart .rp-bar-hit { fill: transparent; cursor: pointer; }
+.mc-admin-rp-chart .rp-bar-hit:hover + .rp-bar,
+.mc-admin-rp-chart .rp-bar-hit:focus-visible + .rp-bar { fill: var(--ba-primary-light); }
+
+/* Status distribution: flat stacked bar + legend. */
+.mc-admin-rp-stack {
+    display: flex;
+    width: 100%;
+    height: 14px;
+    border-radius: var(--ba-radius-pill);
+    overflow: hidden;
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    margin-bottom: 14px;
+}
+.mc-admin-rp-stack-seg { height: 100%; min-width: 2px; }
+.mc-admin-rp-legend { display: flex; flex-direction: column; gap: 8px; }
+.mc-admin-rp-legend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: var(--ba-small);
+    color: var(--ba-text);
+}
+.mc-admin-rp-swatch {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+}
+.mc-admin-rp-legend-name { flex: 1 1 auto; min-width: 0; }
+.mc-admin-rp-legend-val {
+    flex-shrink: 0;
+    font: 600 .82rem/1 'Montserrat', sans-serif;
+    color: var(--ba-text-muted);
+    white-space: nowrap;
+}
+
+/* Average resolution tile inside the right column. */
+.mc-admin-rp-avg {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ba-border);
+}
+.mc-admin-rp-avg-value {
+    font: 700 1.9rem/1.1 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 4px;
+    letter-spacing: -.02em;
+}
+.mc-admin-rp-avg-note {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+/* ---------- Table card ---------- */
+.mc-admin-table-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-table-head {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-table-head h3 {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-table-head h3 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+
+.mc-admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* Rule #6: explicit pixel min-width so a row can never squeeze into vertical
+   one-letter text. Below 768px the stacked-card mode removes the need to
+   scroll at all. */
+.mc-admin-table-wrap .table { margin: 0; border-radius: 0; min-width: 720px; }
+.mc-admin-table-wrap .table>:not(caption)>*>* {
+    padding: 12px 16px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-table-wrap .table thead th {
+    font: 600 .78rem/1.3 'Montserrat', sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.mc-admin-table-wrap .table tbody td {
+    font: var(--ba-small);
+    vertical-align: middle;
+}
+.mc-th-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    font: 700 .82rem/1.25 'Montserrat', sans-serif;
+    color: #1F2937;
+    white-space: nowrap;
+}
+.mc-th-wrap--end { justify-content: flex-end; }
+.mc-th-icon { width: 16px; height: 16px; flex-shrink: 0; color: #3368A0; stroke-width: 2; }
+.mc-cell-wrap { display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0; }
+
+/* Numeric matrix: tabular figures so digits line up column-wise. */
+.mc-admin-rp-num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.mc-admin-rp-num--total { font-weight: 700; color: var(--ba-text); }
+.mc-admin-rp-num--zero { color: var(--ba-text-muted); }
+/* Not Bootstrap's .text-end: that is !important and would beat the mobile
+   stacked-card `text-align:left` rule below. */
+.mc-admin-rp-dept-cell { width: auto; }
+.mc-admin-rp-row-total {
+    background: var(--ba-surface-2);
+    font-weight: 700;
+}
+.mc-admin-rp-row-total td { border-bottom: 0 !important; }
+.mc-admin-rp-avatar {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-primary-tint);
+    color: var(--ba-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.mc-admin-rp-avatar .lucide { width: 17px; height: 17px; stroke-width: 2.1; }
+
+/* ---------- Empty state ---------- */
+.mc-admin-empty { padding: 36px 24px; text-align: center; }
+.mc-admin-empty-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    color: var(--ba-text-muted);
+}
+.mc-admin-empty-icon .lucide { stroke-width: 1.8; width: 24px; height: 24px; }
+.mc-admin-empty h4 { font: var(--ba-h3); margin: 0 0 6px; }
+.mc-admin-empty p { margin: 0; color: var(--ba-text-muted); font: var(--ba-small); }
+
+/* Loading: dim the panel rather than leaving stale numbers looking current. */
+.mc-admin-rp-panel.is-loading { opacity: .45; transition: opacity .15s ease; }
+
+/* ---------- Mobile (< 768px): table becomes labeled stacked cards ---------- */
+@media (max-width: 767.98px) {
+    .mc-admin-table-wrap { overflow: visible; padding: 12px 12px 4px; }
+    .mc-admin-table-wrap .table { min-width: 0; width: 100%; table-layout: auto; }
+    #deptTable thead { display: none; }
+    #deptTable tfoot { display: none; }
+    #deptTable tbody { display: block; }
+    #deptTable tbody tr {
+        display: block;
+        border: 1px solid var(--ba-border);
+        border-radius: var(--ba-radius-md);
+        padding: 4px 14px;
+        margin-bottom: 12px;
+        background: #fff;
+    }
+    #deptTable tbody tr:last-child { margin-bottom: 8px; }
+    #deptTable tbody td {
+        display: block;
+        width: auto;
+        padding: 10px 0;
+        border-bottom: 1px dashed #E5E7EB;
+        text-align: left;
+        white-space: normal;
+    }
+    #deptTable tbody td:last-child { border-bottom: 0; }
+    #deptTable tbody td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        font: 700 .7rem/1.2 'Montserrat', sans-serif;
+        letter-spacing: .3px;
+        text-transform: uppercase;
+        color: #6B7280;
+        margin-bottom: 4px;
+    }
+    /* Re-align the numeric matrix: label above, figure right-aligned beneath. */
+    #deptTable tbody td.mc-admin-rp-num {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        text-align: left;
+    }
+    #deptTable tbody td.mc-admin-rp-num::before { margin-bottom: 0; }
+    .mc-admin-rp-actions { flex-direction: column; align-items: stretch; }
+    .mc-admin-rp-btns { width: 100%; }
+    .mc-admin-rp-btns > * { flex: 1 1 auto; }
+}
+
+@media (max-width: 576px) {
+    .mc-admin-hero { padding: 18px 16px; }
+    .mc-admin-hero-seal { width: 48px; height: 48px; }
+    .mc-admin-hero-icon { width: 44px; height: 44px; }
+    .mc-admin-hero-icon .lucide { width: 20px; height: 20px; }
+    .mc-admin-hero-title h1 { font-size: 1.3rem; }
+    .mc-admin-kpi-card { padding: 14px; }
+    .mc-admin-kpi-value { font-size: 1.55rem; }
+    .mc-admin-section-body { padding: 14px 16px; }
+    .mc-admin-rp-panel { padding: 16px; }
+    .mc-admin-rp-presets .mc-admin-rp-chip { flex: 1 1 auto; justify-content: center; }
+}

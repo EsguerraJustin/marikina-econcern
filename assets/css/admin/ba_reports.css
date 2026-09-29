@@ -1,0 +1,270 @@
+@charset "UTF-8";
+/* =========================================================
+   admin/ba_reports.php — Resident Reports (admin)
+   Aligned 1:1 with the admin/concerns.php reference design.
+   Primitives are copied verbatim from assets/css/admin/concerns.css so
+   every admin list page shares one visual contract (head.php loads only
+   variables.css + common.css + this per-page sheet).
+   ========================================================= */
+
+/* ---------------- Hero band ---------------- */
+.mc-admin-concerns-hero{background:#FDFCF9;border:1px solid var(--ba-border);overflow:hidden;position:relative;margin-bottom:24px;border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm)}
+.mc-admin-concerns-hero::before{content:none}
+.mc-admin-concerns-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;padding:20px 24px;flex-wrap:wrap}
+@media(max-width:520px){.mc-admin-concerns-hero-inner{padding:16px}}
+.mc-admin-concerns-title-row{display:flex;align-items:center;gap:16px;min-width:0}
+.mc-admin-concerns-hero-seal{flex-shrink:0;width:56px;height:56px;object-fit:contain;border-radius:50%;background:#fff;border:1px solid var(--ba-border);padding:3px}
+.mc-admin-concerns-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:none}
+.mc-admin-concerns-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-admin-concerns-title{min-width:0}
+.mc-admin-concerns-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-admin-concerns-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+
+/* ---------------- KPI stat tiles (one per report status) ---------------- */
+.mc-admin-kpi-grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px;margin-bottom:24px}
+@media(min-width:576px){.mc-admin-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:992px){.mc-admin-kpi-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.mc-admin-kpi-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:20px;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 1px 2px rgba(31,41,55,.04);min-width:0;transition:border-color .18s}
+@media(hover:hover){.mc-admin-kpi-card:hover{border-color:var(--ba-border-strong)}}
+.mc-admin-kpi-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.mc-admin-kpi-icon{flex-shrink:0;width:40px;height:40px;border-radius:var(--ba-radius-sm);display:inline-flex;align-items:center;justify-content:center}
+.mc-admin-kpi-icon .lucide{stroke-width:2.1;width:20px;height:20px}
+.mc-admin-kpi-icon--blue{background:rgba(51,104,160,.10);color:var(--ba-primary)}
+.mc-admin-kpi-icon--mint{background:rgba(74,143,126,.12);color:var(--ba-success)}
+.mc-admin-kpi-icon--amber{background:rgba(214,147,46,.12);color:var(--ba-warning)}
+.mc-admin-kpi-icon--red{background:rgba(168,68,68,.10);color:var(--ba-danger)}
+.mc-admin-kpi-label{font:var(--ba-caption);letter-spacing:.04em;text-transform:uppercase;color:var(--ba-text-muted);margin:0 0 2px;line-height:1.35}
+.mc-admin-kpi-value{font:700 2rem/1.1 'Montserrat',sans-serif;color:var(--ba-text);letter-spacing:-.02em}
+
+/* ---------------- Filter card ---------------- */
+.mc-admin-concerns-info{margin-top:8px;padding:0 2px;display:flex;align-items:center;gap:8px;font:var(--ba-small);color:var(--ba-text-muted);margin-bottom:12px}
+.mc-admin-concerns-info .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.1}
+
+/* ---------------- Section card ---------------- */
+.mc-admin-section-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);overflow:hidden;box-shadow:var(--ba-shadow-sm)}
+.mc-admin-section-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--ba-border);background:var(--ba-surface-2)}
+.mc-admin-section-head h3{font:var(--ba-h3);margin:0;display:inline-flex;align-items:center;gap:8px}
+.mc-admin-section-head h3 .lucide{color:var(--ba-primary);stroke-width:2.1}
+
+/* ------------------------------------------------------------------
+   TABLE · aligned 1:1 with the admin/concerns.php reference design
+   (see assets/css/admin/concerns.css lines 32-62)
+   ------------------------------------------------------------------ */
+.mc-admin-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mc-admin-table-wrap .table{margin:0;border-radius:0;min-width:1200px;width:100%;table-layout:fixed;border-collapse:collapse}
+.mc-admin-table-wrap .table>:not(caption)>*>*{padding:12px 16px;overflow-wrap:break-word;word-break:normal}
+.mc-admin-table-wrap .table thead th{font:600 .78rem/1.3 'Montserrat',sans-serif;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.mc-admin-table-wrap .table tbody td{font:var(--ba-small);vertical-align:middle}
+#baReportsTable{width:100%;table-layout:fixed;border-collapse:collapse;min-width:1200px}
+/* Column weights sum to 100%. Ref is sized for the fixed-width BA-YY-NNNNN
+   mono chip; Category absorbs the long labels
+   (e.g. "Illegal dumping or improper disposal") which wrap rather than clip.
+   Ref 14 · Category 21 · Submitter 16 · Barangay 12 · Date 13 · Status 12 · Actions 12 */
+#baReportsTable th:nth-child(1),#baReportsTable td:nth-child(1){width:14%;white-space:nowrap}
+#baReportsTable th:nth-child(2),#baReportsTable td:nth-child(2){width:21%;white-space:normal}
+#baReportsTable th:nth-child(3),#baReportsTable td:nth-child(3){width:16%;white-space:normal}
+#baReportsTable th:nth-child(4),#baReportsTable td:nth-child(4){width:12%;white-space:normal}
+#baReportsTable th:nth-child(5),#baReportsTable td:nth-child(5){width:13%;white-space:nowrap}
+#baReportsTable th:nth-child(6),#baReportsTable td:nth-child(6){width:12%;white-space:nowrap;text-align:center}
+#baReportsTable th:nth-child(7),#baReportsTable td:nth-child(7){width:12%;white-space:normal;text-align:center}
+#baReportsTable .mc-th-wrap{display:flex;align-items:center;gap:8px;width:100%;font:700 .82rem/1.25 Montserrat,sans-serif;color:#1F2937;white-space:nowrap}
+#baReportsTable .mc-th-wrap--center{justify-content:center}
+#baReportsTable .mc-th-icon{width:16px;height:16px;flex-shrink:0;color:#3368A0;stroke-width:2}
+#baReportsTable .mc-cell-wrap{display:flex;align-items:flex-start;gap:8px;width:100%;min-width:0}
+#baReportsTable .mc-cell-wrap>span:last-child{min-width:0;flex:1 1 auto;overflow-wrap:break-word;word-break:normal}
+#baReportsTable .mc-cell-icon{width:14px;height:14px;flex-shrink:0;margin-top:4px;color:#4A5568}
+#baReportsTable thead th{text-align:left;padding:10px 12px}
+#baReportsTable thead th:nth-child(6),#baReportsTable thead th:nth-child(7){text-align:center}
+#baReportsTable tbody td{border-bottom:1px solid var(--ba-border);padding:10px 12px;overflow:visible}
+#baReportsTable tbody tr:last-child td{border-bottom:0 none}
+#baReportsTable .mc-col-center{text-align:center}
+#baReportsTable .mc-col-actions{text-align:center;vertical-align:middle}
+#baReportsTable td[data-label="Date of Concern"] .fw-semibold{line-height:1.4}
+/* Status pill never wraps; it shows the short label with a full-label tooltip. */
+#baReportsTable td[data-label="Status"] .mc-admin-badge{white-space:nowrap}
+
+/* ---------------- Ref # chip (fixed-width BA-YY-NNNNN) ---------------- */
+.brp-ref{display:inline-flex;align-items:center;max-width:100%;padding:2px 7px;border-radius:var(--ba-radius-sm);background:var(--ba-surface-2);border:1px solid var(--ba-border);color:var(--ba-text);font-family:'JetBrains Mono','Fira Code',Consolas,monospace;font-size:12.5px;font-weight:700;line-height:1.45;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none;transition:background-color .18s,border-color .15s,color .15s}
+.brp-ref:hover{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.28);color:var(--ba-primary);text-decoration:none}
+
+/* ---------------- Status pills ---------------- */
+.mc-admin-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);letter-spacing:.02em;line-height:1.35;border:1px solid transparent;white-space:nowrap}
+.mc-admin-badge .lucide{width:13px;height:13px;stroke-width:2.2}
+.mc-admin-badge--new{background:rgba(51,104,160,.10);color:var(--ba-primary);border-color:rgba(51,104,160,.20)}
+.mc-admin-badge--success{background:rgba(74,143,126,.14);color:var(--ba-success);border-color:rgba(74,143,126,.28)}
+.mc-admin-badge--warning{background:var(--ba-warning-light);color:var(--ba-warning);border-color:rgba(214,147,46,.25)}
+.mc-admin-badge--danger{background:rgba(168,68,68,.10);color:var(--ba-danger);border-color:rgba(168,68,68,.20)}
+.mc-admin-badge--muted{background:var(--ba-surface-2);color:var(--ba-text-muted);border-color:var(--ba-border)}
+
+/* ---------- Row action (house style · cf. admin_accounts.css:88) ---------- */
+.brp-action-btn{flex:1 1 auto;min-width:0;max-width:100%;height:36px;padding:0 12px;border-radius:var(--ba-radius-sm);background:transparent;color:var(--ba-primary);border:1px solid rgba(51,104,160,.20);box-shadow:none;display:inline-flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:background-color .18s,border-color .15s,color .15s,filter .15s;white-space:nowrap;text-decoration:none;font:600 .75rem/1 'Montserrat',sans-serif}
+.brp-action-btn:hover{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.28);color:var(--ba-primary);text-decoration:none}
+.brp-action-btn:active{filter:brightness(.97)}
+.brp-action-btn .lucide{width:15px;height:15px;flex-shrink:0;stroke-width:2.1}
+
+/* ---------------- Section head / empty state ---------------- */
+.mc-brp-head-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brp-empty{padding:48px 24px}
+.brp-empty .lucide-24{color:var(--ba-border-strong);stroke-width:1.5}
+
+@media(max-width:576px){
+.mc-admin-concerns-icon-wrap{width:44px;height:44px}
+.mc-admin-concerns-icon-wrap .lucide{width:20px;height:20px}
+.mc-admin-kpi-card{padding:16px}
+.mc-admin-kpi-value{font-size:1.65rem}
+.mc-admin-table-wrap .table>:not(caption)>*>* {padding:10px 12px}
+}
+
+/* ---------------- Mobile: table becomes a labeled stacked-card list
+   (dashboard pattern · see concerns.css:17288-17303) ---------------- */
+@media (max-width: 767.98px) {
+.mc-admin-table-wrap{overflow:visible;padding:12px 12px 4px}
+#baReportsTable{min-width:0;width:100%;table-layout:auto}
+#baReportsTable thead{display:none}
+#baReportsTable tbody{display:block}
+#baReportsTable tbody tr{display:block;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:4px 14px;margin-bottom:12px;background:#fff}
+#baReportsTable tbody tr:last-child{margin-bottom:8px}
+#baReportsTable tbody tr:last-child td{border-bottom:1px dashed #E5E7EB}
+#baReportsTable tbody tr:last-child td:last-child{border-bottom:0}
+#baReportsTable tbody td{display:block;width:auto;padding:12px 0;border-bottom:1px dashed #E5E7EB;text-align:left;white-space:normal;overflow:visible}
+#baReportsTable tbody td:last-child{border-bottom:0}
+#baReportsTable tbody td[data-label="Status"],#baReportsTable tbody td[data-label="Actions"]{text-align:center}
+#baReportsTable tbody td[data-label="Status"]::before,#baReportsTable tbody td[data-label="Actions"]::before{text-align:center}
+#baReportsTable th:nth-child(n),#baReportsTable td:nth-child(n){width:auto}
+#baReportsTable tbody td[data-label]::before{content:attr(data-label);display:block;font:700 .7rem/1.2 Montserrat,sans-serif;letter-spacing:.3px;text-transform:uppercase;color:#6B7280;margin-bottom:5px}
+#baReportsTable tbody td[data-label="Ref"] .brp-ref{font-size:14px;padding:3px 9px}
+#baReportsTable tbody td[data-label="Date of Concern"] .fw-semibold{white-space:normal}
+.brp-action-btn{width:100%;max-width:280px;height:40px;padding:0 16px}
+}
+
+/* ==================================================================
+   DETAIL VIEW · admin/ba_reports.php?id=N
+   Reuses the list page's primitives above (mc-admin-section-card,
+   mc-admin-section-head, mc-admin-badge--*, brp-ref) so the list and the
+   report never look like two different products.
+   PROJECT_GUIDE rule #14: solid fills + 1px borders only —
+   no gradients, no translateY hovers, --ba-shadow-sm only.
+   Page-scoped prefix (mc-brp-d-) because head.php loads exactly one
+   stylesheet named after the script (ba_reports.php -> ba_reports.css).
+   ================================================================== */
+.mc-brp-d-header{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);padding:20px 24px;margin-bottom:20px;overflow:hidden}
+@media(max-width:520px){.mc-brp-d-header{padding:16px}}
+.mc-brp-d-header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--ba-border)}
+.mc-brp-d-back{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 12px;border-radius:var(--ba-radius-sm);background:var(--ba-surface);border:1px solid var(--ba-border);color:var(--ba-primary);font:600 .85rem/1 'Montserrat',sans-serif;text-decoration:none;transition:background-color .18s,border-color .15s,color .15s}
+.mc-brp-d-back:hover{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.28);color:var(--ba-primary);text-decoration:none}
+.mc-brp-d-back .lucide{width:16px;height:16px;stroke-width:2.1}
+.mc-brp-d-refline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.mc-brp-d-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:var(--ba-radius-pill);background:var(--ba-surface-2);border:1px solid var(--ba-border);color:var(--ba-text-muted);font:var(--ba-caption);letter-spacing:.02em;min-width:0;overflow-wrap:break-word;word-break:normal}
+.mc-brp-d-tag .lucide{width:13px;height:13px;stroke-width:2.2}
+
+/* ---------------- Mandatory resolution-flow stepper ---------------- */
+.mc-brp-d-stepper{display:flex;align-items:flex-start;list-style:none;margin:18px 0 0;padding:0;flex-wrap:wrap;gap:8px}
+.mc-brp-d-step{display:flex;align-items:center;gap:8px;min-width:0}
+.mc-brp-d-step+.mc-brp-d-step::before{content:"";width:18px;height:2px;flex-shrink:0;background:var(--ba-border);border-radius:2px}
+.mc-brp-d-step-dot{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--ba-surface-2);border:2px solid var(--ba-border);color:var(--ba-text-muted)}
+.mc-brp-d-step-dot .lucide{width:14px;height:14px;stroke-width:2.1}
+.mc-brp-d-step-label{font:var(--ba-caption);color:var(--ba-text-muted);letter-spacing:.02em}
+.mc-brp-d-step.is-done .mc-brp-d-step-dot{background:rgba(74,143,126,.12);border-color:rgba(74,143,126,.30);color:var(--ba-success)}
+.mc-brp-d-step.is-done+.mc-brp-d-step::before{background:rgba(74,143,126,.30)}
+.mc-brp-d-step.is-done .mc-brp-d-step-label{color:var(--ba-text)}
+.mc-brp-d-step.is-current .mc-brp-d-step-dot{background:var(--ba-primary);border-color:var(--ba-primary);color:#fff}
+.mc-brp-d-step.is-current .mc-brp-d-step-label{color:var(--ba-text);font-weight:700}
+.mc-brp-d-stepper--rejected .mc-brp-d-step.is-current .mc-brp-d-step-dot{background:var(--ba-danger);border-color:var(--ba-danger)}
+/* A rejected report did not "succeed", so its earlier steps stay neutral. */
+.mc-brp-d-stepper--rejected .mc-brp-d-step.is-done .mc-brp-d-step-dot{background:var(--ba-surface-2);border-color:var(--ba-border-strong);color:var(--ba-text-muted)}
+.mc-brp-d-stepper--rejected .mc-brp-d-step.is-done+.mc-brp-d-step::before{background:var(--ba-border-strong)}
+
+/* ---------------- Two-column body: content + action sidebar ---------------- */
+.mc-brp-d-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
+@media(min-width:992px){.mc-brp-d-grid{grid-template-columns:minmax(0,1fr) 360px}}
+.mc-brp-d-main{display:flex;flex-direction:column;gap:20px;min-width:0}
+.mc-brp-d-side{display:flex;flex-direction:column;gap:20px;min-width:0}
+.mc-brp-d-body{padding:18px 20px}
+@media(max-width:575.98px){.mc-brp-d-body{padding:16px 14px}}
+
+/* ---------------- Report-details fact tiles ---------------- */
+.mc-brp-d-facts{display:grid;grid-template-columns:1fr;gap:10px 12px}
+@media(min-width:576px){.mc-brp-d-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1400px){.mc-brp-d-facts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mc-brp-d-fact{display:flex;flex-direction:column;gap:4px;min-width:0;padding:10px 12px;border-radius:var(--ba-radius-sm);background:var(--ba-surface-2);border:1px solid var(--ba-border)}
+.mc-brp-d-fact-label{font:var(--ba-caption);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ba-text-muted)}
+.mc-brp-d-fact-value{font:var(--ba-small);color:var(--ba-text);line-height:1.45;overflow-wrap:break-word;word-break:normal}
+
+/* ---------------- Description / long resident text ---------------- */
+.mc-brp-d-desc{padding:16px;border-radius:var(--ba-radius-md);background:var(--ba-surface-2);border:1px solid var(--ba-border);font:var(--ba-body);color:var(--ba-text);line-height:1.7;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal}
+.mc-brp-d-desc--sm{font:var(--ba-small);line-height:1.6;margin-top:12px;background:var(--ba-surface);border-style:dashed}
+
+/* ---------------- Photo evidence ---------------- */
+.mc-brp-d-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:576px){.mc-brp-d-photos{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1200px){.mc-brp-d-photos{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.mc-brp-d-photo{display:block;aspect-ratio:1/1;border-radius:var(--ba-radius-sm);overflow:hidden;background:var(--ba-surface-2);border:1px solid var(--ba-border);transition:background-color .18s,border-color .15s}
+.mc-brp-d-photo:hover{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.32);text-decoration:none}
+.mc-brp-d-photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------------- Public activity timeline (vertical rail) ---------------- */
+.mc-brp-d-timeline{list-style:none;margin:0;padding:0 0 0 32px;position:relative}
+.mc-brp-d-timeline::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:var(--ba-border);border-radius:2px}
+.mc-brp-d-tl-item{position:relative;padding-bottom:16px}
+.mc-brp-d-tl-item:last-child{padding-bottom:0}
+.mc-brp-d-tl-dot{position:absolute;left:-32px;top:0;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--ba-surface);border:2px solid var(--ba-border-strong);color:var(--ba-text-muted);z-index:1}
+.mc-brp-d-tl-dot .lucide{width:12px;height:12px;stroke-width:2.2}
+.mc-brp-d-tl-dot--new{border-color:rgba(51,104,160,.34);color:var(--ba-primary);background:rgba(51,104,160,.10)}
+.mc-brp-d-tl-dot--acknowledged{border-color:rgba(214,147,46,.38);color:var(--ba-warning);background:var(--ba-warning-light)}
+.mc-brp-d-tl-dot--in-progress{border-color:rgba(74,143,126,.34);color:var(--ba-success);background:rgba(74,143,126,.12)}
+.mc-brp-d-tl-dot--completed{border-color:var(--ba-success);color:#fff;background:var(--ba-success)}
+.mc-brp-d-tl-dot--rejected{border-color:var(--ba-danger);color:#fff;background:var(--ba-danger)}
+.mc-brp-d-tl-item--internal .mc-brp-d-tl-dot{border-style:dashed}
+.mc-brp-d-tl-card{padding:12px 14px;border-radius:var(--ba-radius-md);background:var(--ba-surface-2);border:1px solid var(--ba-border)}
+.mc-brp-d-tl-item--internal .mc-brp-d-tl-card{background:var(--ba-danger-light);border-color:rgba(168,68,68,.20)}
+.mc-brp-d-tl-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.mc-brp-d-tl-meta{display:inline-flex;align-items:center;gap:5px;font:var(--ba-caption);color:var(--ba-text-muted)}
+.mc-brp-d-tl-meta .lucide{width:12px;height:12px;stroke-width:2}
+.mc-brp-d-tl-note{margin:0;font:var(--ba-small);color:var(--ba-text);line-height:1.6;overflow-wrap:break-word;word-break:normal}
+.mc-brp-d-tl-internal{display:flex;align-items:flex-start;gap:7px;margin-top:8px;padding:8px 10px;border-radius:var(--ba-radius-sm);background:var(--ba-surface);border:1px dashed rgba(168,68,68,.28);font:var(--ba-small);color:var(--ba-danger);line-height:1.55;overflow-wrap:break-word;word-break:normal}
+.mc-brp-d-tl-internal .lucide{width:13px;height:13px;stroke-width:2.2;flex-shrink:0;margin-top:3px}
+.mc-brp-d-tl-internal strong{font-family:'Montserrat',sans-serif}
+.mc-brp-d-tl-by{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--ba-border);font:var(--ba-caption);color:var(--ba-text-muted)}
+.mc-brp-d-tl-by .lucide{width:12px;height:12px;stroke-width:2}
+
+/* ---------------- Resident feedback stars ---------------- */
+.mc-brp-d-stars{display:flex;align-items:center;gap:3px;flex-wrap:wrap}
+.mc-brp-d-stars .lucide{width:22px;height:22px;stroke-width:2;color:var(--ba-warning);fill:var(--ba-warning)}
+.mc-brp-d-stars .lucide.is-empty{fill:none;opacity:.32}
+.mc-brp-d-rating-num{margin-left:8px;font:700 1.05rem/1 'Montserrat',sans-serif;color:var(--ba-text)}
+.mc-brp-d-rating-label{margin:10px 0 0;font:var(--ba-small);color:var(--ba-text-muted)}
+
+/* ---------------- Public / private note cards ---------------- */
+.mc-brp-d-note{padding:14px 16px;border-radius:var(--ba-radius-md);border:1px solid var(--ba-border)}
+.mc-brp-d-note--public{background:rgba(74,143,126,.10);border-color:rgba(74,143,126,.24)}
+.mc-brp-d-note--internal{background:var(--ba-danger-light);border-color:rgba(168,68,68,.22)}
+.mc-brp-d-note-tag{display:flex;align-items:center;gap:6px;margin-bottom:8px;font:var(--ba-caption);letter-spacing:.02em}
+.mc-brp-d-note--public .mc-brp-d-note-tag{color:var(--ba-success)}
+.mc-brp-d-note--internal .mc-brp-d-note-tag{color:var(--ba-danger)}
+.mc-brp-d-note-tag .lucide{width:13px;height:13px;stroke-width:2.2}
+.mc-brp-d-note-text{font:var(--ba-small);color:var(--ba-text);line-height:1.65;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal}
+
+/* ---------------- Update Status & Notes form ---------------- */
+.mc-brp-d-form{display:flex;flex-direction:column;gap:14px}
+.mc-brp-d-field{display:flex;flex-direction:column;min-width:0}
+.mc-brp-d-field .form-label{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.mc-brp-d-field .form-label .lucide{width:14px;height:14px;stroke-width:2.1;color:var(--ba-primary)}
+.mc-brp-d-req{color:var(--ba-danger);font-weight:700}
+.mc-brp-d-hint{margin-top:6px;font:var(--ba-caption);color:var(--ba-text-muted);line-height:1.5}
+.mc-brp-d-autofill{display:none;color:var(--ba-success);font-weight:600}
+.mc-brp-d-autofill .lucide{width:13px;height:13px;stroke-width:2.4}
+.mc-brp-d-alert:empty{display:none}
+.mc-brp-d-alert .alert{font:var(--ba-small);margin:0}
+.mc-brp-d-submit{width:100%;min-height:48px}
+@media(max-width:575.98px){.mc-brp-d-submit{min-height:44px;font-size:.85rem;padding-inline:12px}}
+
+/* ---------------- Mobile: tighter rail, compact stepper ---------------- */
+@media(max-width:767.98px){
+.mc-brp-d-timeline{padding-left:28px}
+.mc-brp-d-timeline::before{left:10px}
+.mc-brp-d-tl-dot{left:-28px;width:22px;height:22px}
+.mc-brp-d-stepper{gap:6px 4px}
+.mc-brp-d-step+.mc-brp-d-step::before{width:10px}
+.mc-brp-d-step-label{font-size:.68rem}
+.mc-brp-d-photos{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

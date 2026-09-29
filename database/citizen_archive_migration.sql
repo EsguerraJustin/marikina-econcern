@@ -1,0 +1,21 @@
+-- Citizen archive (soft delete).
+--
+-- Removing a citizen account with a hard DELETE would cascade through seven
+-- foreign keys and destroy the complaint record: concerns -> concern_timeline,
+-- concern_messages and concern_notes all cascade, as do ba_reports,
+-- ba_notifications, ba_notification_preferences, user_email_verifications and
+-- user_login_otps. For a citizen-complaint system those are official records,
+-- so the account is archived instead of deleted.
+--
+-- deleted_at IS NULL      = normal account (active flag decides access)
+-- deleted_at IS NOT NULL  = archived; hidden from the admin list, and blocked
+--                            from signing in because archiving also sets
+--                            active = 0, which every access gate already reads.
+--
+-- The row and every relationship are kept, so the citizen's reports, timeline,
+-- messages and internal notes stay intact and resolvable.
+--
+-- Run manually if the migrations tracker is not in use:
+--   ALTER TABLE users ADD COLUMN deleted_at TIMESTAMP NULL DEFAULT NULL;
+
+ALTER TABLE users ADD COLUMN deleted_at TIMESTAMP NULL DEFAULT NULL;

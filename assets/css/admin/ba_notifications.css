@@ -1,0 +1,671 @@
+@charset "UTF-8";
+
+.mc-admin-ba_notifications-page {
+    max-width: 1600px;
+    margin-inline: auto;
+    /* No horizontal padding — .mc-shell-main already supplies 24px. */
+    padding: 16px 0 48px;
+}
+@media (min-width: 768px) {
+    .mc-admin-ba_notifications-page { padding: 24px 0 48px; }
+}
+
+/* Flat navy hero, matching admin/ba_dashboard.css. Was a linear-gradient,
+   which Rule #14 bans. multiply (not overlay) keeps the JPEG from lightening
+   the dark base wherever background-size:cover samples a bright region. */
+.mc-admin-hero {
+    background-color: #1F4570;
+    background-image: url('../../img/Header-bg-light.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    border-radius: var(--ba-radius-md);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: var(--ba-shadow-md);
+}
+.mc-admin-hero::after { content: none; }
+.mc-admin-hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+}
+.mc-admin-hero-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+.mc-admin-hero-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--ba-radius-md);
+    background: rgba(255,255,255,.14);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+    /* Without an explicit color the Lucide SVG inherits body ink
+       (--ba-text #1F2937) through stroke:currentColor and disappears against
+       the navy hero. */
+    color: #fff;
+}
+.mc-admin-hero-icon .lucide { color: #fff; stroke: #fff; stroke-width: 2.1; }
+.mc-admin-hero-title { min-width: 0; color: #fff; }
+.mc-admin-hero-title h1 {
+    font: var(--ba-h1);
+    color: #fff;
+    margin: 0 0 4px;
+    letter-spacing: -.01em;
+}
+.mc-admin-hero-title p {
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font: var(--ba-small);
+}
+.mc-admin-hero-seal {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 2px;
+    filter: invert(1) brightness(.92);
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+
+.mc-admin-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+@media (min-width: 576px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 992px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.mc-admin-kpi-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    padding: 20px;
+    position: relative;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.7) inset,
+        0 3px 0 rgba(51,104,160,.08),
+        0 6px 16px rgba(31,41,55,.06);
+    transition: box-shadow .25s ease;
+}
+@media (hover:hover) {
+    /* Rule #14: no translateY hover lift — flat shadow change only. */
+    .mc-admin-kpi-card:hover {
+        box-shadow:
+            0 1px 0 rgba(255,255,255,.7) inset,
+            0 5px 0 rgba(51,104,160,.10),
+            0 12px 28px rgba(51,104,160,.12);
+    }
+}
+.mc-admin-kpi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.mc-admin-kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ba-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.mc-admin-kpi-icon .lucide { stroke-width: 2.1; }
+.mc-admin-kpi-label {
+    font: var(--ba-caption);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ba-text-muted);
+    margin: 0;
+}
+.mc-admin-kpi-value {
+    font: 700 2rem/1.1 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 6px;
+    letter-spacing: -.02em;
+}
+.mc-admin-kpi-sub {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.mc-admin-kpi-sub .lucide { width: 14px; height: 14px; stroke-width: 2.2; }
+
+.mc-admin-kpi-icon--blue { background: rgba(51,104,160,.10); color: var(--ba-primary); }
+.mc-admin-kpi-icon--mint { background: rgba(74,143,126,.12); color: var(--ba-success); }
+.mc-admin-kpi-icon--amber { background: rgba(214,147,46,.12); color: var(--ba-warning); }
+.mc-admin-kpi-icon--red { background: rgba(168,68,68,.10); color: var(--ba-danger); }
+.mc-admin-kpi-sub--up { color: var(--ba-success); }
+.mc-admin-kpi-sub--down { color: var(--ba-danger); }
+
+.mc-admin-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.mc-admin-search {
+    flex: 1 1 280px;
+    min-width: 220px;
+    position: relative;
+}
+.mc-admin-search .lucide-search {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ba-primary);
+    pointer-events: none;
+    stroke-width: 2.1;
+}
+.mc-admin-search .form-control {
+    min-height: 44px;
+    height: 44px;
+    padding-left: 42px !important;
+}
+.mc-admin-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    cursor: pointer;
+    color: var(--ba-text);
+    box-shadow: var(--ba-shadow-sm);
+    transition: all .15s ease;
+}
+.mc-admin-filter-chip:hover {
+    background: #EDE7DA;
+    border-color: var(--ba-border-strong);
+}
+.mc-admin-filter-chip .lucide { stroke-width: 2.1; }
+
+/* Each notification is its own card (see `.mc-admin-notif` further down), so
+   this is a plain gap stack. It used to be a single bordered surface with the
+   rows divided by hairlines, which read as one dense block. */
+.mc-admin-notif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    min-width: 0;
+}
+.mc-admin-notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--ba-border);
+    transition: background-color .15s ease;
+    cursor: pointer;
+}
+.mc-admin-notif-item:last-child { border-bottom: 0 none; }
+.mc-admin-notif-item:hover { background: var(--ba-surface-2); }
+.mc-admin-notif-item.unread {
+    background: rgba(51,104,160,.04);
+    position: relative;
+}
+.mc-admin-notif-item.unread::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--ba-primary);
+}
+.mc-admin-notif-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ba-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ba-surface-2);
+    color: var(--ba-text-muted);
+}
+.mc-admin-notif-icon .lucide { stroke-width: 2.1; }
+.mc-admin-notif-icon--info { background: rgba(51,104,160,.10); color: var(--ba-primary); }
+.mc-admin-notif-icon--success { background: rgba(74,143,126,.12); color: var(--ba-success); }
+.mc-admin-notif-icon--warning { background: var(--ba-warning-light); color: var(--ba-warning); }
+.mc-admin-notif-icon--danger { background: rgba(168,68,68,.10); color: var(--ba-danger); }
+
+.mc-admin-notif-body { min-width: 0; flex: 1 1 auto; }
+.mc-admin-notif-title {
+    font: 600 .92rem/1.35 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-notif-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ba-primary);
+    flex-shrink: 0;
+}
+.mc-admin-notif-msg {
+    font: var(--ba-small);
+    color: var(--ba-text);
+    margin: 0 0 6px;
+    line-height: 1.5;
+}
+.mc-admin-notif-meta {
+    font: var(--ba-caption);
+    color: var(--ba-text-muted);
+    letter-spacing: .01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.mc-admin-table-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-table-head {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-table-head h3 {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-table-head h3 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+
+.mc-admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mc-admin-table-wrap .table { margin: 0; border-radius: 0; min-width: 800px; }
+.mc-admin-table-wrap .table>:not(caption)>*>* {
+    padding: 12px 16px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-table-wrap .table thead th {
+    font: 600 .78rem/1.3 'Montserrat', sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.mc-admin-table-wrap .table tbody td {
+    font: var(--ba-small);
+    vertical-align: middle;
+}
+.mc-admin-table-wrap .table tbody tr { cursor: pointer; }
+.mc-admin-actions {
+    display: inline-flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.mc-admin-btn-icon {
+    min-height: 36px;
+    height: 36px;
+    width: 36px;
+    min-width: 36px;
+    padding: 0;
+    border-radius: var(--ba-radius-sm);
+}
+.mc-admin-btn-icon .lucide { width: 16px; height: 16px; stroke-width: 2.1; }
+
+/* Two-column shell + section cards. These were defined in ba_dashboard.css but
+   never here, so wiring them up here required porting them across to keep the
+   two pages visually identical. */
+.mc-admin-two-col {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+@media (min-width: 992px) {
+    .mc-admin-two-col { grid-template-columns: 3fr 2fr; }
+}
+/* Reversed for this page: the push form is a single narrow column of fields,
+   while Recent Notifications is a dense list that was being crushed to ~40%
+   width (and wrapping titles onto 3 lines) under the dashboard's 3fr/2fr. */
+@media (min-width: 992px) {
+    .mc-admin-ba_notifications-page .mc-admin-two-col { grid-template-columns: 5fr 7fr; }
+}
+/* Grid items default to align-items:stretch, so the short push form was being
+   stretched to match the tall 50-row notification list, leaving a large dead
+   gap under the Push button. Each card should be only as tall as its content. */
+.mc-admin-ba_notifications-page .mc-admin-two-col { align-items: start; }
+.mc-admin-section-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-section-head {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-section-head h3 {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-section-head h3 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+
+/* The three channel checkboxes were .form-check-inline on separate <div>s, so
+   they stacked vertically despite the class. Lay them out as a real row. */
+.mc-admin-channel-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+.mc-admin-channel-row .form-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    min-height: 44px;
+}
+.mc-admin-channel-row .form-check-input { margin: 0; flex-shrink: 0; }
+.mc-admin-channel-row .form-check-label { font: var(--ba-small); }
+
+/* Recent-notification cards.
+   One self-contained card per notification: white surface, 1px border, soft
+   radius, micro-shadow, separated from its neighbours by the list's `gap`.
+   This deliberately does NOT use .list-group-item: common.css:66 makes that
+   `display:flex`, which turned each of the 4 stacked child divs into a
+   side-by-side flex column — producing ragged 4-column rows, badges wrapping
+   onto two lines and titles breaking mid-word. */
+.mc-admin-notif {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    min-width: 0;
+    padding: 14px 16px;
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+@media (hover:hover) {
+    /* Rule #14: no translateY hover lift — flat border + shadow change only. */
+    .mc-admin-notif:hover {
+        border-color: var(--ba-border-strong);
+        box-shadow: var(--ba-shadow-md);
+    }
+}
+/* The --sent/--queued/--failed/--unknown modifiers are retained purely as
+   status hooks: they colour the outcome line at the card foot and tint the
+   failed card. They intentionally paint NO card edge — a coloured left rail
+   read as a template flourish, and the status is already carried three times
+   over by the icon tile, the text pill, and the outcome line. */
+.mc-admin-notif--failed { background: var(--ba-danger-light); }
+
+/* Rows 16-50 are rendered but collapsed until "Load more" runs. */
+.mc-admin-notif.is-overflow { display: none; }
+
+.mc-admin-loadmore-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin-top: 14px;
+}
+.mc-admin-loadmore {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: var(--ba-radius-pill);
+    font: 600 .875rem/1 'Montserrat', sans-serif;
+    letter-spacing: .01em;
+}
+.mc-admin-loadmore-count { white-space: nowrap; }
+
+.mc-admin-notif-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+    margin-bottom: 8px;
+}
+.mc-admin-notif-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+.mc-admin-notif-when {
+    font: var(--ba-caption);
+    color: var(--ba-text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* --- Type hierarchy: title > message > meta (three distinct levels) --- */
+.mc-admin-notif-title {
+    font: 600 .95rem/1.45 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 3px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-notif-msg {
+    font: var(--ba-small);
+    color: var(--ba-text);
+    line-height: 1.55;
+    margin: 0 0 10px;
+    overflow-wrap: break-word;
+    word-break: normal;
+    /* Messages reach 301 chars (avg 82) — clamp to keep 50 rows scannable.
+       Full text is in the title= tooltip. */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* --- Footer: hairline separates "what was sent" from "where it went" --- */
+.mc-admin-notif-foot {
+    border-top: 1px solid var(--ba-border);
+    padding-top: 10px;
+}
+.mc-admin-notif-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    margin-bottom: 8px;
+}
+.mc-admin-notif-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    padding: 3px 10px;
+    border-radius: var(--ba-radius-pill);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    font: var(--ba-caption);
+    color: var(--ba-text);
+    min-width: 0;
+}
+.mc-admin-notif-chip .lucide {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    stroke-width: 2.1;
+    color: var(--ba-text-muted);
+}
+
+/* Outcome carries the status colour; failed rows wrap so a long
+   TextBee/Brevo reason is never truncated. */
+.mc-admin-notif-outcome {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font: var(--ba-caption);
+    line-height: 1.5;
+    color: var(--ba-text-muted);
+}
+.mc-admin-notif-outcome .lucide {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    stroke-width: 2.2;
+}
+.mc-admin-notif--sent    .mc-admin-notif-outcome { color: var(--ba-success); }
+.mc-admin-notif--queued  .mc-admin-notif-outcome { color: var(--ba-warning); }
+.mc-admin-notif--failed  .mc-admin-notif-outcome { color: var(--ba-danger); }
+.mc-admin-notif--failed  .mc-admin-notif-outcome span { font-weight: 600; }
+
+.mc-admin-empty {
+    padding: 48px 24px;
+    text-align: center;
+}
+.mc-admin-empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--ba-text-muted);
+}
+.mc-admin-empty-icon .lucide { stroke-width: 1.8; }
+.mc-admin-empty h4 { font: var(--ba-h3); margin: 0 0 6px; }
+.mc-admin-empty p { margin: 0; color: var(--ba-text-muted); font: var(--ba-small); }
+
+.mc-admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--ba-radius-pill);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    line-height: 1.35;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+.mc-admin-badge .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.mc-admin-badge--new { background: rgba(51,104,160,.10); color: var(--ba-primary); border-color: rgba(51,104,160,.20); }
+.mc-admin-badge--success { background: rgba(74,143,126,.14); color: var(--ba-success); border-color: rgba(74,143,126,.28); }
+.mc-admin-badge--warning { background: var(--ba-warning-light); color: var(--ba-warning); border-color: rgba(214,147,46,.25); }
+.mc-admin-badge--danger { background: rgba(168,68,68,.10); color: var(--ba-danger); border-color: rgba(168,68,68,.20); }
+.mc-admin-badge--muted { background: var(--ba-surface-2); color: var(--ba-text-muted); border-color: var(--ba-border); }
+
+.mc-admin-offcanvas-form { padding: 0; }
+.mc-admin-offcanvas-body {
+    padding: 20px 20px 24px;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+.mc-admin-form-group { margin-bottom: 16px; }
+.mc-admin-form-row {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (min-width: 576px) {
+    .mc-admin-form-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.mc-admin-form-control,
+.mc-admin-form-select {
+    min-height: 44px;
+    height: 44px;
+}
+.mc-admin-form-textarea {
+    min-height: 104px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 1.6;
+}
+
+.ba-sticky-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1056;
+    background: var(--ba-surface);
+    border-top: 1px solid var(--ba-border);
+    padding: 16px 20px;
+    margin: 20px -20px -24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    box-shadow: 0 -4px 16px rgba(31,41,55,.06);
+}
+.ba-sticky-footer .btn { min-height: 44px; }
+
+@media (max-width: 576px) {
+    .mc-admin-hero { padding: 18px 16px; }
+    .mc-admin-hero-seal { width: 48px; height: 48px; }
+    .mc-admin-hero-icon { width: 44px; height: 44px; }
+    .mc-admin-hero-title h1 { font-size: 1.3rem; }
+    .mc-admin-kpi-card { padding: 16px; }
+    .mc-admin-kpi-value { font-size: 1.65rem; }
+    .mc-admin-notif-item { padding: 12px 16px; }
+    /* Cards get tighter gutters so 3 of them still fit above the fold. */
+    .mc-admin-notif-list { gap: 10px; }
+    .mc-admin-notif { gap: 11px; padding: 12px; }
+    .mc-admin-notif-icon { width: 34px; height: 34px; }
+    .mc-admin-loadmore { width: 100%; justify-content: center; }
+    .mc-admin-table-wrap .table>:not(caption)>*>* { padding: 10px 12px; }
+}

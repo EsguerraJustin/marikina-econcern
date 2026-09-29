@@ -1,0 +1,785 @@
+@charset "UTF-8";
+
+.mc-admin-ba_dropoffs-page {
+    max-width: 1600px;
+    margin-inline: auto;
+    /* Horizontal padding is intentionally omitted — .mc-shell-main already
+       supplies 24px, so the page wrapper only kept vertical rhythm. Dropping
+       the duplicate 48px of side gutter is what gives the drop-off list room
+       to stop scrolling sideways. */
+    padding: 16px 0 48px;
+}
+@media (min-width: 768px) {
+    .mc-admin-ba_dropoffs-page { padding: 24px 0 48px; }
+}
+
+.mc-admin-hero {
+    background-color: #1F4570;
+    background-image: url('../../img/Header-bg-light.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* multiply, not overlay — see the note in admin/ba_announcements.css.
+       Keeps both page heroes deterministic instead of depending on which
+       region of the JPEG background-size:cover happens to crop. */
+    background-blend-mode: multiply;
+    border-radius: var(--ba-radius-md);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: var(--ba-shadow-md);
+}
+.mc-admin-hero::after { content: none; }
+.mc-admin-hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+.mc-admin-hero-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+.mc-admin-hero-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--ba-radius-md);
+    background: rgba(255,255,255,.14);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+    /* Without an explicit color the Lucide SVG inherits body ink
+       (--ba-text #1F2937) through stroke:currentColor and disappears
+       against the navy hero. Pin it to white and guard the stroke. */
+    color: #fff;
+}
+.mc-admin-hero-icon .lucide { color: #fff; stroke: #fff; stroke-width: 2.1; }
+/* Hero sits on navy, so Bootstrap's default dark-green outline button
+   (#198754) is unreadable. Scoped to the hero so other cards are unaffected. */
+.mc-admin-hero .btn-outline-success {
+    color: #7FE0AE;
+    border-color: rgba(127,224,174,.55);
+    background: rgba(127,224,174,.10);
+}
+.mc-admin-hero .btn-outline-success:hover,
+.mc-admin-hero .btn-outline-success:focus-visible {
+    color: #A7ECC6;
+    border-color: rgba(127,224,174,.8);
+    background: rgba(127,224,174,.20);
+}
+.mc-admin-hero .btn-outline-success .lucide { color: inherit; stroke: currentColor; }
+.mc-admin-hero-title { min-width: 0; color: #fff; }
+.mc-admin-hero-title h1 {
+    font: var(--ba-h1);
+    color: #fff;
+    margin: 0 0 4px;
+    letter-spacing: -.01em;
+}
+.mc-admin-hero-title p {
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font: var(--ba-small);
+}
+.mc-admin-hero-seal {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 2px;
+    filter: invert(1) brightness(.92);
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+
+.mc-admin-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+@media (min-width: 576px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 992px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.mc-admin-kpi-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    padding: 20px;
+    position: relative;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.7) inset,
+        0 3px 0 rgba(51,104,160,.08),
+        0 6px 16px rgba(31,41,55,.06);
+    transition: transform .2s ease, box-shadow .25s ease;
+}
+@media (hover:hover) {
+    .mc-admin-kpi-card:hover {
+        transform: translateY(-2px);
+        box-shadow:
+            0 1px 0 rgba(255,255,255,.7) inset,
+            0 5px 0 rgba(51,104,160,.10),
+            0 12px 28px rgba(51,104,160,.12);
+    }
+}
+.mc-admin-kpi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.mc-admin-kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ba-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.mc-admin-kpi-icon .lucide { stroke-width: 2.1; }
+.mc-admin-kpi-label {
+    font: var(--ba-caption);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ba-text-muted);
+    margin: 0;
+}
+.mc-admin-kpi-value {
+    font: 700 2rem/1.1 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 6px;
+    letter-spacing: -.02em;
+}
+.mc-admin-kpi-sub {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.mc-admin-kpi-sub .lucide { width: 14px; height: 14px; stroke-width: 2.2; }
+.mc-admin-kpi-icon--blue { background: rgba(51,104,160,.10); color: var(--ba-primary); }
+.mc-admin-kpi-icon--mint { background: rgba(74,143,126,.12); color: var(--ba-success); }
+.mc-admin-kpi-icon--amber { background: rgba(214,147,46,.12); color: var(--ba-warning); }
+.mc-admin-kpi-icon--red { background: rgba(168,68,68,.10); color: var(--ba-danger); }
+.mc-admin-kpi-sub--up { color: var(--ba-success); }
+.mc-admin-kpi-sub--down { color: var(--ba-danger); }
+
+.mc-admin-map-section {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-map-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.mc-admin-map-head h2 {
+    font: var(--ba-h2);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.mc-admin-map-head h2 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+.mc-admin-map-legend {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+.mc-admin-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font: var(--ba-caption);
+    letter-spacing: .01em;
+    color: var(--ba-text-muted);
+}
+.mc-admin-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px var(--ba-border);
+}
+.mc-admin-legend-dot.active { background: var(--ba-success); }
+.mc-admin-legend-dot.maintenance { background: var(--ba-warning); }
+.mc-admin-legend-dot.closed { background: var(--ba-danger); }
+
+.mc-admin-dropoff-map {
+    height: 480px;
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-dropoff-map .leaflet-container {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--ba-radius-md);
+    font-family: 'Merriweather', Georgia, serif;
+    background: #e8eefc;
+}
+.mc-admin-dropoff-map .leaflet-popup-content-wrapper {
+    border-radius: var(--ba-radius-md);
+    padding: 0;
+    overflow: hidden;
+}
+.mc-admin-dropoff-map .leaflet-popup-content {
+    margin: 0;
+    min-width: 220px;
+    font-family: 'Merriweather', Georgia, serif;
+}
+.mc-admin-popup-card {
+    padding: 14px 16px;
+}
+.mc-admin-popup-title {
+    font: 600 .95rem/1.3 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 6px;
+}
+.mc-admin-popup-addr {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0 0 10px;
+    line-height: 1.45;
+}
+.mc-admin-popup-hours {
+    font: var(--ba-caption);
+    color: var(--ba-text);
+    letter-spacing: .01em;
+    padding: 8px 10px;
+    background: var(--ba-surface-2);
+    border-radius: var(--ba-radius-sm);
+}
+
+.mc-admin-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.mc-admin-search {
+    flex: 1 1 280px;
+    min-width: 220px;
+    position: relative;
+}
+.mc-admin-search .lucide-search {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ba-primary);
+    pointer-events: none;
+    stroke-width: 2.1;
+}
+.mc-admin-search .form-control {
+    min-height: 44px;
+    height: 44px;
+    padding-left: 42px !important;
+}
+/* Was inline `style="flex:0 1 200px;min-width:160px"` on #filterBarangay. An
+   inline declaration outranks every stylesheet rule short of !important, so it
+   could not be re-flowed to full width on a phone from here. */
+.mc-admin-toolbar > #filterBarangay { flex: 0 1 200px; min-width: 160px; }
+.mc-admin-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    cursor: pointer;
+    color: var(--ba-text);
+    box-shadow: var(--ba-shadow-sm);
+    transition: all .15s ease;
+}
+.mc-admin-filter-chip:hover { background: #EDE7DA; border-color: var(--ba-border-strong); }
+.mc-admin-filter-chip .lucide { stroke-width: 2.1; }
+
+.mc-admin-table-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-table-head {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-table-head h3 {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-table-head h3 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+
+/* The scroll box used to be inline on the element (`style="max-height:64vh;
+   overflow:auto"`), which made the .mc-admin-table-wrap `overflow-x` rule
+   below dead — the inline shorthand won on both axes. It lives here now so the
+   phone media query can drop the box entirely. */
+.mc-admin-table-wrap { max-height: 64vh; overflow: auto; }
+.mc-admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* 5 narrow columns (Landmark / Barangay / Type / Status / Actions) live in a
+   half-width card, so the floor is kept well under the 6/12 column width.
+   Rule #6: keep a real px min-width + horizontal scroll as the narrow-viewport
+   fallback — never min-width:0. */
+.mc-admin-table-wrap .table { margin: 0; border-radius: 0; min-width: 560px; }
+.mc-admin-table-wrap .table>:not(caption)>*>* { padding: 10px 12px; overflow-wrap: break-word; word-break: normal; }
+.mc-admin-table-wrap .table thead th {
+    font: 600 .78rem/1.3 'Montserrat', sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.mc-admin-table-wrap .table tbody td {
+    font: var(--ba-small);
+    vertical-align: middle;
+}
+/* One line per cell: the table shows the SHORT label (see $pickupTypesShort /
+   $statusesShort in ba_dropoffs.php) and keeps .mc-admin-badge's nowrap. An
+   earlier version set white-space:normal + max-width:13ch here, which wrapped
+   "Street-end curbside drop-off" into a 4-line pill and doubled row height. */
+.mc-admin-dropoff-type { max-width: none; }
+/* Was `style="max-width:16ch"` inline. A class so the phone media query can
+   release the cap — under stacked cards the address gets a full row of its own
+   and has nothing to truncate against. Same trap as the .mc-truncate 437px
+   intrinsic floor in admin/citizens.css: an inline max-width cannot be undone
+   by any stylesheet rule short of !important. */
+.mc-admin-dropoff-addr { max-width: 16ch; }
+.mc-admin-table-wrap .table tbody tr { cursor: pointer; }
+/* Edit + Delete must sit on ONE row. `flex-wrap:wrap` (the old value) was
+   explicitly inviting them to stack, and the actions <td> could also be
+   squeezed by the table layout algorithm. Both are now locked down. */
+.mc-admin-actions { display: inline-flex; align-items: center; gap: 6px; flex-wrap: nowrap; }
+/* Edit(.btn-sm ~58px) + gap(6px) + icon button(36px) + slack */
+.mc-admin-table-wrap .table td.mc-admin-actions-cell { white-space: nowrap; min-width: 104px; }
+.mc-admin-btn-icon {
+    min-height: 36px;
+    height: 36px;
+    width: 36px;
+    min-width: 36px;
+    padding: 0;
+    border-radius: var(--ba-radius-sm);
+}
+.mc-admin-btn-icon .lucide { width: 16px; height: 16px; stroke-width: 2.1; }
+
+.mc-admin-empty { padding: 48px 24px; text-align: center; }
+.mc-admin-empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--ba-text-muted);
+}
+.mc-admin-empty-icon .lucide { stroke-width: 1.8; }
+.mc-admin-empty h4 { font: var(--ba-h3); margin: 0 0 6px; }
+.mc-admin-empty p { margin: 0; color: var(--ba-text-muted); font: var(--ba-small); }
+
+.mc-admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--ba-radius-pill);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    line-height: 1.35;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+.mc-admin-badge .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.mc-admin-badge--new { background: rgba(51,104,160,.10); color: var(--ba-primary); border-color: rgba(51,104,160,.20); }
+.mc-admin-badge--success { background: rgba(74,143,126,.14); color: var(--ba-success); border-color: rgba(74,143,126,.28); }
+.mc-admin-badge--warning { background: var(--ba-warning-light); color: var(--ba-warning); border-color: rgba(214,147,46,.25); }
+.mc-admin-badge--danger { background: rgba(168,68,68,.10); color: var(--ba-danger); border-color: rgba(168,68,68,.20); }
+.mc-admin-badge--muted { background: var(--ba-surface-2); color: var(--ba-text-muted); border-color: var(--ba-border); }
+
+.mc-admin-offcanvas-form { padding: 0; }
+.mc-admin-offcanvas-body {
+    padding: 20px 20px 24px;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+.mc-admin-form-group { margin-bottom: 16px; }
+.mc-admin-form-row {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (min-width: 576px) {
+    .mc-admin-form-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.mc-admin-form-control,
+.mc-admin-form-select {
+    min-height: 44px;
+    height: 44px;
+}
+.mc-admin-form-textarea {
+    min-height: 104px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 1.6;
+}
+.mc-admin-map-pick-hint {
+    padding: 12px 14px;
+    background: var(--ba-primary-tint);
+    border-radius: var(--ba-radius-md);
+    font: var(--ba-small);
+    color: var(--ba-primary);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.mc-admin-map-pick-hint .lucide { flex-shrink: 0; stroke-width: 2.1; margin-top: 1px; }
+
+.ba-sticky-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1056;
+    background: var(--ba-surface);
+    border-top: 1px solid var(--ba-border);
+    padding: 16px 20px;
+    margin: 20px -20px -24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    box-shadow: 0 -4px 16px rgba(31,41,55,.06);
+}
+.ba-sticky-footer .btn { min-height: 44px; }
+
+/* ------------------------------------------------------------------
+   Legacy action row: Save / Reset form / #saveMsg.
+
+   These three used to share one `d-flex gap-2` row with the message
+   inline (`ms-3 align-self-center`). #saveMsg carries whole sentences,
+   so it claimed the free space and squeezed both buttons down to their
+   min-content width -- they rendered as tall narrow pills, and the real
+   buttons were the least prominent thing in the row.
+
+   The message now takes its own full-width line under the buttons, and
+   the buttons are pinned at their natural size.
+   ------------------------------------------------------------------ */
+.ba-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+.ba-form-actions > .btn {
+    flex: 0 0 auto;
+    min-height: 40px;
+    white-space: nowrap;
+}
+.ba-form-actions > #saveMsg {
+    flex: 1 1 100%;
+    min-width: 0;
+    margin-inline-start: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+    line-height: 1.45;
+}
+.ba-form-actions > #saveMsg:empty { display: none; }
+
+/* ============================================================
+   STEP WORKFLOW — banner chips, tab strip, form rhythm.
+   None of #stepTabNav / .step-nav / #stepBanner had any CSS
+   anywhere in the project, so they rendered as raw Bootstrap
+   defaults crammed against the form.
+   ============================================================ */
+
+/* --- Step banner: was one run-on line of HTML that folded into an
+       unreadable blob inside a 50% column. Now discrete chips. --- */
+#stepBanner .mc-admin-step-banner-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+#stepBanner .mc-admin-step-banner-label {
+    font: 600 .78rem/1.35 'Montserrat', sans-serif;
+    letter-spacing: .02em;
+    color: var(--ba-text-muted);
+}
+/* Column of 3 lines: head chip / steps 1-3 (one line) / CTA. */
+.mc-admin-stepchips {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+}
+.mc-admin-step-head { display: inline-flex; max-width: 100%; min-width: 0; }
+/* Steps 1→2→3 must never break across lines. Horizontal auto-overflow is the
+   narrow viewport safety valve so a 390px phone scrolls the group instead of
+   overflowing the page (Rule #6 pattern). The declaration itself is two rules
+   below; it is deliberately not quoted by name in this comment, because
+   PROJECT_GUIDE.md's pre-deploy grep for that name minus its touch-momentum
+   pair reported THIS COMMENT as a violation. */
+.mc-admin-stepgroup {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.mc-admin-stepchip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: var(--ba-radius-pill);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    font: 600 .78rem/1.35 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    white-space: nowrap;
+}
+.mc-admin-stepchip .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.mc-admin-stepchip--head { white-space: normal; }
+.mc-admin-stepchip.is-done {
+    color: var(--ba-success);
+    border-color: rgba(74,143,126,.35);
+    background: var(--ba-success-light);
+}
+.mc-admin-stepchip.is-active {
+    color: var(--ba-primary);
+    border-color: rgba(51,104,160,.35);
+    background: var(--ba-primary-tint);
+}
+.mc-admin-steparrow {
+    color: var(--ba-text-muted);
+    display: inline-flex;
+    align-items: center;
+    font-size: .8rem;
+}
+.mc-admin-steparrow .lucide { width: 14px; height: 14px; stroke-width: 2.1; }
+/* CTA owns its own line now, so it no longer self-aligns to the far right
+   (margin-left:auto / text-align:right) and needs no mobile override. */
+.mc-admin-stepcta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    font: var(--ba-small);
+    color: var(--ba-text);
+}
+#btnExitStepMode { flex-shrink: 0; }
+
+/* --- Tab strip --- */
+#stepTabNav {
+    margin-bottom: 18px;
+    gap: 2px;
+    border-bottom: 1px solid var(--ba-border);
+}
+#stepTabNav .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    border-radius: var(--ba-radius-sm) var(--ba-radius-sm) 0 0;
+    background: transparent;
+    color: var(--ba-text-muted);
+    font: 600 .875rem/1.2 'Montserrat', sans-serif;
+    letter-spacing: .01em;
+    white-space: nowrap;
+    transition: color .15s ease, background-color .18s ease;
+}
+#stepTabNav .nav-link:hover:not(.disabled) {
+    background: var(--ba-surface-2);
+    color: var(--ba-text);
+}
+#stepTabNav .nav-link.active {
+    background: var(--ba-surface);
+    color: var(--ba-primary);
+    border-color: var(--ba-border);
+    /* flat 3px underline bar — same pattern as .mc-topnav-tab-admin.active
+       in common.css:111. No gradient, no skeuomorphic shadow (Rule #14). */
+    box-shadow: inset 0 -3px 0 var(--ba-primary);
+}
+#stepTabNav .nav-link.disabled { opacity: .5; }
+#stepTabNav .nav-link .lucide { width: 14px; height: 14px; stroke-width: 2.1; }
+/* The locked-step handlers append a bare error <span> to #stepBannerText, so it
+   must be a block container or that error lands inline after the last chip. */
+#stepBannerText { display: block; min-width: 0; }
+#stepBannerText > .mc-admin-stepchips + span { margin-top: 8px; display: block; }
+
+/* --- Form rhythm inside the Map & drop-off details card --- */
+.mc-admin-map-section .tab-content { padding-top: 4px; }
+/* Cancel Bootstrap's negative margin-top (which pulled the first field row up
+   into the tab strip) and give the rows real vertical separation. */
+.mc-admin-map-section .row.g-3 { margin-top: 0; row-gap: 18px; }
+.mc-admin-map-section .form-label { margin-bottom: 8px; }
+/* Uniform leading for the 6 helper <small> blocks — they were running at
+   --ba-small (.875rem/1.5) which read as a dense grey slab at full card width. */
+.mc-admin-map-section small.text-muted,
+.mc-admin-map-section .small.text-muted { line-height: 1.65; }
+/* Long "All selections are dropdown only…" paragraph: cap the measure, a
+   ~95-character line is well past comfortable reading length. */
+.mc-admin-help-text { max-width: 78ch; line-height: 1.65; }
+
+@media (max-width: 576px) {
+    .mc-admin-hero { padding: 18px 16px; }
+    .mc-admin-hero-seal { width: 48px; height: 48px; }
+    .mc-admin-hero-icon { width: 44px; height: 44px; }
+    .mc-admin-hero-title h1 { font-size: 1.3rem; }
+    .mc-admin-kpi-card { padding: 16px; }
+    .mc-admin-kpi-value { font-size: 1.65rem; }
+    .mc-admin-dropoff-map { height: 340px; }
+    .mc-admin-map-section { padding: 14px; }
+}
+
+/* ===================================================================
+   Drop-off points list — phone layout (stacked labelled cards)
+   ===================================================================
+   This list is a 5-column desktop table with min-width:560px, inside a
+   col-md-7/col-lg-6 panel. That combination overflowed at EVERY viewport
+   below ~1000px, and on a 390px phone the 560px floor overflowed by 210px —
+   so the list scrolled sideways and the first column's text was simply cut
+   off at the left edge, with no way to tell what had been clipped.
+
+   common.css has NO stacked-card fallback: its only two max-width media
+   queries are .mc-editor-dialog-scoped, so the .table td[data-label]::before
+   pattern documented in PROJECT_GUIDE.md does not exist anywhere. The rules
+   below therefore ship page-locally, and the PHP must keep emitting
+   data-label on every <td> (it does) or no label renders.
+
+   min-width:0 below the breakpoint is the load-bearing declaration. Leaving
+   560px in place would just move the clipping from a table to a card. */
+@media (max-width: 767.98px) {
+    /* No inner scroll box on a phone — the page itself scrolls, and a nested
+       64vh scroller inside an already-scrolling card is a trap. */
+    .mc-admin-table-wrap { max-height: none; overflow: visible; }
+    .mc-admin-table-wrap .table { min-width: 0; }
+
+    .mc-admin-table-wrap .table thead { display: none; }
+
+    .mc-admin-table-wrap .table tbody tr {
+        display: block;
+        border: 1px solid var(--ba-border);
+        border-radius: var(--ba-radius-md);
+        background: var(--ba-surface);
+        padding: 10px 14px;
+        margin-bottom: 12px;
+        min-height: 44px; /* iOS tap-target floor; the whole card is the target */
+    }
+    .mc-admin-table-wrap .table tbody tr:last-child { margin-bottom: 0; }
+    .mc-admin-table-wrap .table tbody tr:hover { background: var(--ba-surface); }
+    .mc-admin-table-wrap .table tbody tr:focus-visible {
+        outline: 2px solid var(--ba-primary);
+        outline-offset: 2px;
+    }
+
+    /* Each cell becomes a label/value row. `display:flex` on a <td> is safe
+       here only because thead is already hidden and the table is a block
+       stack — on a real row flex would break the column layout. */
+    .mc-admin-table-wrap .table>:not(caption)>*>* { padding: 0; }
+    .mc-admin-table-wrap .table tbody td {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 5px 0;
+        min-width: 0;
+    }
+    .mc-admin-table-wrap .table tbody td::before {
+        content: attr(data-label);
+        flex: 0 0 auto;
+        font: 700 .7rem/1.5 'Montserrat', system-ui, sans-serif;
+        letter-spacing: .3px;
+        text-transform: uppercase;
+        color: var(--ba-text-muted);
+    }
+    /* The Landmark cell carries two stacked lines; let the value own the row
+       and keep the two lines flush left under one another. */
+    .mc-admin-table-wrap .table tbody td[data-label="Landmark"] { display: block; }
+    .mc-admin-table-wrap .table tbody td[data-label="Landmark"]::before {
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    /* The address now has a full row to itself — release the 16ch cap that
+       only existed to stop a long address stretching a narrow column. */
+    .mc-admin-dropoff-addr { max-width: none; white-space: normal; }
+
+    .mc-admin-table-wrap .table td.mc-admin-actions-cell { min-width: 0; }
+    .mc-admin-table-wrap .table tbody td.mc-admin-actions-cell {
+        padding-top: 10px;
+        margin-top: 4px;
+        border-top: 1px solid var(--ba-border);
+    }
+    .mc-admin-actions-cell::before { align-self: center; }
+    .mc-admin-actions-cell .mc-admin-actions {
+        flex: 1 1 auto;
+        justify-content: flex-end;
+    }
+    /* 40x40 minimum hit area, per the tap-target audit. */
+    .mc-admin-actions-cell .btn { min-height: 40px; }
+    .mc-admin-btn-icon { width: 40px; min-width: 40px; height: 40px; }
+}
+
+@media (max-width: 576px) {
+    /* Filter toolbar: the search box and the barangay select both carry a px
+       min-width (220px + 160px + 12px gap = 392px), which cannot fit a 320px
+       phone, so the Filter button was pushed onto a row of its own. Stack all
+       three full-width instead and keep every control at the 44px height the
+       search box already uses. */
+    .mc-admin-toolbar { gap: 10px; }
+    .mc-admin-search { flex: 1 1 100%; min-width: 0; }
+    .mc-admin-toolbar > #filterBarangay {
+        flex: 1 1 100%;
+        min-width: 0;
+        min-height: 44px;
+    }
+    #btnFilter { flex: 1 1 100%; min-height: 44px; }
+}

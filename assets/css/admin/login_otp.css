@@ -1,0 +1,412 @@
+@charset "UTF-8";
+
+.mc-auth-otp-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(1200px 700px at 10% -10%, rgba(51,104,160,.12) 0%, transparent 55%),
+        radial-gradient(900px 600px at 110% 110%, rgba(102,163,191,.14) 0%, transparent 55%),
+        var(--ba-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    position: relative;
+}
+
+.mc-auth-shell {
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 2;
+}
+
+.mc-auth-brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+.mc-auth-seal {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 2px;
+    box-shadow: 0 4px 14px rgba(51,104,160,.16);
+    flex-shrink: 0;
+}
+.mc-auth-brand-text { text-align: left; min-width: 0; }
+.mc-auth-appname {
+    font: 700 1.2rem/1.15 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    letter-spacing: -.01em;
+    margin: 0 0 3px;
+}
+.mc-auth-subtitle {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+}
+
+.mc-auth-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-lg);
+    padding: 28px 26px;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.8) inset,
+        0 20px 50px rgba(51,104,160,.12),
+        0 6px 18px rgba(31,41,55,.06);
+    position: relative;
+    overflow: hidden;
+}
+.mc-auth-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #2B5A8C 0%, #66A3BF 50%, #4A8F7E 100%);
+}
+
+.mc-auth-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--ba-text-muted);
+    font: 600 .82rem/1.2 'Montserrat', sans-serif;
+    letter-spacing: .01em;
+    margin-bottom: 14px;
+    transition: color .15s ease;
+}
+.mc-auth-back:hover { color: var(--ba-primary); }
+.mc-auth-back .lucide { stroke-width: 2.2; }
+
+.mc-auth-head {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.mc-auth-icon-wrap {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(51,104,160,.10) 0%, rgba(102,163,191,.18) 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    position: relative;
+}
+.mc-auth-icon-wrap::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(51,104,160,.14);
+    animation: mc-otp-pulse 2.4s ease-out infinite;
+}
+@keyframes mc-otp-pulse {
+    0%   { transform: scale(1);   opacity: .8; }
+    80%  { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1.2); opacity: 0; }
+}
+.mc-auth-icon-wrap .lucide {
+    color: var(--ba-primary);
+    stroke-width: 2;
+}
+.mc-auth-head h1 {
+    font: var(--ba-h1);
+    color: var(--ba-text);
+    margin: 0 0 8px;
+    letter-spacing: -.01em;
+}
+.mc-auth-head p {
+    margin: 0;
+    color: var(--ba-text-muted);
+    font: var(--ba-small);
+    line-height: 1.6;
+}
+.mc-auth-contact-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: var(--ba-primary-tint);
+    color: var(--ba-primary);
+    border-radius: var(--ba-radius-pill);
+    font: 600 .82rem/1.3 'Montserrat', sans-serif;
+    letter-spacing: .01em;
+}
+.mc-auth-contact-hint .lucide { width: 14px; height: 14px; stroke-width: 2.2; }
+
+.mc-auth-otp-row {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 0 20px;
+}
+
+/* ------------------------------------------------------------------
+   LIVE OTP digit row. The page used to hard-code
+   style="width:3.2rem;height:4rem" on each of six inputs inside a
+   non-wrapping `d-flex justify-content-between` row. That row needs a
+   minimum of 6 x 51.2px + 5 x 8px gap = 347px, but the available width is
+   viewport - 80px, so it overflowed at every viewport below ~1190px. Because
+   common.css:2-3 sets overflow-x:hidden on BOTH html and body, the overflow
+   was clipped rather than scrollable: digits 5 and 6 were physically
+   unreachable and the 6-digit code could not be entered on a phone.
+   The markup now uses this class instead of the inline width/height, and
+   minmax(0,1fr) + aspect-ratio lets the boxes scale to the container while
+   never dropping below the 44px tap-target floor. */
+.mc-otp-digits {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 0 20px;
+}
+.mc-otp-digit {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    min-height: 52px;
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    text-align: center;
+    font: 600 1.375rem/1 'Montserrat', system-ui, sans-serif;
+    padding: 0;
+    color: var(--ba-text);
+    background: var(--ba-surface);
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+.mc-otp-digit:focus {
+    border-color: var(--ba-primary);
+    box-shadow: 0 0 0 3px rgba(51, 104, 160, .18);
+    outline: none;
+}
+.mc-otp-digit:disabled { opacity: .55; cursor: not-allowed; }
+@media (max-width: 400px) {
+    .mc-otp-digits { gap: 6px; }
+    .mc-otp-digit { min-height: 46px; font-size: 1.2rem; }
+}
+@media (max-width: 575.98px) {
+    .mc-otp-digits { gap: 8px; }
+    .mc-otp-digit { min-height: 44px; font-size: 1.1rem; }
+}
+.mc-auth-otp-input {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    min-height: 52px;
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface);
+    color: var(--ba-text);
+    font: 700 1.55rem/1 'Montserrat', sans-serif;
+    letter-spacing: .02em;
+    text-align: center;
+    box-shadow:
+        inset 0 1px 2px rgba(31,41,55,.06),
+        0 1px 0 rgba(255,255,255,.7) inset,
+        0 0 0 1px var(--ba-border);
+    transition: box-shadow .18s ease, border-color .15s ease, transform .1s ease;
+    caret-color: var(--ba-primary);
+    padding: 0;
+}
+.mc-auth-otp-input::placeholder { color: transparent; }
+.mc-auth-otp-input:hover { border-color: var(--ba-border-strong); }
+.mc-auth-otp-input:focus {
+    outline: 0;
+    border-color: var(--ba-primary);
+    box-shadow:
+        inset 0 1px 2px rgba(31,41,55,.06),
+        0 1px 0 rgba(255,255,255,.7) inset,
+        0 0 0 3px rgba(51,104,160,.18),
+        0 0 0 1px var(--ba-primary);
+}
+.mc-auth-otp-input.filled {
+    background: rgba(51,104,160,.04);
+    border-color: rgba(51,104,160,.35);
+    color: var(--ba-primary);
+}
+.mc-auth-otp-input.error {
+    border-color: var(--ba-danger);
+    background: var(--ba-danger-light);
+    color: var(--ba-danger);
+    animation: mc-otp-shake .35s ease-in-out;
+}
+@keyframes mc-otp-shake {
+    0%,100% { transform: translateX(0); }
+    20%,60% { transform: translateX(-5px); }
+    40%,80% { transform: translateX(5px); }
+}
+
+.mc-auth-timer {
+    text-align: center;
+    margin-bottom: 18px;
+}
+.mc-auth-timer-text {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0 0 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+.mc-auth-timer-text .lucide { width: 14px; height: 14px; stroke-width: 2.2; }
+.mc-auth-timer-bar {
+    height: 4px;
+    width: 100%;
+    max-width: 260px;
+    margin-inline: auto;
+    background: var(--ba-surface-2);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+}
+.mc-auth-timer-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 100%;
+    background: linear-gradient(90deg, #2B5A8C, #4A8F7E);
+    border-radius: 999px;
+    transform-origin: left center;
+    transition: transform 1s linear;
+}
+
+.mc-auth-btn-submit {
+    width: 100%;
+    min-height: 50px;
+    height: 50px;
+    border-radius: var(--ba-radius-md);
+    background: linear-gradient(135deg, #2B5A8C 0%, #1F4570 100%);
+    color: #fff;
+    border: 1px solid #1F4570;
+    font: 600 .975rem/1 'Montserrat', sans-serif;
+    letter-spacing: .02em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.25) inset,
+        0 4px  0 rgba(31,69,112,.22),
+        0 10px 26px rgba(43,90,140,.22);
+    transition: transform .12s ease, filter .18s ease, box-shadow .18s ease, opacity .15s ease;
+    margin-bottom: 12px;
+}
+.mc-auth-btn-submit:hover:not(:disabled) { filter: brightness(1.04); }
+.mc-auth-btn-submit:active:not(:disabled) {
+    transform: translateY(1px);
+    filter: brightness(.95);
+    box-shadow:
+        0 -1px 0 rgba(31,41,55,.08) inset,
+        0 1px 3px rgba(31,69,112,.14),
+        inset 0 2px 4px rgba(31,41,55,.14);
+}
+.mc-auth-btn-submit:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    filter: grayscale(.2);
+}
+.mc-auth-btn-submit .lucide { stroke-width: 2.1; }
+
+.mc-auth-resend-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 4px;
+    padding-top: 2px;
+    flex-wrap: wrap;
+}
+.mc-auth-resend-text {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+}
+.mc-auth-resend-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font: 600 .875rem/1.2 'Montserrat', sans-serif;
+    color: var(--ba-primary);
+    transition: opacity .15s ease;
+}
+.mc-auth-resend-btn:hover { text-decoration: underline; }
+.mc-auth-resend-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+.mc-auth-resend-btn .lucide { width: 14px; height: 14px; stroke-width: 2.2; }
+
+.mc-auth-footer-links {
+    text-align: center;
+    margin-top: 6px;
+}
+.mc-auth-footer-text {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+}
+.mc-auth-footer-text a {
+    font: 600 .875rem/1.2 'Montserrat', sans-serif;
+    color: var(--ba-primary);
+    text-decoration: none;
+}
+.mc-auth-footer-text a:hover { text-decoration: underline; }
+
+.mc-auth-alert {
+    margin-bottom: 16px;
+    border-radius: var(--ba-radius-md);
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font: var(--ba-small);
+}
+.mc-auth-alert .lucide { flex-shrink: 0; margin-top: 1px; stroke-width: 2.1; }
+.mc-auth-alert--error { background: var(--ba-danger-light); color: var(--ba-danger); }
+.mc-auth-alert--success { background: rgba(74,143,126,.12); color: var(--ba-success); }
+.mc-auth-alert--info { background: var(--ba-primary-tint); color: var(--ba-primary); }
+
+.mc-auth-footnote {
+    text-align: center;
+    margin-top: 20px;
+}
+.mc-auth-footnote p {
+    font: 600 .72rem/1.5 'Montserrat', sans-serif;
+    letter-spacing: .04em;
+    color: var(--ba-text-muted);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.mc-auth-footnote .lucide { width: 13px; height: 13px; stroke-width: 2.2; color: var(--ba-success); }
+
+@media (max-width: 480px) {
+    .mc-auth-otp-page { padding: 18px 12px; }
+    .mc-auth-card { padding: 22px 18px; border-radius: var(--ba-radius-md); }
+    .mc-auth-seal { width: 48px; height: 48px; }
+    .mc-auth-appname { font-size: 1.05rem; }
+    .mc-auth-icon-wrap { width: 58px; height: 58px; }
+    .mc-auth-head h1 { font-size: 1.35rem; }
+    .mc-auth-otp-row { gap: 8px; }
+    .mc-auth-otp-input {
+        min-height: 46px;
+        font-size: 1.3rem;
+        border-radius: var(--ba-radius-sm);
+    }
+}

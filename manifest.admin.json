@@ -1,0 +1,61 @@
+{
+  "name": "Marikina E-Concern — Admin",
+  "short_name": "E-Concern Admin",
+  "description": "Administrative console for the City Government of Marikina citizen-reporting system.",
+  "id": "https://marikina-econcern-ba.infinityfree.io/admin/login.php",
+  "start_url": "https://marikina-econcern-ba.infinityfree.io/admin/login.php",
+  "scope": "https://marikina-econcern-ba.infinityfree.io/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1F4570",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["government", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "assets/icons/admin-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/admin-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/admin-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Admin Login",
+      "short_name": "Login",
+      "url": "https://marikina-econcern-ba.infinityfree.io/admin/login.php",
+      "icons": [{ "src": "assets/icons/admin-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "url": "https://marikina-econcern-ba.infinityfree.io/admin/dashboard.php",
+      "icons": [{ "src": "assets/icons/admin-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Concerns",
+      "short_name": "Concerns",
+      "url": "https://marikina-econcern-ba.infinityfree.io/admin/concerns.php",
+      "icons": [{ "src": "assets/icons/admin-icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Collection Schedule",
+      "short_name": "Schedule",
+      "url": "https://marikina-econcern-ba.infinityfree.io/admin/ba_schedules.php",
+      "icons": [{ "src": "assets/icons/admin-icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

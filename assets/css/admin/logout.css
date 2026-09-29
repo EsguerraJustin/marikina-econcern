@@ -1,0 +1,57 @@
+/* Page-level styles — admin/logout.php
+ * Theme: Minimalism + Soft Skeuomorphism (BasuraAlert/Marikina Concern)
+ * Tokens/typography in assets/css/variables.css
+ * Shared primitives in assets/css/common.css
+ * No page logic or database code here.
+ */
+.mc-auth-logout-page{min-height:100vh;width:100%;background:
+  radial-gradient(ellipse at 70% 20%, rgba(51,104,160,0.18) 0%, transparent 55%),
+  radial-gradient(ellipse at 15% 85%, rgba(200,223,219,0.22) 0%, transparent 50%),
+  var(--ba-bg);display:flex;align-items:center;justify-content:center;padding:var(--ba-space-4) var(--ba-space-3);font-family:'Merriweather',serif;color:var(--ba-text);position:relative;overflow-x:hidden}
+.mc-auth-logout-page::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 50% 100%, rgba(102,163,191,0.25) 0%, transparent 55%);pointer-events:none;opacity:.7}
+.mc-auth-logout-brand{display:flex;align-items:center;gap:14px;margin:0 auto 22px;justify-content:center;position:relative;z-index:2}
+.mc-auth-logout-brand img{width:54px;height:54px;border-radius:16px;object-fit:contain;padding:8px;background:rgba(255,255,255,0.92);box-shadow:var(--ba-shadow-skeu-card), 0 1px 0 rgba(255,255,255,0.8) inset}
+.mc-auth-logout-brand h1{font-family:'Montserrat',sans-serif;font-weight:600;font-size:1.25rem;color:var(--ba-primary-dark);margin:0;letter-spacing:.2px}
+.mc-auth-logout-brand h1 small{display:block;font-family:'Merriweather',serif;font-weight:400;font-size:.78rem;color:var(--ba-text-muted);margin-top:2px}
+.mc-auth-logout-card{width:100%;max-width:440px;background:var(--ba-surface);border-radius:var(--ba-radius-lg);box-shadow:var(--ba-shadow-skeu-card);padding:30px 28px 26px;position:relative;z-index:2;text-align:center;overflow:visible}
+.mc-auth-logout-card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#A84444 0%,#A84444 25%,#D6932E 25%,#D6932E 50%,#66A3BF 50%,#66A3BF 75%,#4A8F7E 75%,#4A8F7E 100%);border-radius:var(--ba-radius-lg) var(--ba-radius-lg) 0 0}
+.mc-auth-logout-card > *{position:relative;z-index:1}
+.mc-auth-logout-icon{width:76px;height:76px;margin:2px auto 18px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(168,68,68,0.1) 0%,rgba(168,68,68,0.04) 100%);border:2px solid rgba(168,68,68,0.22);position:relative}
+.mc-auth-logout-icon svg{width:36px;height:36px;stroke:var(--ba-danger);stroke-width:2;fill:none}
+.mc-auth-logout-icon::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(168,68,68,0.18);animation:mc-logout-ring 2.4s ease-out infinite;opacity:0}
+@keyframes mc-logout-ring{0%{transform:scale(.85);opacity:.6}80%,100%{transform:scale(1.4);opacity:0}}
+.mc-auth-logout-head h2{font-family:'Montserrat',sans-serif;font-weight:600;font-size:1.3rem;margin:0 0 8px;color:var(--ba-text-head)}
+.mc-auth-logout-head p{margin:0 auto;font-size:.88rem;line-height:1.6;color:var(--ba-text-muted);max-width:340px}
+.mc-auth-logout-user{margin:20px 0 22px;padding:14px 16px;background:var(--ba-bg-warm);border:1px solid var(--ba-border-warm);border-radius:var(--ba-radius-md);text-align:left;display:flex;align-items:center;gap:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.7)}
+.mc-auth-logout-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2B5A8C 0%,#1F4570 100%);color:#fff;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.95rem;flex-shrink:0;box-shadow:0 4px 10px rgba(31,69,112,0.22), inset 0 1px 0 rgba(255,255,255,0.18)}
+.mc-auth-logout-user-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.mc-auth-logout-user-meta strong{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.88rem;color:var(--ba-text-head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-auth-logout-user-meta span{font-size:.78rem;color:var(--ba-text-muted)}
+.mc-auth-logout-count{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;padding:10px 14px;background:rgba(214,147,46,0.08);border:1px solid rgba(214,147,46,0.2);border-radius:var(--ba-radius-md)}
+.mc-auth-logout-count svg{width:18px;height:18px;stroke:var(--ba-warning);stroke-width:2;flex-shrink:0}
+.mc-auth-logout-count span{font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:600;color:var(--ba-warning-dark);letter-spacing:.3px}
+.mc-auth-logout-actions{display:flex;flex-direction:column;gap:10px}
+.mc-auth-logout-btn{min-height:46px;padding:10px 20px;border-radius:var(--ba-radius-md);border:none;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.86rem;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .18s ease;text-decoration:none;width:100%}
+.mc-auth-logout-btn svg{width:18px;height:18px;stroke-width:2.1}
+.mc-auth-logout-btn--primary{background:linear-gradient(135deg,#A84444 0%,#8B3838 100%);color:#fff;box-shadow:0 10px 24px rgba(168,68,68,0.3), inset 0 1px 0 rgba(255,255,255,0.15)}
+.mc-auth-logout-btn--primary:hover{filter:brightness(1.06);box-shadow:0 12px 28px rgba(168,68,68,0.36), inset 0 1px 0 rgba(255,255,255,0.18)}
+.mc-auth-logout-btn--primary:active{transform:translateY(1px);filter:brightness(.97);box-shadow:0 5px 12px rgba(168,68,68,0.28), inset 0 2px 6px rgba(0,0,0,0.18)}
+.mc-auth-logout-btn--ghost{background:#fff;color:var(--ba-text-head);border:1.5px solid var(--ba-border);box-shadow:var(--ba-shadow-skeu-btn)}
+.mc-auth-logout-btn--ghost:hover{border-color:var(--ba-primary-light);color:var(--ba-primary)}
+.mc-auth-logout-btn--ghost:active{transform:translateY(1px);box-shadow:inset 0 2px 5px rgba(0,0,0,0.08)}
+.mc-auth-logout-divider{display:flex;align-items:center;gap:10px;margin:18px 0 4px}
+.mc-auth-logout-divider::before,.mc-auth-logout-divider::after{content:"";flex:1;height:1px;background:var(--ba-border-light)}
+.mc-auth-logout-divider span{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.72rem;color:var(--ba-text-muted);text-transform:uppercase;letter-spacing:.6px}
+.mc-auth-logout-foot{margin-top:18px;padding-top:16px;border-top:1px dashed var(--ba-border);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.mc-auth-logout-foot p{margin:0;font-size:.78rem;color:var(--ba-text-muted);display:inline-flex;align-items:center;gap:6px}
+.mc-auth-logout-foot svg{width:14px;height:14px;stroke:var(--ba-success);stroke-width:2.2}
+.mc-auth-logout-foot a{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.78rem;color:var(--ba-primary);text-decoration:none}
+.mc-auth-logout-foot a:hover{text-decoration:underline}
+.mc-auth-logout-alert{border-radius:var(--ba-radius-md);padding:12px 14px;font-size:.82rem;line-height:1.5;display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;text-align:left;background:rgba(214,147,46,0.1);color:var(--ba-warning-dark);border:1px solid rgba(214,147,46,0.25)}
+.mc-auth-logout-alert svg{width:18px;height:18px;stroke-width:2.1;flex-shrink:0;margin-top:1px;stroke:var(--ba-warning)}
+@media (max-width:575.98px){
+  .mc-auth-logout-card{padding:24px 18px 20px;border-radius:var(--ba-radius-md)}
+  .mc-auth-logout-icon{width:68px;height:68px}
+  .mc-auth-logout-icon svg{width:32px;height:32px}
+  .mc-auth-logout-user{padding:12px 14px}
+}

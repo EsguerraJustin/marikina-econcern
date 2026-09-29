@@ -1,0 +1,39 @@
+{
+  "name": "marikina/e-concern",
+  "description": "Marikina E-Concern + BasuraAlert — citizen concern & waste management portal",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Marikina\\EConcern\\": "includes/"
+    },
+    "files": [
+      "includes/env.php",
+      "includes/helpers.php",
+      "includes/db.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Marikina\\EConcern\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit --testdox",
+    "migrate": "php bin/migrate.php",
+    "migrate:status": "php bin/migrate.php --status",
+    "lint": "@php bin/lint.php"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "allow-plugins": {}
+  },
+  "minimum-stability": "stable"
+}

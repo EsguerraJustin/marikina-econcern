@@ -1,0 +1,22 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ph.gov.marikina.econcern",
+      "sha256_cert_fingerprints": [
+        "89:76:2C:D8:90:26:19:EE:E5:F5:54:8F:16:4D:60:9C:D3:19:9A:4A:55:06:40:36:91:26:38:4B:7B:81:72:E0"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "ph.gov.marikina.econcern.admin",
+      "sha256_cert_fingerprints": [
+        "89:76:2C:D8:90:26:19:EE:E5:F5:54:8F:16:4D:60:9C:D3:19:9A:4A:55:06:40:36:91:26:38:4B:7B:81:72:E0"
+      ]
+    }
+  }
+]

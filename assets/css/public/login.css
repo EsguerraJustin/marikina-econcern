@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/* GLOBAL SEAL OPT-OUT: split-screen auth layout has custom navy brand panel no extra pseudo needed */
+.mc-login-hero-inner::after,.mc-login-hero::after{content:none!important}
+img{max-width:100%!important;height:auto!important;display:block}
+.mc-login-page{max-width:1280px;margin-inline:auto;padding:var(--ba-space-5) var(--ba-space-4) var(--ba-space-6);min-height:100vh;display:flex;align-items:center}
+@media(min-width:768px){.mc-login-page{padding:var(--ba-space-6) var(--ba-space-5) var(--ba-space-7)}}
+.mc-login-hero{background:#fff;border:1px solid var(--ba-border);border-radius:var(--ba-radius-lg);overflow:hidden;box-shadow:var(--ba-shadow-md);width:100%}
+.mc-login-hero-inner{display:flex;flex-direction:column;min-height:540px;width:100%}
+@media(min-width:768px){.mc-login-hero-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr;align-items:stretch;min-height:620px}}
+.mc-login-form-panel{min-width:0;padding:var(--ba-space-5) var(--ba-space-4);display:flex;flex-direction:column;justify-content:center;max-width:580px;margin-inline:auto;width:100%}
+@media(min-width:768px){.mc-login-form-panel{padding:var(--ba-space-7) var(--ba-space-6);max-width:none;margin-inline:0;width:auto;grid-column:1}}
+.mc-login-form-brand{display:flex;align-items:center;gap:var(--ba-space-3);margin:0 0 var(--ba-space-5)}
+.mc-login-form-brand-img{width:44px!important;height:44px!important;min-width:44px;min-height:44px;flex-shrink:0;object-fit:contain;border-radius:var(--ba-radius-md);background:#fff;padding:2px;border:1px solid var(--ba-border);box-shadow:var(--ba-shadow-sm)}
+.mc-login-form-brand-title h1{font:var(--ba-h2);margin:0;color:var(--ba-primary)}
+.mc-login-form-brand-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-login-title{margin:0 0 var(--ba-space-2);font:var(--ba-h1);color:var(--ba-text);line-height:1.2}
+.mc-login-subtitle{margin:0 0 var(--ba-space-5);font:var(--ba-small);color:var(--ba-text-muted);line-height:1.6}
+.mc-login-form{display:flex;flex-direction:column;gap:var(--ba-space-4)}
+.mc-login-field{position:relative;display:flex;flex-direction:column;min-width:0}
+.mc-login-field .form-label{margin:0 0 6px}
+.mc-login-input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px!important;max-width:18px!important;height:18px!important;max-height:18px!important;min-width:18px;min-height:18px;color:var(--ba-text-muted);pointer-events:none;z-index:2;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center}
+.mc-login-input{height:48px;padding-left:44px!important;border-radius:var(--ba-radius-md)!important;border:1px solid var(--ba-border)!important;background:#fff!important;box-shadow:none!important;font:var(--ba-body)!important;font-family:'Merriweather',Georgia,serif!important;color:var(--ba-text)!important;transition:border-color .18s ease,box-shadow .18s ease}
+.mc-login-input::placeholder{color:var(--ba-text-muted);opacity:.7}
+.mc-login-input:focus{border-color:var(--ba-primary)!important;box-shadow:0 0 0 3px rgba(51,104,160,.18)!important}
+.mc-login-options-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--ba-space-3);margin:var(--ba-space-1) 0 0}
+/* The remember-me label and the "Forgot password?" link were both ~21px
+   tall (bare inline-flex / bare text), well under the 40x40 floor. The label
+   gets a 40px hit area; the forgot link gets inline padding to reach 40px. */
+.mc-login-remember{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:4px 8px;margin:-4px -8px;border-radius:var(--ba-radius-sm);font:var(--ba-small);color:var(--ba-text);cursor:pointer;user-select:none;transition:background-color .15s}
+.mc-login-remember:hover{background:rgba(51,104,160,.06)}
+.mc-login-remember input{width:18px!important;height:18px!important;min-width:18px;margin:0;accent-color:var(--ba-primary)}
+.mc-login-forgot{display:inline-flex;align-items:center;min-height:40px;padding:4px 8px;margin:-4px -8px;border-radius:var(--ba-radius-sm);font:600 .85rem/1.4 'Montserrat',sans-serif;color:var(--ba-primary);text-decoration:none;transition:background-color .15s}
+.mc-login-forgot:hover{text-decoration:underline;color:var(--ba-primary);background:rgba(51,104,160,.06)}
+.mc-login-submit{width:100%;margin-top:var(--ba-space-2);min-height:50px}
+.mc-login-divider{display:flex;align-items:center;gap:var(--ba-space-3);margin:var(--ba-space-2) 0;color:var(--ba-text-muted);font:600 .72rem/1 'Montserrat',sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.mc-login-divider::before,.mc-login-divider::after{content:"";flex:1 1 auto;height:1px;background:var(--ba-border);min-width:0}
+.mc-login-alt-btn{width:100%;min-height:48px}
+.mc-login-alt-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:var(--ba-space-5);font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-login-alt-link{color:var(--ba-primary);text-decoration:none;font-weight:600;font-family:'Montserrat',system-ui,sans-serif}
+.mc-login-alt-link:hover{text-decoration:underline}
+.mc-login-footer-terms{margin:var(--ba-space-5) 0 0;padding-top:var(--ba-space-4);border-top:1px solid var(--ba-border);font:var(--ba-small);color:var(--ba-text-muted);line-height:1.6;text-align:center}
+.mc-login-footer-terms a{color:var(--ba-primary);text-decoration:none;font-weight:600}
+.mc-login-footer-terms a:hover{text-decoration:underline}
+.mc-login-image-panel{min-width:0;min-height:240px;background:var(--ba-primary);background-image:radial-gradient(circle at 85% 8%,rgba(255,255,255,.10) 0,transparent 55%),radial-gradient(circle at 12% 90%,rgba(102,163,191,.25) 0,transparent 55%);position:relative;display:none;flex-direction:column;padding:var(--ba-space-6) var(--ba-space-5);overflow:hidden}
+@media(min-width:768px){.mc-login-image-panel{display:flex;min-height:auto;padding:var(--ba-space-7) var(--ba-space-6);grid-column:2}}
+.mc-login-brand-head{display:flex;align-items:center;gap:var(--ba-space-3);margin:0 0 var(--ba-space-6);position:relative;z-index:2;min-width:0}
+.mc-login-brand-seal{width:48px!important;height:48px!important;min-width:48px;min-height:48px;flex-shrink:0;object-fit:contain;border-radius:50%;background:#fff;padding:3px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.mc-login-brand-name{font:600 1.05rem/1.15 'Montserrat',sans-serif;color:#fff;letter-spacing:-.01em;margin:0 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mc-login-brand-sub{font:var(--ba-small);color:rgba(255,255,255,.82);margin:0}
+.mc-login-hero-headline{font:600 clamp(1.6rem,2.2vw,2.3rem)/1.15 'Montserrat',sans-serif;color:#fff;letter-spacing:-.015em;margin:0 0 var(--ba-space-6);max-width:420px;position:relative;z-index:2;overflow-wrap:break-word;word-break:normal;hyphens:auto}
+.mc-login-hero-photo{position:relative;z-index:2;margin-top:auto;display:flex;align-items:flex-end;justify-content:center;flex:1 1 auto;min-width:0;max-height:380px;pointer-events:none}
+.mc-login-hero-photo img{width:100%!important;max-width:520px!important;height:100%!important;max-height:360px!important;object-fit:cover;aspect-ratio:4/3;border-radius:var(--ba-radius-lg);box-shadow:0 20px 60px rgba(0,0,0,.22),0 2px 0 rgba(255,255,255,.15) inset;background:rgba(255,255,255,.04);padding:2px}
+@media(max-width:576px){.mc-login-form-panel{padding:var(--ba-space-4)}.mc-login-title{font-size:var(--ba-fs-h2)}.mc-login-form-brand-title h1{font-size:var(--ba-fs-h3)}.mc-login-hero-photo{max-height:260px}}

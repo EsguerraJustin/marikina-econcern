@@ -1,0 +1,71 @@
+:root {
+  --primary-blue: #1B4F8C;
+  --primary-blue-dark: #0D3B78;
+  --accent-orange: #F15A24;
+  --bg-light: #F5F7FA;
+}
+
+body {
+  background: var(--bg-light);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--primary-blue);
+  --bs-btn-border-color: var(--primary-blue);
+  --bs-btn-hover-bg: var(--primary-blue-dark);
+  --bs-btn-hover-border-color: var(--primary-blue-dark);
+}
+
+.text-primary {
+  color: var(--primary-blue) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-blue) !important;
+}
+
+.badge-accent {
+  background: var(--accent-orange);
+}
+
+.sidebar .nav-link {
+  color: #334155;
+}
+
+.sidebar .nav-link.active {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.admin-sidebar {
+  background: var(--primary-blue-dark);
+}
+
+.admin-sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.admin-sidebar .nav-link.active {
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-sidebar .nav-link:hover {
+  color: #fff;
+}
+
+.password-meter {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.password-meter span {
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+.password-meter span.active {
+  background: var(--accent-orange);
+}

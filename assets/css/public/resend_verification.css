@@ -1,0 +1,211 @@
+@charset "UTF-8";
+/* ====================================================================
+   BasuraAlert / Marikina Concern - Public Portal
+   resend_verification.css  (page-specific ONLY)
+   --------------------------------------------------------------------
+   Scope: Resend Verification page — page wrapper, split hero card,
+          email input + resend button, help text.
+   Loaded THIRD on page (after variables.css -> common.css).
+   Sizing budget: <= 10240 bytes uncompressed.
+   Palette: #3368A0 · #66A3BF · #C8DFDB · #F2EFE7 (user approved)
+   ==================================================================== */
+
+
+/* ======================================================
+   0 · PAGE WRAPPER LAYOUT (mobile first, responsive)
+   ====================================================== */
+.mc-rvfy-page {
+    max-width: 1140px;
+    margin-inline: auto;
+    padding: var(--ba-space-4) var(--ba-space-4) var(--ba-space-7);
+}
+@media (min-width: 768px) {
+    .mc-rvfy-page { padding: var(--ba-space-5) var(--ba-space-5) var(--ba-space-7); }
+}
+
+
+/* ======================================================
+   1 · AUTH HERO CARD (split layout · form left · image right)
+   Min-height 500px on md+, wraps to column on mobile.
+   ====================================================== */
+.mc-rvfy-hero {
+    background: var(--ba-surface);
+    border: 1px solid rgba(51,104,160,0.14);
+    border-radius: var(--ba-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-md);
+}
+.mc-rvfy-hero-inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+}
+@media (min-width: 768px) {
+    .mc-rvfy-hero-inner {
+        flex-direction: row;
+        align-items: stretch;
+    }
+}
+
+
+/* ======================================================
+   2 · FORM PANEL (left / top on mobile)
+   Skeu recessed email input, raised→pressed buttons.
+   ====================================================== */
+.mc-rvfy-form-panel {
+    flex: 1 1 50%;
+    padding: var(--ba-space-5) var(--ba-space-5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (min-width: 768px) {
+    .mc-rvfy-form-panel { padding: var(--ba-space-6) var(--ba-space-6); }
+}
+
+.mc-rvfy-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: var(--ba-small);
+    color: var(--ba-primary);
+    text-decoration: none;
+    margin: 0 0 var(--ba-space-4);
+    width: fit-content;
+}
+.mc-rvfy-back:hover { text-decoration: underline; }
+
+.mc-rvfy-icon-wrap {
+    width: 72px; height: 72px;
+    border-radius: var(--ba-radius-lg);
+    background: linear-gradient(135deg, var(--ba-primary-light) 0%, var(--ba-primary) 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.55) inset,
+        0 4px  0 rgba(51,104,160,0.18),
+        0 8px 20px rgba(51,104,160,0.22);
+    margin: 0 0 var(--ba-space-5);
+}
+.mc-rvfy-icon-wrap .lucide { width: 36px; height: 36px; color: #fff; stroke-width: 2.1; }
+
+.mc-rvfy-title {
+    margin: 0 0 var(--ba-space-2);
+    font: var(--ba-h1);
+    color: var(--ba-text);
+}
+.mc-rvfy-subtitle {
+    margin: 0 0 var(--ba-space-5);
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    line-height: 1.7;
+}
+
+.mc-rvfy-form { display: flex; flex-direction: column; gap: var(--ba-space-4); }
+
+.mc-rvfy-field { position: relative; }
+.mc-rvfy-input-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--ba-primary);
+    pointer-events: none;
+    z-index: 2;
+    stroke-width: 2.1;
+}
+.mc-rvfy-input {
+    height: 48px;
+    padding-left: 44px !important;
+    border-radius: var(--ba-radius-md) !important;
+}
+
+.mc-rvfy-submit { width: 100%; margin-top: var(--ba-space-2); }
+
+.mc-rvfy-alt-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: var(--ba-space-5);
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+.mc-rvfy-alt-link {
+    color: var(--ba-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Montserrat', system-ui, sans-serif;
+}
+.mc-rvfy-alt-link:hover { text-decoration: underline; }
+
+
+/* ======================================================
+   3 · IMAGE PANEL (right / bottom on mobile)
+   Background.jpeg with gradient veil overlay.
+   ====================================================== */
+.mc-rvfy-image-panel {
+    flex: 1 1 50%;
+    min-height: 260px;
+    background-color: #C8DFDB;
+    background-image:
+        linear-gradient(135deg,
+            rgba(51,104,160,0.50) 0%,
+            rgba(200,223,219,0.35) 55%,
+            rgba(102,163,191,0.30) 100%),
+        url('../../img/Background.jpeg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+@media (max-width: 767.98px) {
+    .mc-rvfy-image-panel { min-height: 200px; }
+}
+.mc-rvfy-image-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+        circle at 30% 25%,
+        rgba(255,255,255,0.20) 0%,
+        rgba(255,255,255,0.00) 55%);
+    pointer-events: none;
+}
+.mc-rvfy-image-caption {
+    position: relative;
+    padding: var(--ba-space-5);
+    color: #fff;
+    max-width: 420px;
+}
+.mc-rvfy-image-caption h3 {
+    font: var(--ba-h2);
+    color: #fff;
+    margin: 0 0 var(--ba-space-2);
+}
+.mc-rvfy-image-caption p {
+    margin: 0;
+    color: rgba(255,255,255,0.92);
+    font: var(--ba-small);
+}
+
+
+/* ======================================================
+   4 · RESPONSIVE BREAKPOINTS
+   ====================================================== */
+@media (max-width: 576px) {
+    .mc-rvfy-form-panel { padding: var(--ba-space-4); }
+    .mc-rvfy-title { font-size: var(--ba-fs-h2); }
+    .mc-rvfy-icon-wrap { width: 60px; height: 60px; }
+    .mc-rvfy-icon-wrap .lucide { width: 30px; height: 30px; }
+    .mc-rvfy-image-caption { padding: var(--ba-space-4); }
+    .mc-rvfy-image-caption h3 { font-size: var(--ba-fs-h3); }
+}
+
+
+/* ======================================================
+   (END) · resend_verification.css page-specific only
+   ====================================================== */

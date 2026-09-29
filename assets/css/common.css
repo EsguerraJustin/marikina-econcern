@@ -1,0 +1,668 @@
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;color-scheme:light;overflow-x:hidden;max-width:100vw}
+body{margin:0;background:var(--ba-bg)!important;color:var(--ba-text);font:var(--ba-body);font-family:'Merriweather',Georgia,serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;min-height:100vh;overflow-x:hidden;max-width:100vw;width:100%}
+body.bg-light{background-color:var(--ba-bg)!important}
+:focus-visible{outline:3px solid var(--ba-primary)!important;outline-offset:2px!important;border-radius:var(--ba-radius-sm)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+h1,.h1{font:var(--ba-h1);color:var(--ba-text);margin:0 0 var(--ba-space-3)}
+h2,.h2{font:var(--ba-h2);color:var(--ba-text);margin:0 0 var(--ba-space-3)}
+h3,.h3{font:var(--ba-h3);color:var(--ba-text);margin:0 0 var(--ba-space-2)}
+h4,.h4{font:600 1rem/1.4 Montserrat,sans-serif;color:var(--ba-text);margin:0 0 var(--ba-space-2)}
+p,li,td,th,dl,dt,dd,blockquote,figcaption,small{font-family:'Merriweather',Georgia,serif;color:var(--ba-text)}
+small,.text-small,.form-text,.small,.text-muted{font:var(--ba-small);color:var(--ba-text-muted)!important}
+.text-white .small,
+.text-white.small,
+.text-white h4,
+.text-white .h4 {
+  color: #fff !important;
+}
+caption,figcaption{font:var(--ba-small);color:var(--ba-text-muted)}
+.ba-caption,.ba-badge,.ba-chip,.badge{font:var(--ba-caption);letter-spacing:.02em}
+a{color:var(--ba-primary);text-decoration:none}
+a:hover{text-decoration:underline}
+code,pre,kbd,samp{font-family:'JetBrains Mono',ui-monospace,monospace}
+hr{border:0;border-top:1px solid var(--ba-border);margin:var(--ba-space-5) 0}
+.ba-card,.card,.panel{--ba-card-pad:var(--ba-space-4);background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:var(--ba-card-pad);margin:0 0 var(--ba-space-4);transition:background-color .2s ease;outline:none}
+@media(hover:hover){.ba-card:hover,.card:hover,.ba-card:focus-within,.card:focus-within{background-color:var(--ba-surface-2)}}
+.ba-card>:last-child,.card>:last-child{margin-bottom:0}
+.ba-searchbar,input[type="search"].form-control,.hero-search .form-control{height:48px;border-radius:var(--ba-radius-lg)!important;border:1px solid var(--ba-border)!important;outline:0!important;box-shadow:none!important;padding:0 var(--ba-space-4) 0 44px!important;font:var(--ba-body)!important;font-family:'Merriweather',Georgia,serif!important;color:var(--ba-text)!important;background:var(--ba-surface)!important;transition:border-color .18s ease}
+.ba-searchbar:focus,input[type="search"].form-control:focus,.hero-search .form-control:focus{border-color:var(--ba-primary)!important;box-shadow:0 0 0 3px rgba(51,104,160,.18)!important}
+.ba-btn,.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--ba-space-2);min-height:48px;padding-inline:var(--ba-space-5);font:600 .9375rem/1 Montserrat,sans-serif;border-radius:var(--ba-radius-pill);cursor:pointer;transition:filter .18s,background-color .18s,color .18s,opacity .12s;white-space:nowrap}
+.ba-btn-primary,.btn-primary{background:var(--ba-primary)!important;color:#fff!important;border-color:var(--ba-primary)!important;box-shadow:none}
+.ba-btn-primary:hover,.btn-primary:hover{filter:brightness(.96);color:#fff}
+.ba-btn-secondary,.btn-success{background:var(--ba-success)!important;color:#fff!important;border-color:var(--ba-success)!important;box-shadow:none}
+.ba-btn-secondary:hover,.btn-success:hover{filter:brightness(.96);color:#fff}
+.ba-btn-danger,.btn-danger{background:var(--ba-danger)!important;color:#fff!important;border-color:var(--ba-danger)!important;box-shadow:none}
+.ba-btn-danger:hover,.btn-danger:hover{filter:brightness(.96);color:#fff}
+.ba-btn-ghost,.btn-outline-primary,.btn-link{background:transparent;color:var(--ba-primary);border:1px solid rgba(51,104,160,.2);box-shadow:none}
+.ba-btn-ghost:hover,.btn-outline-primary:hover{background:var(--ba-primary-tint)!important;color:var(--ba-primary)!important;border-color:rgba(51,104,160,.28)!important}
+.btn-outline-secondary{background:transparent!important;color:var(--ba-text)!important;border:1px solid var(--ba-border)!important;box-shadow:none}
+.btn-outline-secondary:hover{background:var(--ba-surface-2)!important;color:var(--ba-text)!important}
+.ba-btn-primary:active,.btn-primary:active,.ba-btn-secondary:active,.btn-success:active,.ba-btn-danger:active,.btn-danger:active{filter:brightness(.92);opacity:.85}
+.ba-btn-ghost:active,.btn-outline-primary:active,.btn-outline-secondary:active{opacity:.95}
+.ba-btn-sm,.btn-sm{min-height:36px;height:36px;padding-inline:var(--ba-space-4);font-size:.8125rem;border-radius:var(--ba-radius-sm)}
+/* PROJECT_GUIDE tap-target floor is 40x40 CSS px on touch. .btn-sm sat at
+   36px at EVERY viewport and the old mobile rule only trimmed padding and
+   font size, so it never cleared the floor on a phone. Bumped to 40px below
+   768px only, which keeps the desktop rhythm untouched. */
+@media(max-width:767.98px){.ba-btn-sm,.btn-sm{min-height:40px;height:40px}}
+@media(max-width:575.98px){.ba-btn-sm,.btn-sm{padding-inline:12px!important;font-size:.78rem!important}}
+.btn-holiday-onbanner {
+  background: rgba(255,255,255,.95) !important;
+  color: var(--ba-text) !important;
+  border: 1px solid rgba(255,255,255,.6) !important;
+}
+.btn-holiday-onbanner:hover {
+  background: #fff !important;
+  filter: brightness(.97);
+}
+.ba-badge,.badge,.badge-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);line-height:1.35}
+.ba-badge-primary,.bg-primary,.badge.rounded-pill.bg-primary{background:rgba(51,104,160,.10)!important;color:var(--ba-primary)!important;border-color:rgba(51,104,160,.18)!important}
+.ba-badge-info,.bg-info{background:var(--ba-info)!important;color:#fff!important}
+.ba-badge-success,.bg-success{background:var(--ba-success)!important;color:#fff!important}
+.ba-badge-warning,.bg-warning{background:var(--ba-warning-light)!important;color:#7A4A10!important;border-color:rgba(214,147,46,.25)!important}
+.ba-badge-danger,.bg-danger{background:var(--ba-danger)!important;color:#fff!important}
+.ba-badge-muted,.bg-secondary-light{background:var(--ba-surface-2)!important;color:var(--ba-text-muted)!important;border-color:var(--ba-border)!important}
+.badge.text-dark{color:#3E2723!important}
+.ba-chip,.chip,.nav-pills .nav-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;min-height:32px;border-radius:var(--ba-radius-pill);background:var(--ba-surface-2);color:var(--ba-text);border:1px solid var(--ba-border);font:var(--ba-caption);letter-spacing:.02em;cursor:pointer;box-shadow:none;transition:background-color .18s,filter .15s,opacity .1s}
+.ba-chip:hover,.nav-pills .nav-link:hover{filter:brightness(.98);background:#EDE7DA;border-color:var(--ba-border-strong)}
+.ba-chip:active,.nav-pills .nav-link:active{opacity:.90}
+.ba-chip.is-active,.ba-chip[aria-pressed="true"],.nav-pills .nav-link.active{background:var(--ba-primary)!important;color:#fff!important;border-color:var(--ba-primary)!important;box-shadow:none}
+.list-group-item{display:flex;align-items:flex-start;gap:var(--ba-space-3);padding:var(--ba-space-3) var(--ba-space-4);min-height:56px;border-bottom:1px solid var(--ba-border);background:var(--ba-surface);transition:background-color .2s ease}
+.table>tbody>tr{background:var(--ba-surface);border:0;transition:background-color .2s ease}
+.table>tbody>tr>td{vertical-align:middle}
+.list-group-item:last-child,.table>tbody>tr:last-child>td{border-bottom:0 none}
+@media(hover:hover){.list-group-item:hover,.table-hover>tbody>tr:hover{background:var(--ba-surface-2)}}
+.form-label{font:600 .875rem/1.2 Montserrat,sans-serif;color:var(--ba-text);margin:0 0 6px;display:block}
+.form-control,.form-select{min-height:44px;padding:0 var(--ba-space-3);border:1px solid var(--ba-border)!important;border-radius:var(--ba-radius-md)!important;background:var(--ba-surface)!important;color:var(--ba-text)!important;font:var(--ba-body)!important;font-family:'Merriweather',Georgia,serif!important;box-shadow:none!important;transition:border-color .18s ease}
+.form-control::placeholder{color:var(--ba-text-muted);opacity:.75}
+textarea.form-control{padding-top:var(--ba-space-3);padding-bottom:var(--ba-space-3);line-height:1.6;min-height:96px}
+.form-control:focus,.form-select:focus{border-color:var(--ba-primary)!important;box-shadow:0 0 0 3px rgba(51,104,160,.18)!important}
+input[type="date"],input[type="datetime-local"],input[type="number"],input[type="email"],input[type="tel"],input[type="text"],input[type="password"]{min-height:44px}
+.form-select{padding-right:40px;background-image:none!important;position:relative}
+.accordion-item{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md)!important;overflow:hidden}
+.accordion-button{width:100%;display:flex;align-items:center;gap:var(--ba-space-3);padding:var(--ba-space-4);background:var(--ba-surface);border:0;text-align:left;cursor:pointer;font:var(--ba-h3);color:var(--ba-text);transition:background-color .2s ease}
+.accordion-button:not(.collapsed){background:rgba(51,104,160,.08)!important;color:var(--ba-primary)!important;box-shadow:none!important}
+.accordion-body{padding:var(--ba-space-4) var(--ba-space-5);border-top:1px solid var(--ba-border);font:var(--ba-body);color:var(--ba-text)}
+.alert{border-radius:var(--ba-radius-md)!important;border:1px solid var(--ba-border);font:var(--ba-body);padding:var(--ba-space-3) var(--ba-space-4);display:flex;align-items:flex-start;gap:var(--ba-space-3)}
+.alert.alert-success{background:var(--ba-success-light)!important;color:#264A41!important}
+.alert.alert-danger{background:var(--ba-danger-light)!important;color:var(--ba-danger)!important}
+.alert.alert-warning{background:var(--ba-warning-light)!important;color:#7A4A10!important}
+.alert.alert-info{background:rgba(51,104,160,.08)!important;color:var(--ba-primary)!important}
+.alert.alert-primary{background:var(--ba-primary-tint)!important;color:var(--ba-primary)!important}
+.ba-sticky-footer{position:sticky;bottom:0;z-index:1056;background:var(--ba-surface);border-top:1px solid var(--ba-border);padding:var(--ba-space-4);margin:var(--ba-space-5) calc(-1 * var(--ba-space-4)) calc(-1 * var(--ba-space-4))}
+.table{background:var(--ba-surface);border-radius:var(--ba-radius-md);overflow:hidden;font:var(--ba-body)}
+.table>:not(caption)>*>*{padding:var(--ba-space-3) var(--ba-space-4);border-bottom:1px solid var(--ba-border)}
+.table thead th{font:600 .8125rem/1.3 Montserrat,sans-serif;color:var(--ba-text);background:var(--ba-surface-2)}
+.offcanvas{background:var(--ba-bg)!important}
+.offcanvas-header{background:var(--ba-surface);border-bottom:1px solid var(--ba-border);padding:var(--ba-space-4) var(--ba-space-5)}
+.modal-content{background:var(--ba-surface);border-radius:var(--ba-radius-lg)!important;border:1px solid var(--ba-border)}
+
+/* ---------- .mc-stacked-card — the shared phone card layout ----------
+   Replaces 18 byte-identical hand-rolled copies of the stacked-card block
+   (`td::before{content:attr(data-label)}` + `padding:12px 0` + a dashed rule),
+   one per page sheet. Measured on the three screenshots that prompted it:
+   my_concern.php spent ~370px on ONE report and ba_waste.php ~250px on ONE
+   item, because every field cost a full label line + a 5px gap + a 24px
+   padding — and the FIRST field was the card's own title, so `ITEM /
+   Aluminum cans` and `CONCERN / Pet Registration` each labelled the heading
+   directly above them.
+
+   Three changes against the version it replaces:
+     1. The label moves OUT of its own line into a right-aligned left rail
+        (minmax(84px,auto) | minmax(0,1fr)), which is where a definition list
+        puts it. ~45% less height, and the value keeps the full column width.
+     2. The row's FIRST cell is promoted to a real card header — full width, no
+        label, its own hairline — via :first-child. Structural, not semantic, so
+        adopting a page is one class on the wrapper and NO cell is reordered.
+        Reordering would break the cell-index assumptions in
+        public/ba_dropoff_map.php's and public/ba_waste.php's filter JS.
+     3. Dashed rules become real --ba-border hairlines.
+
+   Type is deliberately NOT overridden in the header cell: ba_dropoff_map puts
+   a 2-line address and 4 badges in that cell, and blowing all of it up to
+   header size would be worse than the label it replaced. Each page's existing
+   typography for its own primary value carries through.
+
+   The tokens are declared unconditionally so a page whose row/cell selectors
+   need more specificity than this block can win (see public/my_concern.css,
+   where #concernsTable's !important cascade forces the overrides to stay
+   page-local) can still consume them.
+
+   SCOPE: the card chrome below is breakpoint-gated, because three of the four
+   adopting pages are real column grids above 768px and must keep their columns
+   there. public/ba_dropoff_map.php is the exception — it is single-column at
+   EVERY width (guide item 13) and needs the card layout on desktop too — so
+   ITS sheet re-emits the same rules unconditionally, reading these same
+   tokens. That is one small page-local block rather than two copies of this
+   one inside this shared file, and a test asserts the two agree. */
+.mc-stacked-card{
+  /* type + metrics */
+  --mc-sc-label-font:700 .68rem/1.45 'Montserrat',system-ui,sans-serif;
+  --mc-sc-label-color:var(--ba-text-muted);
+  --mc-sc-label-track:.3px;
+  --mc-sc-label-align:right;
+  --mc-sc-rail:84px;
+  --mc-sc-col-gap:12px;
+  --mc-sc-row-gap:0;
+  --mc-sc-cell-pad:7px 0;
+  --mc-sc-rule:1px solid var(--ba-border);
+  /* The divider between two cells. Split from --mc-sc-rule because the
+     reference layout (admin/dashboard.php's Recent Concerns cards) draws ONE
+     dashed line UNDER each field and none above it. With a promoted first cell
+     carrying --mc-sc-head-rule on its own bottom edge, a non-zero --mc-sc-cell-top
+     would stack two lines between field 1 and field 2. `0 none` is the switch. */
+  --mc-sc-cell-top:var(--mc-sc-rule);
+  --mc-sc-card-pad:14px 16px;
+  --mc-sc-card-frame:1px solid var(--ba-border);
+  --mc-sc-card-radius:var(--ba-radius-md);
+  --mc-sc-card-margin:12px;
+  --mc-sc-card-min:44px;
+  /* max-content, NOT auto. `auto` as a grid track max is capped at the free
+     space, so a label wider than the 84px floor came out truncated to its
+     min-content and broke mid-word — "CATEGO / RY" and "ACCEPTE / D" on
+     public/ba_waste.php. max-content lets the rail grow to the widest label on
+     the page and no further, which is the definition-list look. */
+  --mc-sc-cell-cols:minmax(var(--mc-sc-rail),max-content) minmax(0,1fr);
+  --mc-sc-head-cols:minmax(0,1fr);
+  --mc-sc-head-pad:0 0 8px;
+  --mc-sc-head-gap:4px;
+  --mc-sc-head-rule:1px solid var(--ba-border);
+  /* Whether the promoted first cell prints its label. `none` is the default
+     because the header promotion exists to STOP the first field labelling
+     itself — `REPORT # / EC-26-00015` and `ITEM / Aluminum cans` each
+     labelled the heading directly above them.
+
+     A display toggle, NOT `content`. An earlier attempt routed the label
+     through `--mc-sc-head-label:attr(data-label)` and read it back with
+     `content:var(--mc-sc-head-label)`. That cannot work: attr() inside a custom
+     property is substituted against the element DECLARING the property, and
+     every page declares these tokens on the wrapper, which carries no
+     data-label. The token came back empty and the first field silently
+     rendered no label at all. Toggling `display` reuses the label rule that
+     already exists, so the primitive still emits `content:attr(data-label)`
+     exactly once.
+
+     Set it to `block` to get the first field back, paired with
+     `--mc-sc-cell-cols:minmax(0,1fr)` + `--mc-sc-value-col:1` + a left label
+     align — the labelled-stacked layout the reference design uses. */
+  --mc-sc-head-label-display:none;
+  --mc-sc-value-col:2;
+  --mc-sc-cell-align:baseline;
+}
+@media (max-width:767.98px){
+
+/* The header row is real markup carrying the real column names; in card mode
+   the labels come from data-label instead, so the row is hidden, not deleted. */
+.mc-stacked-card .mc-ba-sched-head,
+.mc-stacked-card .mc-my-rep-head,
+.mc-stacked-card thead{display:none}
+
+.mc-stacked-card .mc-ba-schedule-tbody .mc-ba-sched-row,
+.mc-stacked-card .mc-ba-my-reports-tbody .mc-my-rep-row{
+  display:block;
+  border:var(--mc-sc-card-frame);
+  border-radius:var(--mc-sc-card-radius);
+  padding:var(--mc-sc-card-pad);
+  margin-bottom:var(--mc-sc-card-margin);
+  min-height:var(--mc-sc-card-min);  /* iOS tap-target floor */
+  background:var(--ba-surface);
+}
+.mc-stacked-card .mc-ba-schedule-tbody .mc-ba-sched-row:last-child,
+.mc-stacked-card .mc-ba-my-reports-tbody .mc-my-rep-row:last-child{margin-bottom:0}
+.mc-stacked-card .mc-ba-schedule-tbody .mc-ba-sched-row:hover,
+.mc-stacked-card .mc-ba-my-reports-tbody .mc-my-rep-row:hover{background:var(--ba-surface)}
+/* public/ba_dropoff_map.php rows are role="button" tabindex="0". */
+.mc-stacked-card .mc-ba-sched-row:focus-visible{
+  outline:2px solid var(--ba-primary);
+  outline-offset:2px;
+}
+
+.mc-stacked-card .mc-ba-sched-cell,
+.mc-stacked-card .mc-my-rep-cell{
+  display:grid;
+  grid-template-columns:var(--mc-sc-cell-cols);
+  column-gap:var(--mc-sc-col-gap);
+  row-gap:var(--mc-sc-row-gap);
+  align-items:var(--mc-sc-cell-align);
+  padding:var(--mc-sc-cell-pad);
+  min-width:0;
+  border:0;
+}
+.mc-stacked-card .mc-ba-sched-cell + .mc-ba-sched-cell,
+.mc-stacked-card .mc-my-rep-cell + .mc-my-rep-cell{
+  border-top:var(--mc-sc-cell-top);
+}
+.mc-stacked-card .mc-ba-sched-cell::before,
+.mc-stacked-card .mc-my-rep-cell::before{
+  content:attr(data-label);
+  display:block;
+  grid-column:1;
+  text-align:var(--mc-sc-label-align);
+  font:var(--mc-sc-label-font);
+  letter-spacing:var(--mc-sc-label-track);
+  text-transform:uppercase;
+  color:var(--mc-sc-label-color);
+  min-width:0;
+  max-width:100%;
+  /* Paired with the max-content track above. A label that wraps inside the rail
+     reads as a typo rather than a label, and it is the thing that made the
+     waste guide look mis-spaced. overflow-wrap stays as the backstop for a
+     label genuinely longer than the card. */
+  white-space:nowrap;
+  overflow-wrap:break-word;
+}
+/* Every value in the card layout is the 2nd grid item, so an existing
+   .mc-cell-wrap child is no longer the thing that fills the column. */
+.mc-stacked-card .mc-ba-sched-cell > *,
+.mc-stacked-card .mc-my-rep-cell > *{grid-column:var(--mc-sc-value-col);min-width:0}
+/* An action cell carries no data-label, so it would otherwise sit beside an
+   empty 84px rail. Span the full card width instead. */
+.mc-stacked-card .mc-ba-sched-cell:not([data-label]),
+.mc-stacked-card .mc-my-rep-cell:not([data-label]){grid-column:1 / -1}
+
+/* The card's own heading. */
+.mc-stacked-card .mc-ba-sched-row > :first-child,
+.mc-stacked-card .mc-my-rep-row > :first-child{
+  grid-template-columns:var(--mc-sc-head-cols);
+  padding:var(--mc-sc-head-pad);
+  margin-bottom:var(--mc-sc-head-gap);
+  border-top:0;
+  border-bottom:var(--mc-sc-head-rule);
+}
+.mc-stacked-card .mc-ba-sched-row > :first-child::before,
+.mc-stacked-card .mc-my-rep-row > :first-child::before{display:var(--mc-sc-head-label-display)}
+/* The heading cell's template declares ONE track, but the value rule above puts
+   every value at grid-column:2 — so the heading's child opened a second,
+   undeclared `auto` column, the 1fr track ate the free space, and the value was
+   pushed to the far right. That is the right-aligned "EC-26-00015" on
+   public/my_concern.php and the ~160px of dead space before every drop-off name
+   on public/ba_dropoff_map.php. Spanning the row is width-agnostic, so it holds
+   whatever --mc-sc-head-cols is set to. */
+.mc-stacked-card .mc-ba-sched-row > :first-child > *,
+.mc-stacked-card .mc-my-rep-row > :first-child > *{grid-column:1 / -1}
+}
+@media (max-width:359.98px){
+  /* Below 360px an 84px rail stops paying for itself beside a street address.
+     The label goes back above the value, but keeps the TIGHTER padding, so
+     this is still ~45% shorter than the block it replaces. */
+  .mc-stacked-card{
+    --mc-sc-rail:0px;
+    --mc-sc-label-align:left;
+    --mc-sc-row-gap:2px;
+    --mc-sc-value-col:1;
+  }
+}
+
+/* ---------- .mc-list-card — the reference list section head ----------
+   Public-side twin of admin/dashboard.css's .mc-admin-section-head, which is
+   scoped to the admin sheet. Four public pages list rows in a card and each
+   needed the same three-part head: a primary icon, a title, and something on
+   the right (a count pill or a link).
+
+   Values are copied from .mc-admin-section-head rather than invented, so the
+   citizen and admin halves of the app read as one design system. */
+.mc-list-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden}
+.mc-list-card-head{
+  padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  border-bottom:1px solid var(--ba-border);background:var(--ba-surface-2);
+}
+.mc-list-card-head h3{
+  font:var(--ba-h3);margin:0;min-width:0;color:var(--ba-text);
+  display:inline-flex;align-items:center;gap:8px;overflow-wrap:break-word;
+}
+.mc-list-card-head h3 .lucide{color:var(--ba-primary);stroke-width:2.1;flex-shrink:0}
+/* Right-hand slot: a count pill or a link, whichever the page passes. */
+.mc-list-card-head-end{margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-shrink:0}
+.mc-list-card-count{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:22px;height:22px;padding:0 8px;
+  border-radius:var(--ba-radius-pill);
+  background:var(--ba-primary-tint);color:var(--ba-primary);
+  font:700 .72rem/1 'Montserrat',system-ui,sans-serif;
+}
+
+/* ---------- .mc-editor-dialog — the shared admin CRUD dialog ----------
+   Replaces the offcanvas-end drawers these three pages used
+   (ba_schedules / ba_waste / ba_announcements). A drawer pinned itself to one
+   edge, so on a phone it was a full-height panel with a sliver of the list
+   showing and nothing centred; that is the behaviour these three files had.
+
+   Three things have to be true at once and Bootstrap only does the first:
+   1. the dialog is horizontally centred and capped, not full-bleed;
+   2. the BODY scrolls while the header and the Save/Cancel footer stay put, so
+      a long form never pushes its own save button below the fold;
+   3. that still works when a <form> sits between .modal-content and the three
+      sections, which all three of these pages have.
+
+   (3) is the one that bites. Bootstrap's own scrolling relies on .modal-content
+   being the flex column, but here the <form> is its child, so the form has to
+   become the flex column and fill the content box or the body grows unbounded
+   and the footer scrolls off with it. Hence the explicit > form rule. */
+.mc-editor-dialog .modal-dialog{width:min(var(--mc-editor-width,600px),calc(100vw - 2 * var(--ba-space-4)));max-width:none;margin:var(--ba-space-4) auto}
+.mc-editor-dialog--narrow{--mc-editor-width:520px}
+.mc-editor-dialog--wide{--mc-editor-width:680px}
+.mc-editor-dialog .modal-content{display:flex;flex-direction:column;max-height:calc(100vh - 2 * var(--ba-space-4));max-height:calc(100dvh - 2 * var(--ba-space-4));overflow:hidden}
+.mc-editor-dialog .modal-content>form{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+.mc-editor-dialog .modal-header{flex-shrink:0;align-items:center;gap:var(--ba-space-3);padding:var(--ba-space-4) var(--ba-space-5)}
+.mc-editor-dialog .modal-title{font:600 1.05rem/1.35 'Montserrat',system-ui,sans-serif;margin:0;min-width:0;overflow-wrap:break-word;word-break:normal}
+.mc-editor-dialog .modal-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--ba-space-5)}
+.mc-editor-dialog .modal-footer{flex-shrink:0;gap:var(--ba-space-2)}
+/* One footer layout for all three pages, and it is NOT a Bootstrap d-* utility.
+   d-grid was tried first and is wrong twice over: an `auto` track sizes to its
+   items' max-content, so `display:grid` left the buttons at their natural 99px
+   instead of filling the footer, and overriding it to flex on desktop needed an
+   !important that fought the utility it was correcting. A flex row with
+   explicit basis does the same job with no fight.
+
+   Above 576px the actions sit right-aligned at their natural width. Below it
+   they split the row, which keeps a ~140x48px target on a 320px phone instead of
+   the 99px slivers the grid produced. #editorAlert and the schedules hint take
+   `flex: 1 1 100%`, so each gets its own full-width row and the buttons keep
+   one row between them. */
+.mc-editor-dialog .modal-footer{flex-shrink:0;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:var(--ba-space-2)}
+.mc-editor-dialog .modal-footer>#editorAlert{flex:1 1 100%;min-width:0;order:0}
+/* An empty alert is still a flex item with flex-basis:100%, so it would hold an
+   empty full-width row and add a gap above the buttons. All three pages ship the
+   same #editorAlert, so the reset belongs here rather than in one sheet. */
+.mc-editor-dialog #editorAlert:empty{display:none}
+.mc-editor-dialog #editorAlert .alert{margin-bottom:0}
+.mc-editor-dialog .modal-footer>.small{flex:1 1 100%;order:2}
+.mc-editor-dialog .modal-footer>.btn{order:1}
+@media (max-width:575.98px){
+  .mc-editor-dialog .modal-footer>.btn{flex:1 1 0;min-width:0}
+}
+/* Phone: centred but near-full-width, per the chosen treatment. 10px gutters,
+   and the 100dvh cap keeps the footer on screen when the on-screen keyboard
+   opens — a vh cap does not shrink for the keyboard and the Save button ends
+   up under it. */
+@media (max-width:575.98px){
+  .mc-editor-dialog .modal-dialog{width:auto;margin:10px}
+  .mc-editor-dialog .modal-content{max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px)}
+  .mc-editor-dialog .modal-header{padding:var(--ba-space-3) var(--ba-space-4)}
+  .mc-editor-dialog .modal-body{padding:var(--ba-space-4)}
+}
+.lucide{display:inline-block;vertical-align:middle;flex-shrink:0;width:16px;height:16px;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:inherit;opacity:1}
+.lucide-12{width:12px;height:12px}.lucide-13{width:13px;height:13px}.lucide-14{width:14px;height:14px}.lucide-16{width:16px;height:16px}.lucide-18{width:18px;height:18px}.lucide-20{width:20px;height:20px}.lucide-24{width:24px;height:24px}
+.btn-primary .lucide,.btn-danger .lucide,.btn-success .lucide,.btn-primary .lucide *,.btn-danger .lucide *,.btn-success .lucide *{color:#fff!important;stroke:#fff!important;fill:none!important}
+.mc-app-shell{display:flex;flex-direction:column;min-height:100vh;background-image:linear-gradient(180deg,rgba(242,239,231,.78) 0%,rgba(242,239,231,.74) 100%),url(../img/Background.jpeg);background-size:100% auto;background-position:center bottom;background-repeat:no-repeat;background-attachment:fixed}
+/* 1030, NOT 1056. Bootstrap 5.3 ships .modal-backdrop at 1050 and .modal at
+   1055, so the old 1056 painted the navy bar OVER the dialog (it clipped the
+   modal header) and left it undimmed and clickable above the overlay. 1030 sits
+   below both modal layers, so the backdrop now covers the nav. The topnav's own
+   Bootstrap dropdown menus (1000) are unaffected — they resolve inside the
+   stacking context this position+z-index pair creates. The .mh/.sm dialogs
+   (dashboard.css, ba_dashboard.css) still raise themselves to 1080. */
+.mc-topnav{position:sticky;top:0;z-index:1030;min-height:60px;background:var(--ba-bg);border-bottom:1px solid var(--ba-border)}
+.mc-topnav-admin-navy{background:#1F4570!important;background-image:none!important;color:#fff!important;border-color:rgba(255,255,255,.12)!important}
+.mc-topnav-inner{max-width:1600px;margin:0 auto;padding:8px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;row-gap:6px}
+.mc-topnav-tabs{display:flex;flex-wrap:wrap;gap:6px 10px;min-width:0}
+.mc-topnav-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;row-gap:4px}
+@media(min-width:768px) and (max-width:1099px){.mc-topnav-seal-end{display:none!important}.mc-user-greeting .mc-user-name{display:none!important}.mc-user-greeting{min-height:40px;width:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--ba-radius-sm);padding:0}.mc-topnav-logout .mc-user-name,.mc-topnav-logout span[class*=d-lg]{display:none!important}.mc-topnav-logout{min-width:40px;width:40px;padding:0;justify-content:center}.mc-topnav-logout .ms-1{display:none!important}.mc-topnav-tabs{gap:4px 6px}.mc-topnav-tab{padding:8px 12px;gap:6px;font-size:.83rem}.mc-topnav-inner{padding:8px 16px;gap:12px}}
+@media(min-width:1100px){.mc-topnav-inner{padding:10px 28px;gap:18px}.mc-topnav-tabs{gap:6px 12px}}
+.mc-topnav-tab{min-height:40px;padding:8px 14px;border-radius:var(--ba-radius-sm);display:inline-flex;align-items:center;gap:8px;font:600 .88rem/1.2 Montserrat,sans-serif;color:var(--ba-text);background:transparent;border:0;cursor:pointer;transition:background-color .18s,color .15s;text-decoration:none}
+.mc-topnav-tab:hover{background:#3368A014;color:var(--ba-primary);text-decoration:none}
+.mc-topnav-tab.active{background:#3368A01A;color:var(--ba-primary);box-shadow:inset 0 -2px 0 var(--ba-primary)}
+.mc-topnav-tab-admin{color:#fff}
+.mc-topnav-tab-admin:hover{color:#fff!important;background:#FFFFFF1F!important;border-color:#FFFFFF2E!important}
+.mc-topnav-tab-admin.active{color:#fff!important;background:rgba(255,255,255,.14)!important;border:0!important;box-shadow:inset 0 -2px 0 #fff}
+.mc-topnav-tab-admin .lucide{color:#fff!important;stroke:#fff!important;opacity:1}
+.mc-topnav-tab-logo{display:none!important}
+/* The white Lucide icon that used to sit in the topnav greeting
+   (.mc-topnav-shield-icon / .mc-topnav-user-icon) is gone. Both were only ever
+   emitted by admin_shell_start.php and app_shell_start.php, and those now render
+   the real photo via includes/partials/avatar.php, whose dark-on-light fallback
+   would have been unreadable on the navy admin bar. The white-on-navy treatment
+   for the replacement lives in .mc-topnav-avatar--navy below. */
+.mc-topnav-dropdown-item{min-height:44px;display:flex;align-items:center;gap:10px;padding:8px 16px;font:500 .875rem/1.35 Merriweather,Georgia,serif}
+.mc-topnav-dropdown-item.active{background:#3368A01A;color:var(--ba-primary)}
+.mc-topnav-dropdown-menu{border-radius:var(--ba-radius-md);border:1px solid var(--ba-border);padding:4px}
+.mc-topnav-action{position:relative;min-height:40px;width:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--ba-radius-sm);color:inherit;text-decoration:none}
+.mc-topnav-action:hover{background:#3368A014;text-decoration:none}
+.mc-topnav-notif-badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:50%;background:var(--ba-danger);color:#fff;font:600 .68rem/18px Montserrat,sans-serif}
+.mc-topnav-logout{display:inline-flex;align-items:center;gap:4px;min-height:40px;padding:0 14px;border-radius:var(--ba-radius-sm);color:var(--ba-danger);font:600 .85rem/1 Montserrat,sans-serif;text-decoration:none}
+.mc-topnav-logout-admin{color:#fff!important;border:1px solid rgba(255,255,255,.35)!important;background:transparent!important}
+.mc-topnav-logout-admin:hover{background:rgba(255,255,255,.14)!important;color:#fff!important}
+.mc-topnav-logout:hover{background:var(--ba-danger-light);text-decoration:none}
+.mc-topnav-seal,.mc-topnav-seal-end{object-fit:contain;border-radius:50%;background:#fff;padding:1px;border:1px solid var(--ba-border)}
+.mc-admin-white{color:#fff!important}
+.mc-admin-wordmark-inv{filter:brightness(0) invert(1)}
+.mc-admin-alagang-inv{filter:none;background:#fff;border-radius:50%;padding:2px}
+.mc-admin-seal-pad{background:#fff;border-radius:50%;padding:3px}
+.mc-admin-btnghost-white{color:#fff!important;border-color:rgba(255,255,255,.35)!important}
+.mc-admin-btnghost-white:hover{background:rgba(255,255,255,.14)!important;color:#fff!important}
+/* ------------------------------------------------------------------
+   .mc-avatar — shared profile-avatar primitive.
+
+   Used by admin/profile.php, public/profile.php, admin/citizens.php and
+   admin/citizen_view.php, so it lives here rather than in four 1:1 sheets.
+   One rule: --mc-avatar-size drives the box, so a 40px list tile and a 128px
+   profile header share one class.
+
+   Rule #14 (Pure Minimalism): flat solid fills and 1px borders only. The
+   fallback tile is deliberately NOT a gradient - the previous dead block in
+   assets/css/admin/profile.css used linear-gradient and matched no markup.
+   ------------------------------------------------------------------ */
+.mc-avatar{--mc-avatar-size:48px;--mc-avatar-pad:calc(var(--mc-avatar-size) * .05);--mc-avatar-badge:clamp(28px,28%,var(--mc-avatar-size));position:relative;flex-shrink:0;width:var(--mc-avatar-size);height:var(--mc-avatar-size);border-radius:50%;background:var(--ba-surface-2);border:1px solid var(--ba-border);display:inline-flex;align-items:center;justify-content:center}
+/* The photo is INSET by --mc-avatar-pad and rounded here, not by overflow:hidden
+   on the box. Two reasons, both load-bearing:
+
+   1. overflow:hidden on the box clipped the upload badge. The badge is meant to
+      straddle the rim, so the parent's circular border-box cut off everything
+      outside it and it rendered as a lens-shaped blob melting into the edge.
+   2. The inset is what gives the badge somewhere to sit. Full-bleed left the head
+      touching the rim, so the badge had to cover the jaw to be legible.
+
+   Inset is on the img ONLY, and that asymmetry is deliberate:
+   admin/citizens.php:333 and admin/citizen_view.php:139 put .mc-avatar--fallback on
+   the SAME element as .mc-avatar, so the fallback must not depend on the box for
+   its own geometry. A photo and its initials therefore render at the same outer
+   size, which is what lets those two list views show them side by side without
+   one looking bigger than the other. */
+.mc-avatar img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;padding:var(--mc-avatar-pad);box-sizing:border-box}
+/* Initials fallback, used when there is no avatar_public_id on the row.
+   Must fill the disc and clip to it: the box no longer carries overflow:hidden
+   (see above), so without border-radius + overflow here the tint is a SQUARE
+   behind the letters on the two call sites that put this class on the same element
+   as .mc-avatar (admin/citizens.php, admin/citizen_view.php).
+
+   Sized from --mc-avatar-size, NOT 100%. 100% is wrong for those two sites: the
+   class sits on the tile itself, so a percentage would resolve against the table
+   cell and blow the 40px row tile up to the full column width. --mc-avatar-size is
+   correct for both shapes - the partial emits the size class on the nested span
+   too, and the property inherits from .mc-avatar when it does not. */
+.mc-avatar--fallback{width:var(--mc-avatar-size,48px);height:var(--mc-avatar-size,48px);box-sizing:border-box;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--ba-primary-tint);color:var(--ba-primary);font:600 calc(var(--mc-avatar-size) * .38)/1 'Montserrat',system-ui,sans-serif;letter-spacing:.02em;text-transform:uppercase;user-select:none}
+/* Deterministic tint per role so an admin and a citizen never look identical.
+   Uses --ba-primary-rgb rather than a literal navy so the two tiles stay derived
+   from the palette: .16 here against the .08 of the default fallback. */
+.mc-avatar--admin{background:rgba(var(--ba-primary-rgb),.16);color:var(--ba-primary)}
+.mc-avatar--sm{--mc-avatar-size:40px}
+.mc-avatar--md{--mc-avatar-size:64px}
+.mc-avatar--lg{--mc-avatar-size:96px}
+.mc-avatar--xl{--mc-avatar-size:128px}
+/* Upload affordance. Scales off --mc-avatar-size instead of a flat 40px: it used
+   to be the same size on a 128px hero as on a 40px list tile, where it covered
+   the whole avatar, and on the hero it covered a quarter of the face. translate()
+   pushes it out so it straddles the rim (unclipped now that the box no longer has
+   overflow:hidden) rather than sitting fully on top of the photo.
+
+   The visual is deliberately smaller than 40px, so the tap target is restored with
+   a transparent ::after rather than by inflating the badge - the 40x40 minimum in
+   the tap-target rule is about the hit area, not about how big the circle looks. */
+.mc-avatar-edit{position:absolute;right:0;bottom:0;transform:translate(30%,30%);width:var(--mc-avatar-badge);height:var(--mc-avatar-badge);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--ba-surface);border:1px solid var(--ba-border);color:var(--ba-primary);cursor:pointer;padding:0;transition:background-color .15s,border-color .15s}
+.mc-avatar-edit::after{content:"";position:absolute;inset:-6px;border-radius:50%}
+.mc-avatar-edit:hover{background:var(--ba-surface-2);border-color:var(--ba-border-blue)}
+.mc-avatar-edit .lucide{width:44%;height:44%;stroke-width:2.1;flex-shrink:0}
+/* Native file input is visually replaced by the button above. */
+.mc-avatar-input{display:none}
+/* ---- Avatar in the shell greeting (admin + client top header) ------------
+   includes/partials/avatar.php renders the tile; these two rules only adapt it to
+   the bar it sits in. The wrapper carries the hook because the partial emits no
+   class of its own beyond .mc-avatar / -<size> / -<role>. */
+.mc-topnav-avatar{display:inline-flex;align-items:center}
+/* Horizontal padding only: a 40px tile plus 6px of vertical padding grew the
+   topbar past its min-height:60px on every page that uses the shell. The class is
+   on the anchor rather than derived with :has() so it also holds through the
+   768-1099px collapse, which forces the greeting to a 40x40 pill. */
+.mc-user-greeting--avatar{padding:0 10px}
+/* Admin topbar is navy #1F4570. The shared fallback is rgba(51,104,160,.08) on
+   #3368A0 text, which is invisible there, so the initials get a light fill and
+   white type - the same treatment .mc-admin-white gives the greeting text. */
+.mc-topnav-avatar--navy .mc-avatar{border-color:rgba(255,255,255,.28)}
+.mc-topnav-avatar--navy .mc-avatar--fallback{background:rgba(255,255,255,.18);color:#fff}
+/* ------------------------------------------------------------------
+   .mc-pwrule — shared live password-rule checklist item.
+   assets/js/password-rules.js toggles .mc-pwrule-ok. Two pages render
+   this markup (admin/profile.php, public/profile.php), so the colour
+   lives here; each page sheet only styles its own container.
+   ------------------------------------------------------------------ */
+.mc-pwrule{display:flex;align-items:center;gap:7px;color:var(--ba-text-muted)}
+.mc-pwrule .lucide{opacity:.3;transition:opacity .15s,color .15s}
+.mc-pwrule.mc-pwrule-ok{color:var(--ba-success)}
+.mc-pwrule.mc-pwrule-ok .lucide{opacity:1;color:var(--ba-success)}
+
+.mc-shell-main{padding:24px;max-width:1600px;margin:0 auto;width:100%;min-width:0}
+/* ------------------------------------------------------------------
+   .mc-neo-card — the legacy "generic card" wrapper.
+
+   WAS BUGGY: this rule used to live INSIDE the @media(max-width:767.98px)
+   block that opens on the next line, so the card received NO background,
+   border, radius or padding at any width >=768px. Every one of the 22
+   client-side usages (filter cards, section cards, empty states, list
+   wrappers across ba_schedule, ba_waste, ba_dropoff_map, ba_announcements,
+   ba_notifications, ba_my_reports, my_concern, ba_faq) therefore rendered
+   as bare content on the cream page background on desktop and gained a
+   card on phones — the appearance inverted at the breakpoint. The admin
+   pages had already migrated to the unconditional .mc-admin-section-card;
+   see also the tombstone notes at admin/concern_view.css:9-14 and
+   admin/citizen_view.css:372-374, which both document this trap.
+
+   It is now global, so the card looks identical at every width, and it
+   carries the same elevation as .mc-admin-section-card (admin/concerns.css:29).
+   Page-level sheets that need a different inset override this at their
+   own specificity (e.g. public/my_concern.css .mc-app-shell .mc-mycon-table-card).
+   ------------------------------------------------------------------ */
+.mc-app-shell .mc-neo-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);padding:var(--ba-space-5);margin-bottom:var(--ba-space-4);transition:border-color .18s}
+.mc-app-shell .mc-neo-card:hover{border-color:var(--ba-border-strong)}
+/* Pages that stack a scroll container or a grid table directly on the card
+   must zero the padding, or the 24px inset lands inside the scroller. */
+.mc-app-shell .mc-neo-card.mc-table-wrap,
+.mc-app-shell .mc-neo-card[class*="-table-wrap"],
+.mc-app-shell .mc-neo-card.mc-grid-table-wrap{padding:0}
+@media(max-width:767.98px){
+/* 1020, dropped alongside .mc-topnav 1056 -> 1030 above. At the old 1045 the
+   drawer outranked the nav once the nav came down, which would have flipped the
+   mobile drawer to painting OVER the navbar instead of under it. */
+.mc-sidebar{background:var(--ba-surface);border-color:var(--ba-border)!important;position:fixed;inset:0 auto 0 0;width:260px;max-width:85vw;z-index:1020;animation:mc-slide-in .25s ease-out;border-right:1px solid var(--ba-border)!important}
+.mc-sidebar-inner{height:100vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:var(--ba-space-6)}
+.mc-sidebar-brand-row{display:flex;align-items:center;gap:var(--ba-space-3)}
+.mc-sidebar-seal{display:block;object-fit:contain;flex-shrink:0;border-radius:var(--ba-radius-pill);background:var(--ba-surface);padding:1px;border:1px solid var(--ba-border)}
+.mc-sidebar-brand-text{min-width:0;flex:1 1 auto}
+.mc-sidebar-appname{font:600 1rem/1.15 Montserrat,sans-serif;color:var(--ba-text);letter-spacing:-.01em;margin:0 0 2px}
+.mc-sidebar-subtitle{font:var(--ba-small);margin:0}
+.mc-sidebar-wordmark{display:block;width:100%;height:auto;max-height:30px;object-fit:contain;object-position:left center}
+.mc-sidebar-nav{padding:0;margin:0}
+.mc-nav-item{margin:0}
+.mc-nav-link{display:flex;align-items:center;gap:var(--ba-space-3);min-height:44px;padding:10px 16px 10px 18px;margin:1px 8px;border-radius:var(--ba-radius-md);font:600 .9rem/1.35 Montserrat,sans-serif;color:var(--ba-text);letter-spacing:.005em;cursor:pointer;transition:background-color .18s,color .15s}
+.mc-nav-link:hover{background:var(--ba-surface-2);color:var(--ba-text);text-decoration:none}
+.mc-nav-link:active{}
+.mc-nav-link.active{background:#3368A01A;color:var(--ba-primary);box-shadow:inset 0 0 0 1px rgba(51,104,160,.22)}
+.mc-nav-icon{flex-shrink:0;color:var(--ba-text-muted);stroke-width:2}
+.mc-nav-link:hover .mc-nav-icon,.mc-nav-link.active .mc-nav-icon{color:var(--ba-primary)}
+.mc-nav-label{min-width:0;flex:1 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-nav-badge{background:var(--ba-danger)!important;color:#fff!important;font:600 .7rem/1 Montserrat,sans-serif!important;padding:3px 8px;border-radius:var(--ba-radius-pill);min-width:20px;text-align:center}
+.mc-nav-logout{color:var(--ba-danger)}.mc-nav-logout .mc-nav-icon{color:var(--ba-danger)}
+.mc-nav-logout:hover{background:var(--ba-danger-light)!important;color:var(--ba-danger)!important}
+.mc-nav-logout:hover .mc-nav-icon{color:var(--ba-danger)!important}
+.mc-nav-section{padding:0!important;margin:0 0 4px!important;border:0 none}
+.mc-nav-section-title{margin:0;font:600 .7rem/1.35 Montserrat,sans-serif!important;letter-spacing:.08em!important;color:var(--ba-text-muted)!important}
+.mc-nav-section-title .lucide{stroke-width:2}
+/* ------------------------------------------------------------------
+   Admin drawer on navy — the missing half of the re-skin.
+
+   .mc-sidebar-admin (below, inside the mobile media query) forces the drawer
+   to #1F4570, and the brand was given real classes (.mc-admin-white,
+   .mc-admin-wordmark-inv), but every FOREGROUND class the markup references for
+   that treatment was never defined anywhere in the repo:
+
+     mc-admin-nav-ink      on the <ul>            (admin_shell_start.php)
+     mc-admin-nav-link     on each .mc-nav-link
+     mc-admin-section-sub  on the BASURAALERT / MANAGEMENT titles
+     mc-admin-sub          on "Administrator Portal"
+     mc-admin-border       on the brand divider and the section rules
+
+   With all five undefined the nav fell back to the LIGHT-theme tokens, and every
+   one of them is unreadable on navy. Measured in Chrome at 390px against
+   #1F4570, against a 4.5:1 requirement:
+
+     .mc-nav-link          #1F2937  -> 1.50:1   FAIL
+     .mc-nav-link.active   #3368A0  -> 1.69:1   FAIL
+     .mc-nav-icon          #5A6473  -> 1.64:1   FAIL
+     .mc-nav-section-title #5A6473  -> 1.64:1   FAIL
+     .mc-sidebar-subtitle  #1F2937  -> 1.50:1   FAIL
+     .mc-nav-logout        #A8444   -> 1.67:1   FAIL
+
+   .mc-admin-border was the visible half of the bug: the brand divider and the
+   section rules fall back to Bootstrap's --bs-border-color (#DEE2E6), which is
+   a bright hairline across navy.
+
+   Every value below is white at an alpha over navy, composited and checked:
+   label 8.39:1, icon 6.68:1, section title 5.29:1, subtitle 5.96:1,
+   active 6.61:1, logout 5.03:1. Flat fills and alpha only, no gradient (Rule 14).
+
+   Scoped to .mc-sidebar-admin, which lives on the drawer element. That element
+   carries d-md-none, so it is display:none at >=768px and the desktop layout
+   cannot be affected by anything here.
+
+   !important is required, not defensive: .mc-nav-section-title and
+   .mc-nav-link.active both set colour with !important, and .mc-nav-link:hover
+   sets a background that would otherwise flash cream #F7F5EF on navy.
+   ------------------------------------------------------------------ */
+.mc-sidebar-admin .mc-admin-border{border-color:rgba(255,255,255,.18)!important}
+.mc-sidebar-admin .mc-admin-sub{color:rgba(255,255,255,.72)!important}
+.mc-sidebar-admin .mc-admin-nav-ink{color:#E8EEF6}
+.mc-sidebar-admin .mc-admin-nav-link,
+.mc-sidebar-admin .mc-nav-link{color:#E8EEF6!important}
+.mc-sidebar-admin .mc-nav-link .mc-nav-icon{color:rgba(255,255,255,.78)!important;stroke:rgba(255,255,255,.78)!important}
+.mc-sidebar-admin .mc-nav-link:hover{background:rgba(255,255,255,.10)!important;color:#fff!important}
+.mc-sidebar-admin .mc-nav-link:hover .mc-nav-icon{color:#fff!important;stroke:#fff!important}
+.mc-sidebar-admin .mc-admin-nav-link.active,
+.mc-sidebar-admin .mc-nav-link.active{background:rgba(255,255,255,.14)!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+.mc-sidebar-admin .mc-nav-link.active .mc-nav-icon{color:#fff!important;stroke:#fff!important}
+.mc-sidebar-admin .mc-admin-section-sub,
+.mc-sidebar-admin .mc-nav-section-title{color:rgba(255,255,255,.66)!important}
+.mc-sidebar-admin .mc-admin-section-sub .lucide{color:rgba(255,255,255,.66)!important;stroke:rgba(255,255,255,.66)!important}
+/* The shared logout red (#A84444) is 1.67:1 on navy. A lightened tint keeps it
+   obviously "destructive" at 5.03:1. */
+.mc-sidebar-admin .mc-admin-nav-logout,
+.mc-sidebar-admin .mc-nav-logout{color:#F2A6A6!important}
+.mc-sidebar-admin .mc-nav-logout .mc-nav-icon{color:#F2A6A6!important;stroke:#F2A6A6!important}
+.mc-sidebar-admin .mc-nav-logout:hover{background:rgba(242,166,166,.14)!important;color:#FFD9D9!important}
+.mc-sidebar-admin .mc-nav-logout:hover .mc-nav-icon{color:#FFD9D9!important;stroke:#FFD9D9!important}
+/* Badges carry their own fill, so only the ink needs forcing to stay legible
+   against a translucent danger background. */
+.mc-sidebar-admin .mc-nav-badge{background:var(--ba-danger)!important;color:#fff!important}
+.mc-sidebar-seal-bottom{object-fit:contain;display:block;margin-inline:auto}
+.mc-user-greeting{font:600 .9375rem/1 Montserrat,sans-serif;text-decoration:none!important;cursor:pointer;padding:6px 10px;border-radius:8px;color:inherit!important}
+a.mc-user-greeting:hover{background:#3368A014;text-decoration:none!important}
+/* REMOVED: [class$="-hero-inner"]::after,[class$="-hero"]::after{...MarikinaLogo.jpg seal box...}
+   This rule was dead code. It sat INSIDE the @media(max-width:767.98px) block that
+   opens above and closes below, so it never applied at >=768px; and below 768px a
+   nested @media(max-width:820px) rule set display:none, which always won because
+   767.98 < 820. The 48px bordered seal therefore never rendered at any width.
+   It was also a footgun: any page with both `.foo-hero` and `.foo-hero-inner`
+   matched the selector twice, and the per-page `.mc-admin-hero::after{content:none}`
+   overrides only covered the `-hero` half, never the `-hero-inner` half.
+   Heroes that want a seal now place it explicitly:
+   <img class="mc-admin-hero-seal" src=".../MarikinaLogo.jpg" alt="...">
+   styled by .mc-admin-hero-seal (navy heroes) or .mc-admin-concerns-hero-seal
+   (cream heroes). Do not reintroduce the attribute-suffix selector. */
+.mc-app-shell .mc-neo-card{padding:var(--ba-space-4)}
+.mc-sidebar-toggle{height:38px;min-height:38px;padding-inline:var(--ba-space-3)}
+#sidebarMenu.collapse:not(.show){display:none}
+@keyframes mc-slide-in{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.mc-sidebar-admin{background:#1F4570!important;background-image:none!important}
+.mc-topnav-tabs,.mc-topnav-actions>*:not(.mc-sidebar-toggle){display:none!important}
+.mc-topnav-inner{padding:8px 12px;gap:8px}
+.mc-shell-main{padding:16px 12px}
+}

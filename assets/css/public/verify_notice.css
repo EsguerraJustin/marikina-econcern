@@ -1,0 +1,208 @@
+@charset "UTF-8";
+/* ====================================================================
+   BasuraAlert / Marikina Concern - Public Portal
+   verify_notice.css  (page-specific ONLY)
+   --------------------------------------------------------------------
+   Scope: Verify Notice page — page wrapper, split hero card,
+          informative notice block + action buttons.
+   Loaded THIRD on page (after variables.css -> common.css).
+   Sizing budget: <= 10240 bytes uncompressed.
+   Palette: #3368A0 · #66A3BF · #C8DFDB · #F2EFE7 (user approved)
+   ==================================================================== */
+
+
+/* ======================================================
+   0 · PAGE WRAPPER LAYOUT (mobile first, responsive)
+   ====================================================== */
+.mc-vnote-page {
+    max-width: 1140px;
+    margin-inline: auto;
+    padding: var(--ba-space-4) var(--ba-space-4) var(--ba-space-7);
+}
+@media (min-width: 768px) {
+    .mc-vnote-page { padding: var(--ba-space-5) var(--ba-space-5) var(--ba-space-7); }
+}
+
+
+/* ======================================================
+   1 · AUTH HERO CARD (split layout · form left · image right)
+   Min-height 500px on md+, wraps to column on mobile.
+   ====================================================== */
+.mc-vnote-hero {
+    background: var(--ba-surface);
+    border: 1px solid rgba(51,104,160,0.14);
+    border-radius: var(--ba-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-md);
+}
+.mc-vnote-hero-inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+}
+@media (min-width: 768px) {
+    .mc-vnote-hero-inner {
+        flex-direction: row;
+        align-items: stretch;
+    }
+}
+
+
+/* ======================================================
+   2 · FORM PANEL (left / top on mobile)
+   Notice info block with icon, raised→pressed buttons.
+   ====================================================== */
+.mc-vnote-form-panel {
+    flex: 1 1 50%;
+    padding: var(--ba-space-5) var(--ba-space-5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (min-width: 768px) {
+    .mc-vnote-form-panel { padding: var(--ba-space-6) var(--ba-space-6); }
+}
+
+.mc-vnote-icon-wrap {
+    width: 72px; height: 72px;
+    border-radius: var(--ba-radius-lg);
+    background: linear-gradient(135deg, #C8DFDB 0%, var(--ba-primary-light) 100%);
+    color: var(--ba-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.65) inset,
+        0 4px  0 rgba(51,104,160,0.14),
+        0 8px 20px rgba(51,104,160,0.16);
+    margin: 0 0 var(--ba-space-5);
+}
+.mc-vnote-icon-wrap .lucide { width: 36px; height: 36px; color: var(--ba-primary); stroke-width: 2.1; }
+
+.mc-vnote-title {
+    margin: 0 0 var(--ba-space-2);
+    font: var(--ba-h1);
+    color: var(--ba-text);
+}
+.mc-vnote-subtitle {
+    margin: 0 0 var(--ba-space-5);
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    line-height: 1.7;
+}
+
+.mc-vnote-bullets {
+    margin: 0 0 var(--ba-space-5);
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ba-space-3);
+}
+.mc-vnote-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ba-space-3);
+    font: var(--ba-small);
+    color: var(--ba-text);
+}
+.mc-vnote-bullet-icon {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-primary-tint);
+    color: var(--ba-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.mc-vnote-bullet-icon .lucide { width: 16px; height: 16px; stroke-width: 2.2; }
+
+.mc-vnote-actions { display: flex; flex-direction: column; gap: var(--ba-space-3); }
+.mc-vnote-submit { width: 100%; }
+.mc-vnote-alt-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: var(--ba-space-5);
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+.mc-vnote-alt-link {
+    color: var(--ba-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Montserrat', system-ui, sans-serif;
+}
+.mc-vnote-alt-link:hover { text-decoration: underline; }
+
+
+/* ======================================================
+   3 · IMAGE PANEL (right / bottom on mobile)
+   Background.jpeg with gradient veil overlay.
+   ====================================================== */
+.mc-vnote-image-panel {
+    flex: 1 1 50%;
+    min-height: 260px;
+    background-color: #C8DFDB;
+    background-image:
+        linear-gradient(135deg,
+            rgba(200,223,219,0.55) 0%,
+            rgba(51,104,160,0.40) 55%,
+            rgba(102,163,191,0.30) 100%),
+        url('../../img/Background.jpeg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+@media (max-width: 767.98px) {
+    .mc-vnote-image-panel { min-height: 200px; }
+}
+.mc-vnote-image-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+        circle at 90% 60%,
+        rgba(255,255,255,0.20) 0%,
+        rgba(255,255,255,0.00) 55%);
+    pointer-events: none;
+}
+.mc-vnote-image-caption {
+    position: relative;
+    padding: var(--ba-space-5);
+    color: #fff;
+    max-width: 420px;
+}
+.mc-vnote-image-caption h3 {
+    font: var(--ba-h2);
+    color: #fff;
+    margin: 0 0 var(--ba-space-2);
+}
+.mc-vnote-image-caption p {
+    margin: 0;
+    color: rgba(255,255,255,0.92);
+    font: var(--ba-small);
+}
+
+
+/* ======================================================
+   4 · RESPONSIVE BREAKPOINTS
+   ====================================================== */
+@media (max-width: 576px) {
+    .mc-vnote-form-panel { padding: var(--ba-space-4); }
+    .mc-vnote-title { font-size: var(--ba-fs-h2); }
+    .mc-vnote-icon-wrap { width: 60px; height: 60px; }
+    .mc-vnote-icon-wrap .lucide { width: 30px; height: 30px; }
+    .mc-vnote-image-caption { padding: var(--ba-space-4); }
+    .mc-vnote-image-caption h3 { font-size: var(--ba-fs-h3); }
+}
+
+
+/* ======================================================
+   (END) · verify_notice.css page-specific only
+   ====================================================== */

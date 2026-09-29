@@ -1,0 +1,472 @@
+@charset "UTF-8";
+
+/* =========================================================
+   admin/concern_view.php — page-level styles
+   Theme: Pure Minimalism (PROJECT_GUIDE.md Rule #14/#15).
+   No gradients, no skeuomorphic shadows, no translateY clicks.
+   Tokens: assets/css/variables.css   Primitives: assets/css/common.css
+
+   REBUILT. The previous file declared 45 classes of which concern_view.php used
+   three (the mc-chat-avatar trio). The page rendered as raw Bootstrap with four
+   .mc-neo-card wrappers, which common.css:184 defines only inside its
+   <768px block and is therefore unstyled on desktop. It also styled
+   .mc-admin-cv-photo-thumb while the page emitted class="photo-thumb", so the
+   photos were unstyled and those rules were dead.
+
+   Rule #14 violations removed while adopting the vocabulary:
+     - .mc-admin-cv-icon-wrap        linear-gradient + 3-layer skeu shadow
+     - .mc-admin-cv-timeline-avatar  linear-gradient
+     - .mc-admin-cv-assignee-avatar  linear-gradient
+     - .mc-admin-cv-photo-thumb:hover  translateY(-1px) + elevated shadow
+
+   The flat status pills below are duplicated from admin/citizen_view.css on
+   purpose: head.php loads exactly one page stylesheet, so each page ships its
+   own copy. Deliberate duplication, not drift.
+   ========================================================= */
+
+/* ---------- Page shell ---------- */
+.mc-admin-concern_view-page {
+    max-width: 1600px;
+    margin-inline: auto;
+    padding: 16px 0 48px;
+}
+@media (min-width: 768px) {
+    .mc-admin-concern_view-page { padding: 24px 0 48px; }
+}
+
+/* ---------- Header + back link ---------- */
+.mc-admin-cv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.mc-admin-cv-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 14px 8px 10px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    font: 600 .9rem/1 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-primary);
+    text-decoration: none;
+    transition: background-color .18s, border-color .15s;
+}
+.mc-admin-cv-back-link:hover {
+    background: var(--ba-primary-tint);
+    border-color: var(--ba-border-blue);
+    color: var(--ba-primary);
+    text-decoration: none;
+}
+.mc-admin-cv-back-link .lucide { stroke-width: 2.1; width: 18px; height: 18px; }
+
+/* ---------- Title row ---------- */
+.mc-admin-cv-title-row { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.mc-admin-cv-icon-wrap {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+}
+.mc-admin-cv-icon-wrap .lucide { color: #fff; stroke-width: 2; width: 26px; height: 26px; }
+.mc-admin-cv-title-block { min-width: 0; flex: 1 1 320px; }
+.mc-admin-cv-title-block h1 { font: var(--ba-h1); margin: 0 0 6px; color: var(--ba-text); overflow-wrap: break-word; word-break: normal; }
+.mc-admin-cv-status-badge-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.mc-admin-cv-ref {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    font: 600 .8rem/1.3 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text);
+    white-space: nowrap;
+}
+.mc-admin-cv-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font: 400 .8125rem/1.4 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+    align-items: center;
+}
+.mc-admin-cv-meta-item { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.mc-admin-cv-meta-item .lucide { width: 14px; height: 14px; stroke-width: 2.1; flex-shrink: 0; }
+.mc-admin-cv-meta-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- Flat status pills (duplicated from citizen_view.css) ---------- */
+.mc-admin-cv-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--ba-radius-pill);
+    font: 600 .75rem/1.35 'Montserrat', system-ui, sans-serif;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+.mc-admin-cv-badge .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.mc-admin-cv-badge--new { background: rgba(51, 104, 160, .10); color: var(--ba-primary); border-color: rgba(51, 104, 160, .20); }
+.mc-admin-cv-badge--acknowledge { background: var(--ba-primary-tint); color: #2A6785; border-color: rgba(102, 163, 191, .34); }
+.mc-admin-cv-badge--ongoing { background: var(--ba-warning-light); color: #7A4A10; border-color: rgba(214, 147, 46, .30); }
+.mc-admin-cv-badge--completed { background: var(--ba-success-light); color: #2F6A5C; border-color: rgba(74, 143, 126, .28); }
+.mc-admin-cv-badge--cancelled { background: var(--ba-danger-light); color: var(--ba-danger); border-color: rgba(168, 68, 68, .22); }
+
+/* ---------- Layout ---------- */
+.mc-admin-cv-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 992px) {
+    .mc-admin-cv-grid { grid-template-columns: minmax(0, 1fr) 340px; }
+}
+.mc-admin-cv-main-col { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.mc-admin-cv-side-col { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+/* ---------- Generic card + section title ---------- */
+.mc-admin-cv-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    overflow: hidden;
+}
+.mc-admin-cv-sidebar-card { background: var(--ba-surface); border: 1px solid var(--ba-border); border-radius: var(--ba-radius-md); padding: 20px; box-shadow: var(--ba-shadow-sm); }
+.mc-admin-cv-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    padding: 16px 20px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+    font: var(--ba-h3);
+    color: var(--ba-text);
+}
+.mc-admin-cv-section-title .lucide { width: 18px; height: 18px; stroke-width: 2.1; color: var(--ba-primary); }
+.mc-admin-cv-section-body { padding: 20px; }
+
+/* ---------- Details grid ---------- */
+.mc-admin-cv-details-grid { display: grid; grid-template-columns: 1fr; gap: 12px 24px; }
+@media (min-width: 576px) {
+    .mc-admin-cv-details-grid { grid-template-columns: 1fr 1fr; }
+}
+.mc-admin-cv-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 12px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    min-width: 0;
+}
+.mc-admin-cv-detail-label {
+    font: 600 .7rem/1.3 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+.mc-admin-cv-detail-value {
+    font: 400 .875rem/1.45 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text);
+    margin: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-cv-detail-item--wide { grid-column: 1 / -1; }
+.mc-admin-cv-description {
+    padding: 16px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    margin: 0;
+    font: 400 .9375rem/1.7 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+/* ---------- Photos ---------- */
+.mc-admin-cv-photos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; }
+@media (min-width: 576px) {
+    .mc-admin-cv-photos-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 992px) {
+    .mc-admin-cv-photos-grid { grid-template-columns: repeat(4, 1fr); }
+}
+/* Rule #14: the hover was translateY(-1px) + an elevated shadow. Flat border tint. */
+.mc-admin-cv-photo-thumb {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--ba-radius-sm);
+    overflow: hidden;
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    cursor: pointer;
+    display: block;
+    transition: border-color .18s;
+}
+.mc-admin-cv-photo-thumb:hover { border-color: var(--ba-primary); }
+.mc-admin-cv-photo-thumb:focus-visible { outline: 3px solid var(--ba-primary); outline-offset: 2px; }
+.mc-admin-cv-photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mc-admin-cv-photos-empty { font: var(--ba-small); color: var(--ba-text-muted); margin: 0; }
+
+/* ---------- Timeline ---------- */
+.mc-admin-cv-timeline-wrap { position: relative; padding-left: 32px; }
+.mc-admin-cv-timeline-wrap::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--ba-primary);
+    border-radius: 999px;
+}
+.mc-admin-cv-timeline-item { position: relative; margin-bottom: 24px; }
+.mc-admin-cv-timeline-item:last-child { margin-bottom: 0; }
+.mc-admin-cv-timeline-badge {
+    position: absolute;
+    left: -32px;
+    top: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--ba-surface);
+    border: 3px solid var(--ba-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--ba-shadow-sm);
+    z-index: 2;
+}
+.mc-admin-cv-timeline-badge .lucide { width: 13px; height: 13px; stroke-width: 2.3; color: var(--ba-primary); }
+.mc-admin-cv-timeline-item.completed .mc-admin-cv-timeline-badge { background: var(--ba-primary); }
+.mc-admin-cv-timeline-item.completed .mc-admin-cv-timeline-badge .lucide { color: #fff; }
+.mc-admin-cv-timeline-item.pending .mc-admin-cv-timeline-badge { background: var(--ba-surface-2); border-color: var(--ba-border-strong); }
+.mc-admin-cv-timeline-item.pending .mc-admin-cv-timeline-badge .lucide { color: var(--ba-text-muted); }
+.mc-admin-cv-timeline-content {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    padding: 14px 16px;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-cv-timeline-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.mc-admin-cv-timeline-title { font: 600 .95rem/1.3 'Montserrat', system-ui, sans-serif; color: var(--ba-text); margin: 0; }
+.mc-admin-cv-timeline-time { display: inline-flex; align-items: center; gap: 6px; font: 600 .75rem/1.35 'Montserrat', system-ui, sans-serif; color: var(--ba-text-muted); }
+.mc-admin-cv-timeline-time .lucide { width: 13px; height: 13px; stroke-width: 2; }
+.mc-admin-cv-timeline-body { font: 400 .875rem/1.6 'Montserrat', system-ui, sans-serif; color: var(--ba-text); margin: 0; overflow-wrap: break-word; word-break: normal; }
+.mc-admin-cv-timeline-author {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--ba-border);
+}
+/* Rule #14: was linear-gradient(135deg,...). Flat solid fill. */
+.mc-admin-cv-timeline-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ba-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: 600 .75rem/1 'Montserrat', system-ui, sans-serif;
+    flex-shrink: 0;
+}
+.mc-admin-cv-timeline-author-name { font: 600 .8rem/1 'Montserrat', system-ui, sans-serif; color: var(--ba-text); }
+
+/* ---------- Assignee ---------- */
+.mc-admin-cv-assignee-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    margin-bottom: 16px;
+}
+/* Rule #14: was linear-gradient(135deg,...). Flat solid fill. */
+.mc-admin-cv-assignee-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ba-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: 600 1rem/1 'Montserrat', system-ui, sans-serif;
+    flex-shrink: 0;
+}
+.mc-admin-cv-assignee-info { min-width: 0; flex: 1 1 auto; }
+.mc-admin-cv-assignee-name { font: 600 .92rem/1.2 'Montserrat', system-ui, sans-serif; color: var(--ba-text); margin: 0 0 2px; overflow-wrap: break-word; word-break: normal; }
+.mc-admin-cv-assignee-role { font: 600 .75rem/1.3 'Montserrat', system-ui, sans-serif; color: var(--ba-text-muted); margin: 0; text-transform: capitalize; }
+.mc-admin-cv-assignee-row.is-unassigned .mc-admin-cv-assignee-avatar { background: var(--ba-surface); color: var(--ba-text-muted); border: 1px dashed var(--ba-border-strong); }
+
+/* Assignment picker: select + Save on one row for Super Admins. */
+.mc-admin-cv-assign-row { display: flex; gap: 8px; align-items: stretch; }
+.mc-admin-cv-assign-row .form-select { flex: 1 1 auto; min-width: 0; }
+.mc-admin-cv-assign-row .btn { flex: 0 0 auto; min-height: 44px; }
+
+/* old -> new transition line on a status change. */
+.mc-admin-cv-timeline-transition {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding: 3px 10px;
+    border-radius: var(--ba-radius-pill);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    font: 600 .75rem/1.4 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+}
+.mc-admin-cv-timeline-transition .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+
+/* ---------- Action forms ---------- */
+.mc-admin-cv-action-form { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.mc-admin-cv-field { display: flex; flex-direction: column; gap: 6px; }
+.mc-admin-cv-note { min-height: 96px !important; resize: vertical; }
+.mc-admin-cv-hint {
+    min-height: 20px;
+    font: 400 .8125rem/1.4 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+}
+.mc-admin-cv-hint.is-error { color: var(--ba-danger); }
+.mc-admin-cv-hint.is-success { color: var(--ba-success); }
+.mc-admin-cv-action-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.mc-admin-cv-action-row .ba-btn,
+.mc-admin-cv-action-row .btn { min-height: 44px; height: 44px; padding-inline: 16px; font-size: .85rem; }
+/* Compact button for a section header. 40px keeps it under the 44px field
+   rhythm while still clearing the 40x40 tap-target floor. */
+.mc-admin-cv-action-btn-sm {
+    min-height: 40px;
+    height: 40px;
+    padding-inline: 14px;
+    font-size: .8125rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+.mc-admin-cv-action-btn-sm .lucide { width: 15px; height: 15px; stroke-width: 2.1; }
+
+/* ---------- Notes list ---------- */
+.mc-admin-cv-note-item {
+    padding: 12px 14px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    margin-bottom: 10px;
+}
+.mc-admin-cv-note-item:last-child { margin-bottom: 0; }
+.mc-admin-cv-note-text { font: 400 .875rem/1.6 'Montserrat', system-ui, sans-serif; color: var(--ba-text); margin: 0 0 6px; overflow-wrap: break-word; word-break: normal; }
+.mc-admin-cv-note-meta { display: inline-flex; align-items: center; gap: 6px; font: 600 .75rem/1.3 'Montserrat', system-ui, sans-serif; color: var(--ba-text-muted); }
+.mc-admin-cv-note-meta .lucide { width: 13px; height: 13px; stroke-width: 2; }
+
+/* ---------- Empty + loading ---------- */
+.mc-admin-cv-empty { padding: 28px 16px; text-align: center; }
+.mc-admin-cv-empty-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    color: var(--ba-text-muted);
+}
+.mc-admin-cv-empty-icon .lucide { stroke-width: 1.8; width: 24px; height: 24px; }
+.mc-admin-cv-empty p { margin: 0; color: var(--ba-text-muted); font: 400 .875rem/1.5 'Montserrat', system-ui, sans-serif; }
+.mc-admin-cv-loading { padding: 20px 2px; color: var(--ba-text-muted); font: 400 .875rem/1.5 'Montserrat', system-ui, sans-serif; }
+.mc-admin-cv-loading.is-error { color: var(--ba-danger); }
+
+/* ---------- Chat modal ----------
+   The page previously hardcoded width:90px thumbs and max-width:280px bubbles.
+   Everything here is fluid so the thread holds up from 320px upward. */
+.mc-chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.mc-chat-avatar-me { background: rgba(51, 104, 160, .12); color: var(--ba-primary); border: 1px solid rgba(51, 104, 160, .22); }
+/* The actor chip that sits inline in the "You (Admin)" role label. */
+.mc-chat-avatar--sm { width: 28px; height: 28px; margin: 0; }
+.mc-chat-avatar-admin { background: rgba(74, 143, 126, .15); color: #2F6A5C; border: 1px solid rgba(74, 143, 126, .28); }
+.mc-admin-cv-chat-body { max-height: 60vh; overflow-y: auto; }
+@media (max-height: 620px) {
+    .mc-admin-cv-chat-body { max-height: 46vh; }
+}
+.mc-admin-cv-chat-row { display: flex; gap: 12px; margin-bottom: 18px; }
+.mc-admin-cv-chat-row.is-mine { justify-content: flex-end; }
+.mc-admin-cv-chat-col { display: flex; flex-direction: column; gap: 6px; max-width: 78%; min-width: 0; }
+.mc-admin-cv-chat-row.is-mine .mc-admin-cv-chat-col { align-items: flex-end; }
+.mc-admin-cv-chat-role {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: 600 .75rem/1.3 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+}
+.mc-admin-cv-chat-bubble {
+    padding: 12px 14px;
+    border-radius: var(--ba-radius-md);
+    font: 400 .875rem/1.55 'Montserrat', system-ui, sans-serif;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-cv-chat-bubble.is-theirs { background: var(--ba-surface-2); border: 1px solid var(--ba-border); color: var(--ba-text); }
+.mc-admin-cv-chat-bubble.is-mine { background: var(--ba-primary); color: #fff; }
+.mc-admin-cv-chat-time { display: block; margin-top: 6px; font: 600 .7rem/1.3 'Montserrat', system-ui, sans-serif; }
+.mc-admin-cv-chat-bubble.is-theirs .mc-admin-cv-chat-time { color: var(--ba-text-muted); }
+.mc-admin-cv-chat-bubble.is-mine .mc-admin-cv-chat-time { color: rgba(255, 255, 255, .78); }
+/* Footer: the input takes the slack so it can never collapse on a phone. */
+.mc-admin-cv-chat-footer { display: flex; gap: 8px; align-items: stretch; }
+.mc-admin-cv-chat-footer .form-control { flex: 1 1 auto; min-width: 0; }
+.mc-admin-cv-chat-footer .btn { flex: 0 0 auto; min-height: 44px; }
+.mc-admin-cv-photo-modal img { width: 100%; height: auto; display: block; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 991.98px) {
+    .mc-admin-cv-side-col { order: 2; }
+}
+@media (max-width: 767.98px) {
+    .mc-admin-concern_view-page { padding-bottom: 32px; }
+    .mc-admin-cv-title-row { gap: 12px; margin-bottom: 16px; }
+    .mc-admin-cv-icon-wrap { width: 46px; height: 46px; }
+    .mc-admin-cv-icon-wrap .lucide { width: 22px; height: 22px; }
+    .mc-admin-cv-title-block h1 { font-size: 1.3rem; }
+    .mc-admin-cv-title-block { flex: 1 1 100%; }
+    .mc-admin-cv-section-title { padding: 14px 16px; }
+    .mc-admin-cv-section-body, .mc-admin-cv-sidebar-card { padding: 16px; }
+    .mc-admin-cv-details-grid { grid-template-columns: 1fr; }
+    .mc-admin-cv-photos-grid { grid-template-columns: repeat(2, 1fr); }
+    .mc-admin-cv-timeline-wrap { padding-left: 28px; }
+    .mc-admin-cv-timeline-badge { left: -28px; width: 24px; height: 24px; }
+    .mc-admin-cv-chat-col { max-width: 86%; }
+    .mc-admin-cv-chat-footer { flex-wrap: nowrap; }
+    .mc-admin-cv-chat-footer .btn { padding-inline: 14px; }
+}

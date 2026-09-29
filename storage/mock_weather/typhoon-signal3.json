@@ -1,0 +1,31 @@
+{
+  "fixture": "typhoon-signal3",
+  "city": "Marikina",
+  "country": "PH",
+  "fetched_at": "generated-fixture",
+  "current": {
+    "temp_c": 23,
+    "feels_like_c": 22,
+    "humidity_pct": 92,
+    "wind_kph": 68,
+    "condition": "Typhoon — Signal #3",
+    "advisory": "ADVISORY: Typhoon Signal #3 in effect. Collection crews stand down; expect schedule postponements.",
+    "icon": "🌀"
+  },
+  "forecast_days": [
+    {
+      "date": "__DATE_TODAY__",
+      "max_c": 25,
+      "min_c": 21,
+      "condition": "Typhoon winds",
+      "rain_chance_pct": 95
+    },
+    {
+      "date": "__DATE_TOMORROW__",
+      "max_c": 26,
+      "min_c": 22,
+      "condition": "Heavy showers",
+      "rain_chance_pct": 85
+    }
+  ]
+}

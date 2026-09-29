@@ -1,0 +1,528 @@
+@charset "UTF-8";
+
+/* =========================================================
+   admin/citizen_view.php — page-level styles
+   Theme: Pure Minimalism (PROJECT_GUIDE.md Rule #14/#15).
+   No gradients, no skeuomorphic shadows, no translateY clicks.
+   Tokens: assets/css/variables.css   Primitives: assets/css/common.css
+
+   REBUILT. The previous file defined ~70 .mc-admin-cv-* rules of which
+   citizen_view.php used NONE — it was a fully orphaned sheet describing a page
+   that was never built, while the page itself rendered as raw Bootstrap. This
+   sheet now matches the markup exactly.
+
+   Two changes the rebuild required:
+   - The two linear-gradient() fills (profile banner, avatar) are gone. Rule #14.
+   - Rules for data the API cannot supply were dropped, not left dormant:
+     .mc-admin-cv-avatar-status*, .mc-admin-cv-tabs/-tab,
+     .mc-admin-cv-details-grid/-detail-*, .mc-admin-cv-activity-*,
+     .mc-admin-cv-section-actions, .mc-admin-cv-header-actions,
+     .mc-admin-cv-action-btn-sm.
+
+   Data available (admin/api/citizen.php): id, first_name, last_name, mobile,
+   email, barangay, active, created_at, avatar_public_id, email_verified_at.
+   That is all this page may render.
+
+   2026-09-27: .mc-admin-cv-avatar was retired in favour of the shared .mc-avatar
+   primitive in common.css, so a citizen with an uploaded photo and one without
+   look the same here as on their own profile. .mc-admin-cv-status-badge was
+   joined by .mc-admin-cv-status-row to carry a second badge (email verification),
+   which the old header comment above had listed as "impossible" and dropped.
+   ========================================================= */
+
+/* ---------- Page shell ---------- */
+.mc-admin-citizen_view-page {
+    max-width: 1600px;
+    margin-inline: auto;
+    padding: 16px 0 48px;
+}
+@media (min-width: 768px) {
+    .mc-admin-citizen_view-page { padding: 24px 0 48px; }
+}
+
+/* ---------- Header + back link ---------- */
+.mc-admin-cv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.mc-admin-cv-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 14px 8px 10px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    font: 600 .9rem/1 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-primary);
+    text-decoration: none;
+    transition: background-color .18s, border-color .15s;
+}
+.mc-admin-cv-back-link:hover {
+    background: var(--ba-primary-tint);
+    border-color: var(--ba-border-blue);
+    color: var(--ba-primary);
+    text-decoration: none;
+}
+.mc-admin-cv-back-link .lucide { stroke-width: 2.1; width: 18px; height: 18px; }
+
+/* ---------- Two-column layout ---------- */
+.mc-admin-cv-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 768px) {
+    .mc-admin-cv-grid { grid-template-columns: 320px minmax(0, 1fr); }
+}
+.mc-admin-cv-sidebar { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.mc-admin-cv-main { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+/* ---------- Profile card ---------- */
+/* ONE inset for every block in this card. Measured off a 320px sidebar: the
+   meta rows were at 20px, the status pills at 1px, the Edit button at 0px and
+   the divider at 0px, so a single card carried four different left edges and
+   read as visibly "off" next to a perfectly centred name. --mc-cv-inset is the
+   value .mc-admin-cv-profile-meta already used; everything else adopts it. */
+.mc-admin-cv-profile-card {
+    --mc-cv-inset: 20px;
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+}
+/* Rule #14: was linear-gradient(135deg,...). Flat solid band instead. */
+.mc-admin-cv-profile-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 88px;
+    background: var(--ba-primary);
+    pointer-events: none;
+}
+.mc-admin-cv-avatar-wrap {
+    position: relative;
+    z-index: 2;
+    padding-top: 40px;
+    margin-bottom: 12px;
+    /* Centres the tile in a way that does not depend on the tile's own display.
+       .mc-avatar is display:inline-flex (common.css:222) so a PHOTO centred
+       fine via the card's text-align:center — but .mc-avatar--fallback
+       overrides that with display:flex (common.css:250), which is block-level
+       and therefore ignores text-align entirely. That is why a citizen with an
+       uploaded photo looked right and a citizen without one (initials tile)
+       sat hard against the left border, ~96px off the card's centre line.
+       Centring the WRAPPER fixes both cases and touches nothing shared, so
+       admin/profile.php, public/profile.php and admin/citizens.php — the other
+       three consumers of the primitive — are unaffected. */
+    display: flex;
+    justify-content: center;
+}
+/* The tile itself is the shared .mc-avatar primitive (assets/css/common.css), so
+   a citizen with a real uploaded photo and one without render identically to
+   what they see on their own profile. This block only adapts it to the profile
+   card: centred, with the white ring that lifts it off the coloured band.
+   The former .mc-admin-cv-avatar rule (92px, var(--ba-primary) fill, 4px white
+   border) had no markup left pointing at it once the shared primitive took over,
+   so it is gone rather than left as dead CSS. */
+.mc-admin-cv-avatar-wrap .mc-avatar {
+    border: 4px solid var(--ba-surface);
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-cv-avatar-wrap .mc-avatar--fallback {
+    /* The shared fallback is a pale tint, which would disappear against the
+       primary band it straddles. Solid primary keeps it legible there, which is
+       the one place the tint does not work. */
+    background: var(--ba-primary);
+    color: #fff;
+}
+.mc-admin-cv-fullname {
+    position: relative;
+    z-index: 2;
+    font: var(--ba-h3);
+    color: var(--ba-text);
+    margin: 0 0 4px;
+    padding: 0 16px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-cv-citizen-id {
+    position: relative;
+    z-index: 2;
+    font: 600 .78rem/1.2 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+    margin: 0 0 12px;
+    letter-spacing: .04em;
+}
+/* Two badges now share a line: account status and email-verification state.
+   The row owns the bottom margin so the individual badges can sit flush
+   against each other; each badge keeps its own margin only when rendered
+   standalone.
+
+   justify-content was missing, so the pair sat hard against the card's left
+   border with ~64px of dead space on the right — measured row centre 32px left
+   of the card's centre line. text-align:center does not centre flex items,
+   which is why inheriting it from the card did nothing. The padding keeps the
+   pills off the border on the second line once flex-wrap splits them on a
+   narrow phone. */
+.mc-admin-cv-status-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 var(--mc-cv-inset);
+    margin-bottom: 16px;
+}
+.mc-admin-cv-status-row .mc-admin-cv-status-badge { margin-bottom: 0; }
+.mc-admin-cv-status-badge {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 13px;
+    border-radius: var(--ba-radius-pill);
+    font: 600 .75rem/1.35 'Montserrat', system-ui, sans-serif;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    margin-bottom: 16px;
+}
+.mc-admin-cv-status-badge .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.mc-admin-cv-status-badge.active {
+    background: var(--ba-success-light);
+    color: #2F6A5C;
+    border-color: rgba(74, 143, 126, .28);
+}
+.mc-admin-cv-status-badge.inactive {
+    background: var(--ba-danger-light);
+    color: var(--ba-danger);
+    border-color: rgba(168, 68, 68, .22);
+}
+/* Edit button. It used to carry Bootstrap's w-100 + mt-3, and since the card
+   has no padding of its own, w-100 made it span the card edge to edge — the
+   button's border touched both card borders, so it read as a full-bleed band
+   rather than a button. Overriding w-100 would need !important against an
+   !important utility, so the utilities were dropped from the markup and this
+   rule owns the geometry outright (same lesson as the .mc-editor-dialog
+   footers). display:flex is required for margin auto to centre an inline-flex
+   box. The .btn-sm height (36px desktop / 40px below 768px) is untouched and
+   deliberate — see common.css:43. */
+.mc-admin-cv-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 2 * var(--mc-cv-inset));
+    margin: var(--ba-space-4) auto 0;
+}
+/* opacity:1 is load-bearing. Bootstrap's reboot sets hr{opacity:.25}, which
+   this rule never reset, so the 1px cream line rendered at 4% contrast —
+   measured (248,247,245) against a (255,255,255) card, i.e. invisible. The
+   top margin stops it butting straight against the button's bottom border. */
+.mc-admin-cv-profile-divider {
+    border: 0;
+    border-top: 1px solid var(--ba-border);
+    opacity: 1;
+    margin: var(--ba-space-4) var(--mc-cv-inset);
+}
+.mc-admin-cv-profile-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+    padding: 0 var(--mc-cv-inset) var(--ba-space-4);
+}
+.mc-admin-cv-meta-item { display: flex; align-items: flex-start; gap: 10px; }
+.mc-admin-cv-meta-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-primary-tint);
+    color: var(--ba-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.mc-admin-cv-meta-icon .lucide { width: 15px; height: 15px; stroke-width: 2.1; }
+/* The label and value are <span>s, so they are inline by default and sat on ONE
+   line with no gap -- "EMAILjustinesguerra679@gmail.com". The label already
+   carried `margin: 0 0 3px`, which is the tell: a vertical margin does not
+   apply to a non-replaced inline element, so the intended stacking was a silent
+   no-op. The flex column below restores it and makes that margin live.
+
+   Both children also carry `display:block` (see below) so the stacking survives
+   on its own. Relying on the parent's `display:flex` alone made this layout a
+   single point of failure: one lost or overridden declaration put the label and
+   the value back on one line with nothing to indicate why. Two block children
+   cannot regress that way, and inside a flex column `display:block` changes
+   nothing. No markup change needed -- metaRow() already nests them correctly. */
+.mc-admin-cv-meta-content { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; }
+.mc-admin-cv-meta-label {
+    display: block;
+    font: 600 .68rem/1.3 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin: 0 0 3px;
+}
+.mc-admin-cv-meta-value {
+    display: block;
+    min-width: 0;
+    font: 400 .875rem/1.45 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text);
+    margin: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+/* ---------- Account stats ---------- */
+/* Counts are derived in JS from the concern rows the page already holds, so no
+   extra request is made. */
+.mc-admin-cv-stats-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    padding: 18px 16px;
+}
+.mc-admin-cv-stats-title {
+    font: 600 .72rem/1.2 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+    margin: 0 0 14px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+.mc-admin-cv-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.mc-admin-cv-stat-box {
+    padding: 12px 6px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    text-align: center;
+}
+.mc-admin-cv-stat-num {
+    font: 600 1.3rem/1.1 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-primary);
+    margin: 0 0 4px;
+}
+.mc-admin-cv-stat-num.success { color: var(--ba-success); }
+.mc-admin-cv-stat-num.warning { color: var(--ba-warning); }
+.mc-admin-cv-stat-num.danger { color: var(--ba-danger); }
+.mc-admin-cv-stat-label {
+    font: 600 .68rem/1.3 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text-muted);
+    margin: 0;
+    letter-spacing: .02em;
+}
+
+/* ---------- Section card ---------- */
+.mc-admin-cv-section-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    overflow: hidden;
+}
+.mc-admin-cv-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    padding: 16px 20px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-cv-section-title h2 {
+    font: var(--ba-h3);
+    color: var(--ba-text);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.mc-admin-cv-section-title h2 .lucide { width: 18px; height: 18px; stroke-width: 2.1; color: var(--ba-primary); }
+.mc-admin-cv-section-tools { display: flex; align-items: center; gap: 12px; }
+.mc-admin-cv-filter { width: 190px; }
+.mc-admin-cv-filter .form-select { min-height: 44px; }
+
+/* ---------- Concerns table ----------
+   Rule #6: explicit min-width + horizontal scroll, never min-width:0. */
+.mc-admin-cv-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mc-admin-cv-table { margin: 0; border-radius: 0; min-width: 840px; width: 100%; }
+.mc-admin-cv-table > :not(caption) > * > * {
+    padding: 12px 16px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-cv-table thead th {
+    font: 600 .78rem/1.3 'Montserrat', system-ui, sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+/* common.css:11 force-sets the body serif on every td. */
+.mc-admin-cv-table tbody td { font: 400 .875rem/1.5 'Montserrat', system-ui, sans-serif; }
+.mc-admin-cv-table th:nth-child(1), .mc-admin-cv-table td:nth-child(1) { width: 20%; }
+.mc-admin-cv-table th:nth-child(2), .mc-admin-cv-table td:nth-child(2) { width: 32%; }
+.mc-admin-cv-table th:nth-child(3), .mc-admin-cv-table td:nth-child(3) { width: 18%; }
+.mc-admin-cv-table th:nth-child(4), .mc-admin-cv-table td:nth-child(4) { width: 17%; }
+.mc-admin-cv-table th:nth-child(5), .mc-admin-cv-table td:nth-child(5) { width: 13%; }
+.mc-admin-cv-table tbody tr[role="button"] { cursor: pointer; }
+.mc-admin-cv-table tbody tr[role="button"]:focus-visible { outline: 3px solid var(--ba-primary); outline-offset: -3px; }
+
+/* Icon headers, mirroring the primitives admin/citizens.css defines locally. */
+.mc-admin-cv-th-wrap { display: flex; align-items: center; gap: 8px; width: 100%; white-space: nowrap; }
+.mc-admin-cv-th-icon { width: 16px; height: 16px; flex-shrink: 0; color: var(--ba-primary); stroke-width: 2; }
+/* Department under the concern type. Single line with ellipsis so every row
+   keeps the same height; the full value stays reachable via title=. */
+.mc-admin-cv-cell-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: .8125rem;
+    color: var(--ba-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Report number chip, matching the .brp-ref treatment in ba_reports.css. */
+.mc-admin-cv-ref {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    border: 1px solid var(--ba-border);
+    font: 600 .78rem/1.3 'Montserrat', system-ui, sans-serif;
+    color: var(--ba-text);
+    white-space: nowrap;
+}
+
+/* Flat status pills. These replace the Bootstrap badge bg-* set, which rendered
+   New/Acknowledge/Ongoing/Completed in three different visual languages. */
+.mc-admin-cv-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--ba-radius-pill);
+    font: 600 .75rem/1.35 'Montserrat', system-ui, sans-serif;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+.mc-admin-cv-badge--new { background: rgba(51, 104, 160, .10); color: var(--ba-primary); border-color: rgba(51, 104, 160, .20); }
+.mc-admin-cv-badge--acknowledge { background: var(--ba-primary-tint); color: #2A6785; border-color: rgba(102, 163, 191, .34); }
+.mc-admin-cv-badge--ongoing { background: var(--ba-warning-light); color: #7A4A10; border-color: rgba(214, 147, 46, .30); }
+.mc-admin-cv-badge--completed { background: var(--ba-success-light); color: #2F6A5C; border-color: rgba(74, 143, 126, .28); }
+.mc-admin-cv-badge--cancelled { background: var(--ba-danger-light); color: var(--ba-danger); border-color: rgba(168, 68, 68, .22); }
+
+/* ---------- Empty + status + error states ---------- */
+.mc-admin-cv-empty { padding: 40px 24px; text-align: center; }
+.mc-admin-cv-empty-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    color: var(--ba-text-muted);
+}
+.mc-admin-cv-empty-icon .lucide { stroke-width: 1.8; width: 24px; height: 24px; }
+.mc-admin-cv-empty h4 { font: var(--ba-h3); margin: 0 0 6px; }
+.mc-admin-cv-empty p { margin: 0; color: var(--ba-text-muted); font: var(--ba-small); }
+.mc-empty-row:hover { background: transparent !important; }
+
+.mc-admin-cv-hint {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-top: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+.mc-admin-cv-hint:empty { display: none; }
+.mc-admin-cv-hint.is-error { color: var(--ba-danger); }
+
+/* Inline notice card for the Forbidden / Invalid citizen early exits. Replaces
+   .mc-neo-card, which common.css only defines inside its <768px block and is
+   therefore unstyled on desktop. */
+.mc-admin-cv-notice {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    padding: var(--ba-space-4);
+}
+
+/* ---------- Loading placeholder ---------- */
+.mc-admin-cv-loading { padding: 24px 4px; color: var(--ba-text-muted); font: var(--ba-small); }
+
+/* ---------- Mobile (< 768px) ----------
+   The concerns table carries min-width:840px, so below 768px it would otherwise
+   be an 840px horizontal scroller inside a 327px card. It switches to the same
+   labelled stacked-card mode admin/citizens.css uses, driven by the data-label
+   attribute already present on every td. */
+@media (max-width: 767.98px) {
+    .mc-admin-cv-sidebar { order: -1; }
+    /* Was a hardcoded 16px, which put the meta rows 4px inside the status pills
+       and the Edit button (both 20px via --mc-cv-inset) on phones — the same
+       ragged left edge this card had on desktop, just at a smaller scale. Only
+       the bottom padding is genuinely a phone-specific value. */
+    .mc-admin-cv-profile-meta { padding: 0 var(--mc-cv-inset) 18px; }
+    .mc-admin-cv-section-title { padding: 14px 16px; gap: 10px; }
+    .mc-admin-cv-section-title h2 { font-size: 1.05rem; }
+    /* Title, then count, then a full-width filter — three tidy rows. */
+    .mc-admin-cv-section-tools { width: 100%; flex-wrap: wrap; gap: 10px; }
+    .mc-admin-cv-filter { width: 100%; flex: 1 1 100%; }
+
+    .mc-admin-cv-table-wrap { overflow: visible; padding: 12px 12px 4px; }
+    .mc-admin-cv-table { min-width: 0; width: 100%; }
+    .mc-admin-cv-table thead { display: none; }
+    .mc-admin-cv-table tbody { display: block; }
+    .mc-admin-cv-table tbody tr {
+        display: block;
+        border: 1px solid var(--ba-border);
+        border-radius: var(--ba-radius-md);
+        padding: 4px 14px;
+        margin-bottom: 12px;
+        background: var(--ba-surface);
+    }
+    .mc-admin-cv-table tbody tr:last-child { margin-bottom: 8px; }
+    .mc-admin-cv-table tbody td {
+        display: block;
+        width: auto;
+        padding: 12px 0;
+        border-bottom: 1px dashed var(--ba-border);
+        text-align: left;
+        white-space: normal;
+    }
+    .mc-admin-cv-table tbody td:last-child { border-bottom: 0; }
+    .mc-admin-cv-table th:nth-child(n), .mc-admin-cv-table td:nth-child(n) { width: auto; }
+    .mc-admin-cv-table tbody td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        font: 700 .7rem/1.2 'Montserrat', system-ui, sans-serif;
+        letter-spacing: .3px;
+        text-transform: uppercase;
+        color: var(--ba-text-muted);
+        margin-bottom: 5px;
+    }
+    /* The department line already reads as secondary; let it wrap on a card. */
+    .mc-admin-cv-cell-sub { white-space: normal; overflow: visible; }
+    .mc-admin-cv-hint { padding: 10px 16px; }
+    .mc-admin-cv-empty { padding: 28px 16px; }
+}

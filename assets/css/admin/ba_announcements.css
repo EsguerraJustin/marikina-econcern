@@ -1,0 +1,554 @@
+@charset "UTF-8";
+
+.mc-admin-ba_announcements-page {
+    max-width: 1600px;
+    margin-inline: auto;
+    /* No horizontal padding — .mc-shell-main already supplies 24px. */
+    padding: 16px 0 48px;
+}
+@media (min-width: 768px) {
+    .mc-admin-ba_announcements-page { padding: 24px 0 48px; }
+}
+
+/* Flat navy hero, mirroring admin/ba_dropoffs.css. Was a linear-gradient,
+   which Rule #14 bans. */
+.mc-admin-hero {
+    background-color: #1F4570;
+    background-image: url('../../img/Header-bg-light.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* multiply, not overlay: overlay LIGHTENS a dark base wherever
+       background-size:cover samples a bright part of the JPEG. On a short
+       hero box cover fills width and shows more of the bright area, which
+       washed the navy out and left the white title low-contrast. multiply
+       always darkens, so the hero is deterministic at any viewport. */
+    background-blend-mode: multiply;
+    border-radius: var(--ba-radius-md);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: var(--ba-shadow-md);
+}
+.mc-admin-hero::after { content: none; }
+.mc-admin-hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+.mc-admin-hero-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+.mc-admin-hero-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--ba-radius-md);
+    background: rgba(255,255,255,.14);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+    /* Without an explicit color the Lucide SVG inherits body ink
+       (--ba-text #1F2937) via stroke:currentColor and vanishes on navy. */
+    color: #fff;
+}
+.mc-admin-hero-icon .lucide { color: #fff; stroke: #fff; stroke-width: 2.1; }
+.mc-admin-hero-title { min-width: 0; color: #fff; }
+.mc-admin-hero-title h1 {
+    font: var(--ba-h1);
+    color: #fff;
+    margin: 0 0 4px;
+    letter-spacing: -.01em;
+}
+.mc-admin-hero-title p {
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font: var(--ba-small);
+}
+.mc-admin-hero-seal {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 2px;
+    filter: invert(1) brightness(.92);
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+
+.mc-admin-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+@media (min-width: 576px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 992px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.mc-admin-kpi-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    padding: 20px;
+    position: relative;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.7) inset,
+        0 3px 0 rgba(51,104,160,.08),
+        0 6px 16px rgba(31,41,55,.06);
+    transition: transform .2s ease, box-shadow .25s ease;
+}
+@media (hover:hover) {
+    /* Rule #14: no translateY hover animation — flat border tint only. */
+    .mc-admin-kpi-card:hover {
+        box-shadow:
+            0 1px 0 rgba(255,255,255,.7) inset,
+            0 5px 0 rgba(51,104,160,.10),
+            0 12px 28px rgba(51,104,160,.12);
+    }
+}
+.mc-admin-kpi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.mc-admin-kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ba-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.mc-admin-kpi-icon .lucide { stroke-width: 2.1; }
+.mc-admin-kpi-label {
+    font: var(--ba-caption);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ba-text-muted);
+    margin: 0;
+}
+.mc-admin-kpi-value {
+    font: 700 2rem/1.1 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 6px;
+    letter-spacing: -.02em;
+}
+.mc-admin-kpi-sub {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.mc-admin-kpi-sub .lucide { width: 14px; height: 14px; stroke-width: 2.2; }
+.mc-admin-kpi-icon--blue { background: rgba(51,104,160,.10); color: var(--ba-primary); }
+.mc-admin-kpi-icon--mint { background: rgba(74,143,126,.12); color: var(--ba-success); }
+.mc-admin-kpi-icon--amber { background: rgba(214,147,46,.12); color: var(--ba-warning); }
+.mc-admin-kpi-icon--red { background: rgba(168,68,68,.10); color: var(--ba-danger); }
+.mc-admin-kpi-sub--up { color: var(--ba-success); }
+.mc-admin-kpi-sub--down { color: var(--ba-danger); }
+
+.mc-admin-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.mc-admin-search {
+    flex: 1 1 280px;
+    min-width: 220px;
+    position: relative;
+}
+.mc-admin-search .lucide-search {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ba-primary);
+    pointer-events: none;
+    stroke-width: 2.1;
+}
+.mc-admin-search .form-control {
+    min-height: 44px;
+    height: 44px;
+    padding-left: 42px !important;
+}
+.mc-admin-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    cursor: pointer;
+    color: var(--ba-text);
+    box-shadow: var(--ba-shadow-sm);
+    transition: all .15s ease;
+}
+.mc-admin-filter-chip:hover { background: #EDE7DA; border-color: var(--ba-border-strong); }
+.mc-admin-filter-chip .lucide { stroke-width: 2.1; }
+
+.mc-admin-announce-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+    .mc-admin-announce-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1200px) {
+    .mc-admin-announce-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.mc-admin-announce-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .25s ease;
+}
+@media (hover:hover) {
+    /* Rule #14: no translateY. Flat border + shadow change only. */
+    .mc-admin-announce-card:hover {
+        border-color: var(--ba-border-strong);
+        box-shadow: 0 8px 24px rgba(51,104,160,.12);
+    }
+}
+.mc-admin-announce-card--draft { opacity: .78; }
+
+/* Banner variants were linear-gradients (Rule #14). Now flat solid fills, and
+   a `danger` variant added because Disruption / Cancellation had none. */
+/* Compact kind strip. Was a 120px colour block that was taller than the card
+   content beneath it; at ~64px it reads as a category cue, not a banner. */
+.mc-admin-announce-banner {
+    height: 64px;
+    background: #2B5A8C;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 16px;
+    flex-shrink: 0;
+}
+.mc-admin-announce-banner.mint { background: #4A8F7E; }
+.mc-admin-announce-banner.amber { background: #D6932E; }
+.mc-admin-announce-banner.navy { background: #1F4570; }
+.mc-admin-announce-banner.danger { background: #A84444; }
+/* The kind name lives in the strip so the colour is never the only signal. */
+.mc-admin-announce-banner-icon {
+    color: rgba(255,255,255,.95);
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+.mc-admin-announce-banner-icon .lucide {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.1;
+}
+.mc-admin-announce-banner-label {
+    color: #fff;
+    font: 600 .78rem/1.3 'Montserrat', sans-serif;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* NOTE: .mc-admin-announce-pin-badge and .mc-admin-announce-card.pinned were
+   removed — the ba_announcements table has no `pinned` column, so the feature
+   had no backing data. Reinstate only alongside a real migration. */
+.mc-admin-announce-body { padding: 16px 18px; flex: 1 1 auto; display: flex; flex-direction: column; }
+.mc-admin-announce-title {
+    font: 600 1.02rem/1.35 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0 0 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.mc-admin-announce-excerpt {
+    font: var(--ba-small);
+    color: var(--ba-text);
+    line-height: 1.6;
+    margin: 0 0 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1 1 auto;
+}
+/* Revised-schedule callout: flat bordered block, no left accent bar. */
+.mc-admin-announce-revised {
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    padding: 12px 14px;
+    margin: 0 0 12px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-announce-meta {
+    display: flex;
+    align-items: center;    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-top: 12px;
+    border-top: 1px solid var(--ba-border);
+}
+.mc-admin-announce-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.mc-admin-announce-date {
+    font: var(--ba-caption);
+    color: var(--ba-text-muted);
+    letter-spacing: .01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.mc-admin-announce-date .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+
+/* Card footer actions — Edit + Delete must stay on one line. */
+.mc-admin-announce-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+.mc-admin-announce-actions .btn { white-space: nowrap; }
+/* Scope chip (barangay / all) sits with the dates on the left of the footer. */
+.mc-admin-announce-scope {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font: var(--ba-caption);
+    color: var(--ba-text-muted);
+}
+.mc-admin-announce-scope .lucide { width: 13px; height: 13px; stroke-width: 2.1; }
+
+.mc-admin-table-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-table-head {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-table-head h3 {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-table-head h3 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+
+.mc-admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mc-admin-table-wrap .table { margin: 0; border-radius: 0; min-width: 840px; }
+.mc-admin-table-wrap .table>:not(caption)>*>* { padding: 12px 16px; overflow-wrap: break-word; word-break: normal; }
+.mc-admin-table-wrap .table thead th {
+    font: 600 .78rem/1.3 'Montserrat', sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.mc-admin-table-wrap .table tbody td {
+    font: var(--ba-small);
+    vertical-align: middle;
+}
+.mc-admin-table-wrap .table tbody tr { cursor: pointer; }
+.mc-admin-actions { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.mc-admin-btn-icon {
+    min-height: 36px;
+    height: 36px;
+    width: 36px;
+    min-width: 36px;
+    padding: 0;
+    border-radius: var(--ba-radius-sm);
+}
+.mc-admin-btn-icon .lucide { width: 16px; height: 16px; stroke-width: 2.1; }
+
+.mc-admin-empty { padding: 48px 24px; text-align: center; }
+.mc-admin-empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--ba-text-muted);
+}
+.mc-admin-empty-icon .lucide { stroke-width: 1.8; }
+.mc-admin-empty h4 { font: var(--ba-h3); margin: 0 0 6px; }
+.mc-admin-empty p { margin: 0; color: var(--ba-text-muted); font: var(--ba-small); }
+
+.mc-admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--ba-radius-pill);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    line-height: 1.35;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+.mc-admin-badge .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.mc-admin-badge--new { background: rgba(51,104,160,.10); color: var(--ba-primary); border-color: rgba(51,104,160,.20); }
+.mc-admin-badge--success { background: rgba(74,143,126,.14); color: var(--ba-success); border-color: rgba(74,143,126,.28); }
+.mc-admin-badge--warning { background: var(--ba-warning-light); color: var(--ba-warning); border-color: rgba(214,147,46,.25); }
+.mc-admin-badge--danger { background: rgba(168,68,68,.10); color: var(--ba-danger); border-color: rgba(168,68,68,.20); }
+.mc-admin-badge--muted { background: var(--ba-surface-2); color: var(--ba-text-muted); border-color: var(--ba-border); }
+
+/* Editor dialog. The <form> must be the flex column here, not .modal-content,
+   because the form is what sits between the content box and the three
+   sections — see the .mc-editor-dialog block in common.css. */
+.mc-ann-modal-body { padding: 20px 20px 4px; }
+/* The alert lives in the footer above the buttons so a save failure is visible
+   without scrolling back up a long form. common.css already gives it a
+   full-width row; the cap is this page's own because save_announcement can
+   return a long publish_stats delivery report, and that must scroll itself
+   rather than push Save off screen. */
+.mc-ann-modal-footer #editorAlert {
+    max-height: 22vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-width: 0;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+#editorAlert:empty { display: none; }
+#editorAlert .alert { margin-bottom: 0; }
+/* Delivery report is block content (title + scope + badges + list), but the
+   shared .alert in common.css is display:flex, which laid the sections out as
+   a horizontal row and forced an X-scroll. Stack vertically instead. */
+.mc-ann-modal-footer #editorAlert .alert.mc-ann-report {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+}
+.mc-ann-modal-footer #editorAlert .alert.mc-ann-report .d-flex {
+    flex-wrap: wrap;
+}
+.mc-ann-modal-footer #editorAlert .alert.mc-ann-report .badge {
+    white-space: normal;
+    text-align: left;
+}
+.mc-admin-form-group { margin-bottom: 16px; }
+.mc-admin-form-row {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 12px;
+}
+@media (min-width: 576px) {
+    .mc-admin-form-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.mc-admin-form-control,
+.mc-admin-form-select {
+    min-height: 44px;
+    height: 44px;
+}
+.mc-admin-form-textarea {
+    min-height: 140px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 1.6;
+}
+.mc-admin-switch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--ba-surface-2);
+    border-radius: var(--ba-radius-md);
+    margin-bottom: 14px;
+}
+.mc-admin-switch-label {
+    font: 600 .875rem/1.3 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0;
+}
+.mc-admin-switch-sublabel {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 2px 0 0;
+}
+
+.ba-sticky-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1056;
+    background: var(--ba-surface);
+    border-top: 1px solid var(--ba-border);
+    padding: 16px 20px;
+    margin: 20px -20px -24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    box-shadow: 0 -4px 16px rgba(31,41,55,.06);
+}
+.ba-sticky-footer .btn { min-height: 44px; }
+
+@media (max-width: 576px) {
+    .mc-admin-hero { padding: 18px 16px; }
+    .mc-admin-hero-seal { width: 48px; height: 48px; }
+    .mc-admin-hero-icon { width: 44px; height: 44px; }
+    .mc-admin-hero-title h1 { font-size: 1.3rem; }
+    .mc-admin-kpi-card { padding: 16px; }
+    .mc-admin-kpi-value { font-size: 1.65rem; }
+    .mc-admin-announce-banner { height: 56px; }
+    .mc-admin-announce-body { padding: 14px; }
+    .mc-admin-table-wrap .table>:not(caption)>*>* { padding: 10px 12px; }
+}

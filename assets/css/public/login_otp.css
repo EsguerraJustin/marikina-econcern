@@ -1,0 +1,258 @@
+@charset "UTF-8";
+/* ====================================================================
+   BasuraAlert / Marikina Concern - Public Portal
+   login_otp.css  (page-specific ONLY)
+   --------------------------------------------------------------------
+   Scope: Login OTP verification page — page wrapper, split hero card,
+          OTP digit inputs, resend timer, submit button.
+   Loaded THIRD on page (after variables.css -> common.css).
+   Sizing budget: <= 10240 bytes uncompressed.
+   Palette: #3368A0 · #66A3BF · #C8DFDB · #F2EFE7 (user approved)
+   ==================================================================== */
+
+
+/* ======================================================
+   0 · PAGE WRAPPER LAYOUT (mobile first, responsive)
+   ====================================================== */
+.mc-otp-page {
+    max-width: 1140px;
+    margin-inline: auto;
+    padding: var(--ba-space-4) var(--ba-space-4) var(--ba-space-7);
+}
+@media (min-width: 768px) {
+    .mc-otp-page { padding: var(--ba-space-5) var(--ba-space-5) var(--ba-space-7); }
+}
+
+
+/* ======================================================
+   1 · AUTH HERO CARD (split layout · form left · image right)
+   Min-height 500px on md+, wraps to column on mobile.
+   ====================================================== */
+.mc-otp-hero {
+    background: var(--ba-surface);
+    border: 1px solid rgba(51,104,160,0.14);
+    border-radius: var(--ba-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-md);
+}
+.mc-otp-hero-inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+}
+@media (min-width: 768px) {
+    .mc-otp-hero-inner {
+        flex-direction: row;
+        align-items: stretch;
+    }
+}
+
+
+/* ======================================================
+   2 · FORM PANEL (left / top on mobile)
+   Skeu recessed OTP inputs, raised→pressed buttons.
+   ====================================================== */
+.mc-otp-form-panel {
+    flex: 1 1 50%;
+    padding: var(--ba-space-5) var(--ba-space-5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+@media (min-width: 768px) {
+    .mc-otp-form-panel { padding: var(--ba-space-6) var(--ba-space-6); }
+}
+
+.mc-otp-title {
+    margin: 0 0 var(--ba-space-2);
+    font: var(--ba-h1);
+    color: var(--ba-text);
+}
+.mc-otp-subtitle {
+    margin: 0 0 var(--ba-space-2);
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+.mc-otp-sent-to {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--ba-primary-tint);
+    border-radius: var(--ba-radius-pill);
+    font: var(--ba-caption);
+    color: var(--ba-primary);
+    font-family: 'Montserrat', system-ui, sans-serif;
+    margin: 0 0 var(--ba-space-5);
+    width: fit-content;
+}
+
+.mc-otp-form { display: flex; flex-direction: column; gap: var(--ba-space-4); }
+
+/* ------------------------------------------------------------------
+   LIVE OTP digit row. This rule existed but was dead: the page hard-coded
+   style="width:3.2rem;height:4rem" on each of six inputs inside a
+   non-wrapping `d-flex justify-content-between` row. That row needs a minimum
+   of 6 x 51.2px + 5 x 8px gap = 347px against an available viewport - 80px,
+   so it overflowed below ~1190px, and because common.css:2-3 sets
+   overflow-x:hidden on BOTH html and body the overflow was clipped rather
+   than scrollable: digits 5 and 6 were physically unreachable and the 6-digit
+   code could not be entered on a phone.
+   The markup now uses this class instead of the inline width/height.
+   minmax(0,1fr) + aspect-ratio lets the boxes scale to the container while
+   never dropping below the 44px tap-target floor. */
+.mc-otp-digits {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--ba-space-2);
+    margin: 0 0 16px;
+}
+.mc-otp-digit {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    min-height: 52px;
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    text-align: center;
+    font: 600 1.375rem/1 'Montserrat', system-ui, sans-serif;
+    padding: 0;
+    color: var(--ba-text);
+    background: var(--ba-surface);
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+.mc-otp-digit:focus {
+    border-color: var(--ba-primary);
+    box-shadow: 0 0 0 3px rgba(51, 104, 160, .18);
+    outline: none;
+}
+.mc-otp-digit:disabled { opacity: .55; cursor: not-allowed; }
+@media (max-width: 575.98px) {
+    .mc-otp-digit { min-height: 44px; font-size: 1.1rem; }
+}
+@media (max-width: 400px) {
+    .mc-otp-digits { gap: 6px; }
+    .mc-otp-digit { min-height: 44px; font-size: 1rem; }
+}
+
+.mc-otp-resend-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ba-space-3);
+    margin-top: var(--ba-space-1);
+}
+.mc-otp-timer {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+.mc-otp-timer strong {
+    color: var(--ba-primary);
+    font-family: 'Montserrat', system-ui, sans-serif;
+}
+.mc-otp-resend {
+    font: var(--ba-small);
+    color: var(--ba-primary);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+}
+.mc-otp-resend:hover:not(:disabled) { text-decoration: underline; }
+.mc-otp-resend:disabled {
+    color: var(--ba-text-muted);
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.mc-otp-submit {
+    width: 100%;
+    margin-top: var(--ba-space-2);
+}
+
+.mc-otp-alt-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: var(--ba-space-5);
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+.mc-otp-alt-link {
+    color: var(--ba-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Montserrat', system-ui, sans-serif;
+}
+.mc-otp-alt-link:hover { text-decoration: underline; }
+
+
+/* ======================================================
+   3 · IMAGE PANEL (right / bottom on mobile)
+   Background.jpeg with gradient veil overlay.
+   ====================================================== */
+.mc-otp-image-panel {
+    flex: 1 1 50%;
+    min-height: 260px;
+    background-color: #C8DFDB;
+    background-image:
+        linear-gradient(135deg,
+            rgba(51,104,160,0.45) 0%,
+            rgba(102,163,191,0.45) 55%,
+            rgba(200,223,219,0.25) 100%),
+        url('../../img/Background.jpeg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+@media (max-width: 767.98px) {
+    .mc-otp-image-panel { min-height: 200px; }
+}
+.mc-otp-image-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+        circle at 50% 10%,
+        rgba(255,255,255,0.22) 0%,
+        rgba(255,255,255,0.00) 55%);
+    pointer-events: none;
+}
+.mc-otp-image-caption {
+    position: relative;
+    padding: var(--ba-space-5);
+    color: #fff;
+    max-width: 420px;
+}
+.mc-otp-image-caption h3 {
+    font: var(--ba-h2);
+    color: #fff;
+    margin: 0 0 var(--ba-space-2);
+}
+.mc-otp-image-caption p {
+    margin: 0;
+    color: rgba(255,255,255,0.92);
+    font: var(--ba-small);
+}
+
+
+/* ======================================================
+   4 · RESPONSIVE BREAKPOINTS
+   ====================================================== */
+@media (max-width: 576px) {
+    .mc-otp-form-panel { padding: var(--ba-space-4); }
+    .mc-otp-title { font-size: var(--ba-fs-h2); }
+    .mc-otp-digit { font-size: 1.1rem !important; min-height: 44px; }
+    .mc-otp-image-caption { padding: var(--ba-space-4); }
+    .mc-otp-image-caption h3 { font-size: var(--ba-fs-h3); }
+}
+
+
+/* ======================================================
+   (END) · login_otp.css page-specific only
+   ====================================================== */

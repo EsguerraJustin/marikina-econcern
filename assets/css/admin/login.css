@@ -1,0 +1,55 @@
+@charset "UTF-8";
+/* GLOBAL SEAL OPT-OUT: admin split-screen has custom navy brand panel w/ cityhall photo */
+.mc-admin-login-hero-inner::after,.mc-admin-login-hero::after{content:none!important}
+img{max-width:100%!important;height:auto!important;display:block}
+.mc-admin-login-page{max-width:1280px;margin-inline:auto;padding:var(--ba-space-5) var(--ba-space-4) var(--ba-space-6);min-height:100vh;display:flex;align-items:center}
+@media(min-width:768px){.mc-admin-login-page{padding:var(--ba-space-6) var(--ba-space-5) var(--ba-space-7)}}
+.mc-admin-login-hero{background:#fff;border:1px solid var(--ba-border);border-radius:var(--ba-radius-lg);overflow:hidden;box-shadow:var(--ba-shadow-md);width:100%}
+.mc-admin-login-hero-inner{display:flex;flex-direction:column;min-height:560px;width:100%}
+@media(min-width:768px){.mc-admin-login-hero-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr;align-items:stretch;min-height:680px}}
+.mc-admin-login-form-panel{min-width:0;padding:var(--ba-space-5) var(--ba-space-4);display:flex;flex-direction:column;justify-content:center;max-width:580px;margin-inline:auto;width:100%}
+@media(min-width:768px){.mc-admin-login-form-panel{padding:var(--ba-space-7) var(--ba-space-6);max-width:none;margin-inline:0;width:auto;grid-column:1}}
+.mc-admin-login-form-brand{display:flex;align-items:center;gap:var(--ba-space-3);margin:0 0 var(--ba-space-5)}
+.mc-admin-login-form-brand-img{width:44px!important;height:44px!important;min-width:44px;min-height:44px;flex-shrink:0;object-fit:contain;border-radius:var(--ba-radius-md);background:#fff;padding:2px;border:1px solid var(--ba-border);box-shadow:var(--ba-shadow-sm)}
+.mc-admin-login-form-brand-title h1{font:var(--ba-h2);margin:0;color:#1F4570}
+.mc-admin-login-form-brand-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-admin-login-title{margin:0 0 var(--ba-space-2);font:var(--ba-h1);color:var(--ba-text);line-height:1.2}
+.mc-admin-login-subtitle{margin:0 0 var(--ba-space-5);font:var(--ba-small);color:var(--ba-text-muted);line-height:1.6}
+.mc-admin-login-alert{border-radius:var(--ba-radius-md)!important;border:1px solid var(--ba-border)!important;font:var(--ba-small)!important;line-height:1.55;margin-bottom:var(--ba-space-4)!important;padding:12px 14px!important;box-shadow:none!important;background:#fff!important}
+.mc-admin-login-alert.alert-info{border-color:rgba(51,104,160,.22)!important;color:#2B5A8C!important;background:rgba(51,104,160,.06)!important}
+.mc-admin-login-alert.alert-danger{border-color:rgba(190,38,38,.22)!important;color:#8C1D1D!important;background:rgba(190,38,38,.06)!important}
+.mc-admin-login-alert.alert-warning{border-color:rgba(214,147,46,.22)!important;color:#8A5A10!important;background:rgba(214,147,46,.08)!important}
+.mc-admin-login-form{display:flex;flex-direction:column;gap:var(--ba-space-4)}
+.mc-admin-login-field{position:relative;display:flex;flex-direction:column;min-width:0}
+.mc-admin-login-field .form-label{margin:0 0 6px}
+.mc-admin-login-input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px!important;max-width:18px!important;height:18px!important;max-height:18px!important;min-width:18px;min-height:18px;color:var(--ba-text-muted);pointer-events:none;z-index:2;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center}
+.mc-admin-login-input{height:48px;padding-left:44px!important;border-radius:var(--ba-radius-md)!important;border:1px solid var(--ba-border)!important;background:#fff!important;box-shadow:none!important;font:var(--ba-body)!important;font-family:'Merriweather',Georgia,serif!important;color:var(--ba-text)!important;transition:border-color .18s ease,box-shadow .18s ease}
+.mc-admin-login-input::placeholder{color:var(--ba-text-muted);opacity:.7}
+.mc-admin-login-input:focus{border-color:#2B5A8C!important;box-shadow:0 0 0 3px rgba(43,90,140,.18)!important}
+.mc-admin-login-options-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:var(--ba-space-3);margin:var(--ba-space-1) 0 0}
+.mc-admin-login-remember{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:4px 8px;margin:-4px -8px;border-radius:var(--ba-radius-sm);font:var(--ba-small);color:var(--ba-text);cursor:pointer;user-select:none;transition:background-color .15s}
+.mc-admin-login-remember:hover{background:rgba(51,104,160,.06)}
+.mc-admin-login-remember input{width:18px!important;height:18px!important;min-width:18px;margin:0;accent-color:var(--ba-primary)}
+.mc-admin-login-submit{width:100%;margin-top:var(--ba-space-2);min-height:50px}
+.mc-admin-login-divider{display:flex;align-items:center;gap:var(--ba-space-3);margin:var(--ba-space-2) 0;color:var(--ba-text-muted);font:600 .72rem/1 'Montserrat',sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.mc-admin-login-divider::before,.mc-admin-login-divider::after{content:"";flex:1 1 auto;height:1px;background:var(--ba-border);min-width:0}
+.mc-admin-login-alt-btn{width:100%;min-height:48px}
+.mc-admin-login-alt-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:var(--ba-space-5);font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-admin-login-alt-link{color:#2B5A8C;text-decoration:none;font-weight:600;font-family:'Montserrat',system-ui,sans-serif}
+.mc-admin-login-alt-link:hover{text-decoration:underline}
+.mc-admin-login-footer-terms{margin:var(--ba-space-5) 0 0;padding-top:var(--ba-space-4);border-top:1px solid var(--ba-border);font:var(--ba-small);color:var(--ba-text-muted);line-height:1.6;text-align:center}
+.mc-admin-login-footer-terms a{color:#2B5A8C;text-decoration:none;font-weight:600}
+.mc-admin-login-footer-terms a:hover{text-decoration:underline}
+.mc-admin-login-image-panel{min-width:0;min-height:240px;background-color:#1F4570;background-image:linear-gradient(135deg,rgba(31,69,112,.92) 0%,rgba(43,90,140,.92) 100%),radial-gradient(circle at 85% 8%,rgba(255,255,255,.10) 0,transparent 55%),radial-gradient(circle at 12% 90%,rgba(102,163,191,.30) 0,transparent 55%);position:relative;display:none;flex-direction:column;padding:var(--ba-space-6) var(--ba-space-5);overflow:hidden}
+@media(min-width:768px){.mc-admin-login-image-panel{display:flex;min-height:auto;padding:var(--ba-space-7) var(--ba-space-6);grid-column:2}}
+.mc-admin-login-brand-head{display:flex;align-items:center;gap:var(--ba-space-3);margin:0 0 var(--ba-space-6);position:relative;z-index:2;min-width:0}
+.mc-admin-login-brand-seal{width:48px!important;height:48px!important;min-width:48px;min-height:48px;flex-shrink:0;object-fit:contain;border-radius:50%;background:#fff;padding:3px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.mc-admin-login-brand-name{font:600 1.05rem/1.15 'Montserrat',sans-serif;color:#fff;letter-spacing:-.01em;margin:0 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mc-admin-login-brand-sub{font:var(--ba-small);color:rgba(255,255,255,.82);margin:0}
+.mc-admin-login-hero-headline{font:600 clamp(1.6rem,2.2vw,2.3rem)/1.15 'Montserrat',sans-serif;color:#fff;letter-spacing:-.015em;margin:0 0 var(--ba-space-5);max-width:440px;position:relative;z-index:2;overflow-wrap:break-word;word-break:normal;hyphens:auto}
+.mc-admin-login-hero-bullets{list-style:none;margin:0 0 var(--ba-space-5);padding:0;display:flex;flex-direction:column;gap:var(--ba-space-3);position:relative;z-index:2;max-width:400px}
+.mc-admin-login-hero-bullets li{display:inline-flex;align-items:center;gap:10px;color:rgba(255,255,255,.92);font:var(--ba-small);line-height:1.55}
+.mc-admin-login-hero-bullets .lucide{width:18px!important;height:18px!important;color:#9FD4D9;stroke-width:2;flex-shrink:0}
+.mc-admin-login-hero-photo{position:relative;z-index:2;margin-top:auto;display:flex;align-items:flex-end;justify-content:center;flex:1 1 auto;min-width:0;max-height:380px;pointer-events:none}
+.mc-admin-login-hero-photo img{width:100%!important;max-width:520px!important;height:100%!important;max-height:360px!important;object-fit:cover;aspect-ratio:4/3;border-radius:var(--ba-radius-lg);box-shadow:0 20px 60px rgba(0,0,0,.22),0 2px 0 rgba(255,255,255,.15) inset;background:rgba(255,255,255,.04);padding:2px}
+@media(max-width:576px){.mc-admin-login-form-panel{padding:var(--ba-space-4)}.mc-admin-login-title{font-size:var(--ba-fs-h2)}.mc-admin-login-form-brand-title h1{font-size:var(--ba-fs-h3)}.mc-admin-login-hero-photo{max-height:260px}}

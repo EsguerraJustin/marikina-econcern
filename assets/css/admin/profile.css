@@ -1,0 +1,102 @@
+@charset "UTF-8";
+/* =========================================================
+   admin/profile.php — Admin Profile
+   Rule #14 (Pure Minimalism): flat solid fills, 1px borders, no
+   gradients, no skeuomorphic shadows, no translateY click animations.
+   Rule #15: flat container, no full-bleed section.
+   ========================================================= */
+.mc-admin-profile-page{max-width:1600px;margin-inline:auto;padding:0 0 48px}
+
+/* ---------------- Header ---------------- */
+.mc-admin-up-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.mc-admin-up-title-block{display:flex;align-items:center;gap:16px;min-width:0}
+.mc-admin-up-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:none}
+.mc-admin-up-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-admin-up-title-text{min-width:0}
+.mc-admin-up-title-text h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text);overflow-wrap:break-word;word-break:normal}
+.mc-admin-up-title-text p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-admin-up-seal{flex-shrink:0;width:56px;height:56px;object-fit:contain;border-radius:50%;background:#fff;border:1px solid var(--ba-border);padding:3px}
+@media(max-width:520px){.mc-admin-up-seal{width:44px;height:44px}}
+
+/* ---------------- Grid ---------------- */
+.mc-admin-up-grid{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:992px){.mc-admin-up-grid{grid-template-columns:340px 1fr;align-items:start}}
+.mc-admin-up-sidebar{display:flex;flex-direction:column;gap:20px;min-width:0}
+.mc-admin-up-main{display:flex;flex-direction:column;gap:20px;min-width:0}
+
+/* ---------------- Photo card ----------------
+   The tile itself is the shared .mc-avatar primitive (common.css) rendered by
+   includes/partials/avatar.php, so the size and the camera badge come from
+   there — never a second, page-local avatar rule. */
+.mc-admin-up-avatar-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:24px 20px;box-shadow:var(--ba-shadow-sm);text-align:center;display:flex;flex-direction:column;align-items:center}
+.mc-admin-up-avatar-name{font:var(--ba-h3);color:var(--ba-text);margin:14px 0 2px;overflow-wrap:break-word;word-break:normal}
+.mc-admin-up-avatar-email{font:var(--ba-small);color:var(--ba-text-muted);overflow-wrap:break-word;word-break:normal;margin-bottom:10px}
+.mc-admin-up-avatar-role{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);font-family:'Montserrat',sans-serif;background:rgba(51,104,160,.10);color:var(--ba-primary);border:1px solid rgba(51,104,160,.20);margin-bottom:16px}
+.mc-admin-up-avatar-role .lucide{width:13px;height:13px;stroke-width:2.1}
+.mc-admin-up-avatar-actions{display:flex;flex-direction:column;gap:8px;width:100%}
+.mc-admin-up-upload-btn,.mc-admin-up-remove-btn{width:100%;min-height:44px;border-radius:var(--ba-radius-md);background:transparent;box-shadow:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font:600 .82rem/1 'Montserrat',sans-serif;transition:background-color .18s,border-color .15s,color .15s,opacity .15s}
+.mc-admin-up-upload-btn{color:var(--ba-primary);border:1px solid rgba(51,104,160,.20)}
+.mc-admin-up-upload-btn:hover{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.28);color:var(--ba-primary)}
+.mc-admin-up-remove-btn{color:var(--ba-danger);border:1px solid rgba(168,68,68,.22)}
+.mc-admin-up-remove-btn:hover:not(:disabled){background:var(--ba-danger-light);border-color:rgba(168,68,68,.32);color:var(--ba-danger)}
+/* No photo on file: removing one is a no-op, so the control is disarmed.
+   avatar.js keeps this in sync after every upload/delete. */
+.mc-admin-up-remove-btn:disabled{opacity:.45;cursor:not-allowed}
+.mc-admin-up-upload-btn .lucide,.mc-admin-up-remove-btn .lucide{width:15px;height:15px;stroke-width:2.1}
+.mc-admin-up-hint{font:var(--ba-caption);color:var(--ba-text-muted);margin:14px 0 0;line-height:1.5}
+#avatarAlert:not(:empty){margin-top:12px;text-align:left;width:100%}
+
+/* ---------------- Section cards ---------------- */
+.mc-admin-up-section-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:22px 24px;box-shadow:var(--ba-shadow-sm)}
+.mc-admin-up-section-title{display:flex;align-items:center;gap:10px;margin:0 0 18px;padding-bottom:14px;border-bottom:1px solid var(--ba-border)}
+.mc-admin-up-section-title-icon{width:32px;height:32px;border-radius:var(--ba-radius-sm);background:var(--ba-primary-tint);color:var(--ba-primary);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.mc-admin-up-section-title-icon .lucide{width:16px;height:16px;stroke-width:2.1}
+.mc-admin-up-section-title h2{font:var(--ba-h3);color:var(--ba-text);margin:0;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:normal}
+
+/* ---------------- Read-only account facts ---------------- */
+.mc-admin-up-facts{margin:0;display:flex;flex-direction:column;gap:14px}
+.mc-admin-up-fact dt{font:600 .78rem/1.3 'Montserrat',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:var(--ba-text-muted);margin-bottom:4px}
+.mc-admin-up-fact dd{margin:0;font-weight:600;color:var(--ba-text);display:flex;align-items:center;gap:8px;flex-wrap:wrap;overflow-wrap:break-word;word-break:normal}
+.mc-admin-up-fact dd .badge{font-weight:600}
+/* Read-only marker for a field only a Super Admin can change. */
+.mc-admin-up-tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:var(--ba-radius-pill);background:var(--ba-surface-2);color:var(--ba-text-muted);border:1px solid var(--ba-border);font:var(--ba-caption);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+
+/* ---------------- Forms ---------------- */
+.mc-admin-up-form-grid{display:grid;grid-template-columns:1fr;gap:16px 18px}
+@media(min-width:768px){.mc-admin-up-form-grid{grid-template-columns:1fr 1fr}}
+.mc-admin-up-form-group{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mc-admin-up-form-group.full{grid-column:1 / -1}
+.mc-admin-up-label{font:600 .85rem/1.2 'Montserrat',sans-serif;color:var(--ba-text);margin:0}
+.mc-admin-up-input{min-height:44px;height:44px;font-size:.95rem}
+.mc-admin-up-info-note{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;border-radius:var(--ba-radius-md);background:rgba(51,104,160,.06);border:1px solid rgba(51,104,160,.16);margin-bottom:18px}
+.mc-admin-up-info-note .lucide{width:18px;height:18px;stroke-width:2.1;color:var(--ba-primary);flex-shrink:0;margin-top:1px}
+.mc-admin-up-info-note p{font:var(--ba-small);color:var(--ba-text);margin:0;line-height:1.55}
+.mc-admin-up-info-note p strong{font-weight:600;font-family:'Montserrat',sans-serif}
+.mc-admin-up-form-footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:20px;border-top:1px solid var(--ba-border)}
+.mc-admin-up-save-btn{min-height:46px;height:46px;padding-inline:28px;font:600 .92rem/1 'Montserrat',sans-serif}
+.mc-admin-up-save-btn .lucide{width:16px;height:16px;stroke-width:2.1}
+
+/* ---------------- 2FA switch ----------------
+   The bare .form-check-input is a ~16px target; the label row is what the
+   admin actually taps, so it carries the 44px hit area. */
+.mc-admin-up-switch-row{display:flex;align-items:center;gap:12px;min-height:44px;padding:6px 0;cursor:pointer}
+.mc-admin-up-switch-row .form-check-input{flex-shrink:0;width:20px;height:20px;margin:0;cursor:pointer}
+.mc-admin-up-switch-text{min-width:0;overflow-wrap:break-word;word-break:normal}
+.mc-admin-up-switch-text strong{display:block;font:600 .9rem/1.35 'Montserrat',sans-serif;color:var(--ba-text)}
+.mc-admin-up-switch-state{display:block;margin-top:4px}
+
+/* ---------------- Password rule checklist ---------------- */
+.mc-admin-up-password-hint{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding:14px 16px;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);background:var(--ba-surface-2)}
+.mc-admin-up-password-hint-title{font:600 .78rem/1.3 'Montserrat',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:var(--ba-text-muted);margin-bottom:2px}
+/* Layout only. The neutral/ok colouring and the .mc-pwrule-ok toggle are the
+   shared .mc-pwrule primitive in common.css, driven by password-rules.js. */
+.mc-admin-up-password-hint-item{font:var(--ba-caption)}
+.mc-admin-up-password-hint-item .lucide{width:13px;height:13px;stroke-width:2.2;flex-shrink:0}
+
+/* ---------------- Mobile ---------------- */
+@media(max-width:767.98px){
+  .mc-admin-up-section-card{padding:18px 16px}
+  .mc-admin-up-form-footer{justify-content:stretch}
+  .mc-admin-up-form-footer>*{flex:1 1 100%}
+  .mc-admin-up-header{gap:12px}
+}

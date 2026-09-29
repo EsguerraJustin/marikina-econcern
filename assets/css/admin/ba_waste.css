@@ -1,0 +1,134 @@
+@charset "UTF-8";
+/* =========================================================
+   admin/ba_waste.php — Waste Segregation Guide (admin)
+   Aligned 1:1 with the admin/concerns.php reference design.
+   Primitives below are copied verbatim from assets/css/admin/concerns.css
+   so both pages share one visual contract (head.php loads only
+   variables.css + common.css + this per-page sheet).
+   ========================================================= */
+
+/* ---------------- Hero band ---------------- */
+.mc-admin-concerns-hero{background:#FDFCF9;border:1px solid var(--ba-border);overflow:hidden;position:relative;margin-bottom:24px;border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm)}
+.mc-admin-concerns-hero::before{content:none}
+.mc-admin-concerns-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;padding:20px 24px;flex-wrap:wrap}
+@media(max-width:520px){.mc-admin-concerns-hero-inner{padding:16px}}
+.mc-admin-concerns-title-row{display:flex;align-items:center;gap:16px;min-width:0}
+.mc-admin-concerns-hero-seal{flex-shrink:0;width:56px;height:56px;object-fit:contain;border-radius:50%;background:#fff;border:1px solid var(--ba-border);padding:3px}
+.mc-admin-concerns-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:none}
+.mc-admin-concerns-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-admin-concerns-title{min-width:0}
+.mc-admin-concerns-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-admin-concerns-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+
+/* ---------------- Filter card ---------------- */
+.mc-admin-concerns-search-wrap{position:relative;flex:1 1 280px;min-width:240px}
+.mc-admin-concerns-search-icon{position:absolute;left:14px;top:14px;color:var(--ba-primary);pointer-events:none;z-index:2;stroke-width:2.1;width:20px;height:20px}
+.mc-admin-concerns-search-input{height:48px;padding-left:44px!important;border-radius:var(--ba-radius-md)!important;width:100%}
+.mc-admin-concerns-info{margin-top:8px;padding:0 2px;display:flex;align-items:center;gap:8px;font:var(--ba-small);color:var(--ba-text-muted);margin-bottom:12px}
+.mc-admin-concerns-info .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.1}
+
+/* ---------------- Section card ---------------- */
+.mc-admin-section-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);overflow:hidden;box-shadow:var(--ba-shadow-sm)}
+.mc-admin-section-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--ba-border);background:var(--ba-surface-2)}
+.mc-admin-section-head h3{font:var(--ba-h3);margin:0;display:inline-flex;align-items:center;gap:8px}
+.mc-admin-section-head h3 .lucide{color:var(--ba-primary);stroke-width:2.1}
+
+/* ------------------------------------------------------------------
+   TABLE · aligned 1:1 with the admin/concerns.php reference design
+   (see assets/css/admin/concerns.css lines 32-62)
+   ------------------------------------------------------------------ */
+.mc-admin-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mc-admin-table-wrap .table{margin:0;border-radius:0;min-width:1200px;width:100%;table-layout:fixed;border-collapse:collapse}
+.mc-admin-table-wrap .table>:not(caption)>*>*{padding:12px 16px;overflow-wrap:break-word;word-break:normal}
+.mc-admin-table-wrap .table thead th{font:600 .78rem/1.3 'Montserrat',sans-serif;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+.mc-admin-table-wrap .table tbody td{font:var(--ba-small);vertical-align:middle}
+#wgTable{width:100%;table-layout:fixed;border-collapse:collapse;min-width:1200px}
+/* Column weights sum to 100%. The nowrap pills (Accepted / Status), the
+   Category pill and the two action buttons each fit on a single line;
+   only long Item names and long guidance text wrap — same as the concerns
+   reference. To nudge a column, edit this block.
+   Item 19 · Category 13 · Accepted 12 · Prepare 15 · Dispose 16 · Status 10 · Actions 15 */
+#wgTable th:nth-child(1),#wgTable td:nth-child(1){width:19%;white-space:normal}
+#wgTable th:nth-child(2),#wgTable td:nth-child(2){width:13%;white-space:normal}
+#wgTable th:nth-child(3),#wgTable td:nth-child(3){width:12%;white-space:nowrap;text-align:center}
+#wgTable th:nth-child(4),#wgTable td:nth-child(4){width:15%;white-space:normal}
+#wgTable th:nth-child(5),#wgTable td:nth-child(5){width:16%;white-space:normal}
+#wgTable th:nth-child(6),#wgTable td:nth-child(6){width:10%;white-space:nowrap;text-align:center}
+#wgTable th:nth-child(7),#wgTable td:nth-child(7){width:15%;white-space:normal;text-align:center}
+#wgTable .mc-th-wrap{display:flex;align-items:center;gap:8px;width:100%;font:700 .82rem/1.25 Montserrat,sans-serif;color:#1F2937;white-space:nowrap}
+#wgTable .mc-th-wrap--center{justify-content:center}
+#wgTable .mc-th-icon{width:16px;height:16px;flex-shrink:0;color:#3368A0;stroke-width:2}
+#wgTable .mc-cell-wrap{display:flex;align-items:flex-start;gap:8px;width:100%;min-width:0}
+#wgTable .mc-cell-wrap>span:last-child{min-width:0;flex:1 1 auto;overflow-wrap:break-word;word-break:normal}
+#wgTable .mc-cell-icon{width:14px;height:14px;flex-shrink:0;margin-top:4px;color:#4A5568}
+#wgTable thead th{text-align:left;padding:10px 12px}
+#wgTable thead th:nth-child(3),#wgTable thead th:nth-child(6),#wgTable thead th:nth-child(7){text-align:center}
+#wgTable tbody td{border-bottom:1px solid var(--ba-border);padding:10px 12px;overflow:visible}
+#wgTable tbody tr:last-child td{border-bottom:0 none}
+#wgTable .mc-col-center{text-align:center}
+#wgTable .mc-col-actions{text-align:center;vertical-align:middle}
+/* Guidance text wraps; it is no longer hard-truncated server-side. */
+#wgTable td[data-label="Prepare"] .small,#wgTable td[data-label="Dispose"] .small{line-height:1.45;overflow-wrap:break-word}
+/* Accepted / Status pills never wrap; they are short, centred labels. */
+#wgTable td[data-label="Accepted"] .mc-admin-badge,#wgTable td[data-label="Status"] .mc-admin-badge{white-space:nowrap}
+/* Category pill wraps to at most two centred lines rather than overflowing. */
+#wgTable td[data-label="Category"] .mc-admin-badge{white-space:normal;text-align:center;line-height:1.35;overflow-wrap:break-word;word-break:normal}
+
+/* ---------------- Status / classification pills ---------------- */
+.mc-admin-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);letter-spacing:.02em;line-height:1.35;border:1px solid transparent;white-space:nowrap}
+.mc-admin-badge .lucide{width:13px;height:13px;stroke-width:2.2}
+.mc-admin-badge--new{background:rgba(51,104,160,.10);color:var(--ba-primary);border-color:rgba(51,104,160,.20)}
+.mc-admin-badge--success{background:rgba(74,143,126,.14);color:var(--ba-success);border-color:rgba(74,143,126,.28)}
+.mc-admin-badge--warning{background:var(--ba-warning-light);color:var(--ba-warning);border-color:rgba(214,147,46,.25)}
+.mc-admin-badge--danger{background:rgba(168,68,68,.10);color:var(--ba-danger);border-color:rgba(168,68,68,.20)}
+.mc-admin-badge--muted{background:var(--ba-surface-2);color:var(--ba-text-muted);border-color:var(--ba-border)}
+
+/* ---------- Row actions (house style · cf. admin_accounts.css:87-95) ---------- */
+.mc-admin-concerns-actions{display:flex;align-items:center;gap:6px;justify-content:center;flex-wrap:nowrap}
+.wg-actions{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;width:100%}
+.wg-action-btn{flex:1 1 0;min-width:0;max-width:100%;height:36px;padding:0 8px;border-radius:var(--ba-radius-sm);background:transparent;color:var(--ba-primary);border:1px solid rgba(51,104,160,.20);box-shadow:none;display:inline-flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:background-color .18s,border-color .15s,color .15s,filter .15s;white-space:nowrap;font:600 .75rem/1 'Montserrat',sans-serif}
+.wg-action-btn:hover{background:var(--ba-primary-tint);border-color:rgba(51,104,160,.28);color:var(--ba-primary)}
+.wg-action-btn:active{filter:brightness(.97)}
+.wg-action-btn--danger{color:var(--ba-danger);border-color:rgba(168,68,68,.22)}
+.wg-action-btn--danger:hover{background:var(--ba-danger-light);border-color:rgba(168,68,68,.32);color:var(--ba-danger)}
+.wg-action-btn .lucide{width:15px;height:15px;flex-shrink:0;stroke-width:2.1}
+
+/* ---------------- Section head helpers ---------------- */
+.mc-wg-head-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.wg-new-btn{height:40px;min-height:40px;padding-inline:18px;border-radius:var(--ba-radius-sm);font:600 .875rem/1 'Montserrat',sans-serif}
+#listAlert:empty,#wgSearchInfo:empty{display:none}
+.wg-empty .lucide-24{color:var(--ba-border-strong);stroke-width:1.5}
+
+/* The .offcanvas / .offcanvas-backdrop z-index pair that used to sit here is
+   gone with the drawer. Its comment claimed .mc-topnav was 1056 and that
+   Bootstrap's .offcanvas was 1045; neither is true any more — the topnav is
+   1030 (common.css) and the editor is a .modal at 1055 with its backdrop at
+   1050 between them, so the dialog covers the nav without help. */
+@media(max-width:576px){
+.mc-admin-concerns-icon-wrap{width:44px;height:44px}
+.mc-admin-concerns-icon-wrap .lucide{width:20px;height:20px}
+.mc-admin-table-wrap .table>:not(caption)>*>* {padding:10px 12px}
+}
+
+/* ---------------- Mobile: table becomes a labeled stacked-card list
+   (dashboard pattern · see concerns.css:17288-17303) ---------------- */
+@media (max-width: 767.98px) {
+.mc-admin-table-wrap{overflow:visible;padding:12px 12px 4px}
+#wgTable{min-width:0;width:100%;table-layout:auto}
+#wgTable thead{display:none}
+#wgTable tbody{display:block}
+#wgTable tbody tr{display:block;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:4px 14px;margin-bottom:12px;background:#fff}
+#wgTable tbody tr:last-child{margin-bottom:8px}
+#wgTable tbody tr:last-child td{border-bottom:1px dashed #E5E7EB}
+#wgTable tbody tr:last-child td:last-child{border-bottom:0}
+#wgTable tbody td{display:block;width:auto;padding:12px 0;border-bottom:1px dashed #E5E7EB;text-align:left;white-space:normal;overflow:visible}
+#wgTable tbody td:last-child{border-bottom:0}
+#wgTable tbody td[data-label="Accepted"],#wgTable tbody td[data-label="Status"],#wgTable tbody td[data-label="Actions"]{text-align:center}
+#wgTable tbody td[data-label="Accepted"]::before,#wgTable tbody td[data-label="Status"]::before,#wgTable tbody td[data-label="Actions"]::before{text-align:center}
+#wgTable th:nth-child(n),#wgTable td:nth-child(n){width:auto}
+#wgTable tbody td[data-label]::before{content:attr(data-label);display:block;font:700 .7rem/1.2 Montserrat,sans-serif;letter-spacing:.3px;text-transform:uppercase;color:#6B7280;margin-bottom:5px}
+#wgTable tbody td[data-label="Category"] .mc-admin-badge,#wgTable tbody td[data-label="Accepted"] .mc-admin-badge{white-space:normal}
+#wgTable tbody td[data-label="Prepare"] .small,#wgTable tbody td[data-label="Dispose"] .small{white-space:normal}
+.wg-actions{gap:8px}
+.wg-action-btn{flex:1 1 0;min-width:0;height:40px;padding:0 12px}
+}

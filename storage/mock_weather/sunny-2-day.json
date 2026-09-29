@@ -1,0 +1,31 @@
+{
+  "fixture": "sunny-2-day",
+  "city": "Marikina",
+  "country": "PH",
+  "fetched_at": "generated-fixture",
+  "current": {
+    "temp_c": 30,
+    "feels_like_c": 33,
+    "humidity_pct": 68,
+    "wind_kph": 10,
+    "condition": "Partly cloudy",
+    "advisory": "Normal collection conditions.",
+    "icon": "☀️"
+  },
+  "forecast_days": [
+    {
+      "date": "__DATE_TODAY__",
+      "max_c": 33,
+      "min_c": 25,
+      "condition": "Sunny",
+      "rain_chance_pct": 10
+    },
+    {
+      "date": "__DATE_TOMORROW__",
+      "max_c": 32,
+      "min_c": 26,
+      "condition": "Partly cloudy",
+      "rain_chance_pct": 30
+    }
+  ]
+}

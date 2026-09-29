@@ -1,0 +1,853 @@
+@charset "UTF-8";
+/* =========================================================
+   admin/ba_feedback.php — Feedback & FAQ Manager
+
+   The shared primitives below (.mc-admin-concerns-*,
+   .mc-admin-kpi-*, .mc-admin-section-*, .mc-admin-table-wrap,
+   .mc-admin-badge*, .mc-admin-empty*) are copied verbatim from
+   assets/css/admin/ba_reports.css, which itself mirrors
+   assets/css/admin/concerns.css. head.php loads ONLY
+   variables.css + common.css + this one page sheet, so every
+   admin list page has to carry its own copy of the contract.
+   Do not restyle these blocks here — change concerns.css and
+   re-sync instead.
+
+   Everything page-specific lives under the .ba-fb-* namespace.
+   Pure Minimalism (PROJECT_GUIDE rule #14): flat fills, 1px
+   borders, no gradients, no translateY, no skeuomorphic casts.
+   ========================================================= */
+
+/* ---------------- Page shell ---------------- */
+.mc-admin-ba_feedback-page {
+    max-width: 1600px;
+    margin-inline: auto;
+    padding: 0 0 48px;
+}
+@media (min-width: 768px) {
+    .mc-admin-ba_feedback-page { padding-bottom: 48px; }
+}
+
+/* ---------------- Hero band (flat; no gradient per rule #14) ---------------- */
+.mc-admin-concerns-hero {
+    background: #FDFCF9;
+    border: 1px solid var(--ba-border);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-concerns-hero::before { content: none; }
+.mc-admin-concerns-hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+    padding: 20px 24px;
+    flex-wrap: wrap;
+}
+@media (max-width: 520px) {
+    .mc-admin-concerns-hero-inner { padding: 16px; }
+}
+.mc-admin-concerns-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+.mc-admin-concerns-icon-wrap {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.mc-admin-concerns-icon-wrap .lucide {
+    color: #fff;
+    stroke-width: 2.15;
+    width: 24px;
+    height: 24px;
+}
+.mc-admin-concerns-title { min-width: 0; }
+.mc-admin-concerns-title h1 {
+    font: var(--ba-h1);
+    margin: 0 0 2px;
+    color: var(--ba-text);
+}
+.mc-admin-concerns-title p {
+    margin: 0;
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+
+/* BasuraAlert module seal shown on the right of the hero.
+   The city seal is injected automatically by common.css via
+   [class$="-hero-inner"]::after, so this is the module mark. */
+.ba-fb-hero-seal {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: var(--ba-radius-sm);
+    background: #fff;
+    border: 1px solid var(--ba-border);
+    padding: 3px;
+}
+@media (max-width: 520px) {
+    .ba-fb-hero-seal { width: 44px; height: 44px; }
+}
+
+/* ---------------- Chip tabs (Feedback | FAQ) ---------------- */
+.mc-admin-concerns-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 20px;
+}
+.mc-admin-concerns-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    min-height: 32px;
+    border-radius: var(--ba-radius-pill);
+    background: var(--ba-surface-2);
+    color: var(--ba-text);
+    border: 1px solid var(--ba-border);
+    font: var(--ba-caption);
+    font-family: 'Montserrat', system-ui, sans-serif;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    box-shadow: var(--ba-shadow-sm);
+    transition: background-color .18s ease, filter .15s ease, opacity .1s ease, color .15s ease, border-color .15s ease;
+}
+.mc-admin-concerns-chip .lucide { width: 14px; height: 14px; flex-shrink: 0; stroke-width: 2.2; }
+.mc-admin-concerns-chip:hover {
+    filter: brightness(.98);
+    background: #EDE7DA;
+    border-color: var(--ba-border-strong);
+    text-decoration: none;
+}
+.mc-admin-concerns-chip:active { opacity: .90; }
+.mc-admin-concerns-chip.active {
+    background: var(--ba-primary) !important;
+    color: #fff !important;
+    border-color: var(--ba-primary) !important;
+}
+.mc-admin-concerns-chip.active .lucide { color: #fff; }
+.ba-fb-chip-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: var(--ba-radius-pill);
+    background: rgba(31, 41, 55, .08);
+    color: var(--ba-text-muted);
+    font: 600 .7rem/1 'Montserrat', sans-serif;
+    letter-spacing: 0;
+}
+.mc-admin-concerns-chip.active .ba-fb-chip-count {
+    background: rgba(255, 255, 255, .22);
+    color: #fff;
+}
+
+/* ---------------- KPI stat tiles ---------------- */
+.mc-admin-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+@media (min-width: 576px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 992px) {
+    .mc-admin-kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.mc-admin-kpi-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    padding: 20px;
+    box-shadow: var(--ba-shadow-sm);
+    min-width: 0;
+    transition: border-color .18s;
+}
+@media (hover: hover) {
+    .mc-admin-kpi-card:hover { border-color: var(--ba-border-strong); }
+}
+.mc-admin-kpi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.mc-admin-kpi-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--ba-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.mc-admin-kpi-icon .lucide { stroke-width: 2.1; width: 20px; height: 20px; }
+.mc-admin-kpi-icon--blue  { background: rgba(51, 104, 160, .10);  color: var(--ba-primary); }
+.mc-admin-kpi-icon--mint  { background: rgba(74, 143, 126, .12); color: var(--ba-success); }
+.mc-admin-kpi-icon--amber { background: rgba(214, 147, 46, .12); color: var(--ba-warning); }
+.mc-admin-kpi-icon--red   { background: rgba(168, 68, 68, .10);  color: var(--ba-danger); }
+.mc-admin-kpi-label {
+    font: var(--ba-caption);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ba-text-muted);
+    margin: 0 0 2px;
+    line-height: 1.35;
+}
+.mc-admin-kpi-value {
+    font: 700 2rem/1.1 'Montserrat', sans-serif;
+    color: var(--ba-text);
+    margin: 0;
+    letter-spacing: -.02em;
+}
+.mc-admin-kpi-sub {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 4px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.mc-admin-kpi-sub .lucide { width: 14px; height: 14px; stroke-width: 2.2; }
+
+/* ---------------- Section card ---------------- */
+.mc-admin-section-card {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ba-shadow-sm);
+}
+.mc-admin-section-head {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.mc-admin-section-head h3 {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.mc-admin-section-head h3 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+.mc-admin-section-body { padding: 16px 20px; }
+
+/* ---------------- Info strip ---------------- */
+.mc-admin-concerns-info {
+    margin-top: 8px;
+    padding: 0 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+}
+.mc-admin-concerns-info .lucide { width: 14px; height: 14px; flex-shrink: 0; stroke-width: 2.1; }
+
+/* ---------------- Table wrap (rule #6: always pair with scroll-touch) ---------------- */
+.mc-admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mc-admin-table-wrap .table { margin: 0; border-radius: 0; min-width: 720px; width: 100%; }
+.mc-admin-table-wrap .table > :not(caption) > * > * {
+    padding: 12px 16px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.mc-admin-table-wrap .table thead th {
+    font: 600 .78rem/1.3 'Montserrat', sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* ---------------- Status pills ---------------- */
+.mc-admin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--ba-radius-pill);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    line-height: 1.35;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+.mc-admin-badge .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.mc-admin-badge--new     { background: rgba(51, 104, 160, .10);  color: var(--ba-primary); border-color: rgba(51, 104, 160, .20); }
+.mc-admin-badge--success { background: rgba(74, 143, 126, .14);  color: var(--ba-success); border-color: rgba(74, 143, 126, .28); }
+.mc-admin-badge--warning { background: var(--ba-warning-light);  color: var(--ba-warning); border-color: rgba(214, 147, 46, .25); }
+.mc-admin-badge--danger  { background: rgba(168, 68, 68, .10);   color: var(--ba-danger);  border-color: rgba(168, 68, 68, .20); }
+.mc-admin-badge--muted   { background: var(--ba-surface-2);     color: var(--ba-text-muted); border-color: var(--ba-border); }
+
+/* ---------------- Empty state ---------------- */
+.mc-admin-empty { padding: 48px 24px; text-align: center; }
+.mc-admin-empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--ba-radius-md);
+    background: var(--ba-surface-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--ba-text-muted);
+}
+.mc-admin-empty-icon .lucide { stroke-width: 1.8; width: 28px; height: 28px; }
+.mc-admin-empty h4 { font: var(--ba-h3); margin: 0 0 6px; }
+.mc-admin-empty p { margin: 0; color: var(--ba-text-muted); font: var(--ba-small); }
+
+/* =========================================================
+   FEEDBACK TAB — master / detail
+   ========================================================= */
+.ba-fb-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+@media (min-width: 992px) {
+    .ba-fb-layout { grid-template-columns: minmax(0, 1fr) 380px; }
+}
+
+/* ---------------- Toolbar: search + filter chips ---------------- */
+.ba-fb-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.ba-fb-search {
+    flex: 1 1 300px;
+    min-width: 220px;
+    position: relative;
+}
+.ba-fb-search .lucide-search {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ba-primary);
+    pointer-events: none;
+    stroke-width: 2.1;
+    width: 18px;
+    height: 18px;
+}
+.ba-fb-search .form-control {
+    min-height: 44px;
+    height: 44px;
+    padding-left: 42px !important;
+    padding-right: 40px !important;
+}
+.ba-fb-search-clear {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: var(--ba-radius-sm);
+    background: transparent;
+    color: var(--ba-text-muted);
+    cursor: pointer;
+}
+.ba-fb-search-clear:hover { background: var(--ba-surface-2); color: var(--ba-text); }
+.ba-fb-search-clear.is-visible { display: inline-flex; }
+
+.ba-fb-chip-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.ba-fb-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: var(--ba-radius-pill);
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    color: var(--ba-text);
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    cursor: pointer;
+    box-shadow: var(--ba-shadow-sm);
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease, opacity .12s ease;
+}
+.ba-fb-chip .lucide { width: 14px; height: 14px; stroke-width: 2.1; }
+.ba-fb-chip:hover { background: #EDE7DA; border-color: var(--ba-border-strong); }
+.ba-fb-chip[aria-pressed="true"] {
+    background: var(--ba-primary);
+    border-color: var(--ba-primary);
+    color: #fff;
+}
+.ba-fb-chip[aria-pressed="true"] .lucide { color: #fff; }
+
+.ba-fb-result-line {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.ba-fb-result-line strong { color: var(--ba-text); font-family: 'Montserrat', sans-serif; }
+
+/* ---------------- Message list ----------------
+   One card per feedback / contact message. The wrapper is a bare
+   gap-separated stack: each .ba-fb-item carries its own surface so
+   messages never read as a single divided slab. */
+.ba-fb-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.ba-fb-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    padding: 16px 20px;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    transition: background-color .18s ease, border-color .18s ease;
+}
+@media (hover: hover) {
+    .ba-fb-item:hover {
+        background: var(--ba-surface-2);
+        border-color: var(--ba-border-strong);
+    }
+}
+.ba-fb-item:focus { outline: none; }
+.ba-fb-item:focus-visible {
+    outline: 3px solid var(--ba-primary) !important;
+    outline-offset: 2px !important;
+}
+/* Selected: tint + a true 1px outline. Border-color (not a thicker
+   border) so nothing shifts, and no left accent bar. */
+.ba-fb-item.is-selected {
+    background: var(--ba-primary-tint);
+    border-color: var(--ba-primary);
+}
+/* "Replying" marker, rendered always and revealed by CSS alone so
+   selection needs no extra JS. */
+.ba-fb-item .js-fb-replying { display: none; }
+.ba-fb-item.is-selected .js-fb-replying { display: inline-flex; }
+
+.ba-fb-item-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.ba-fb-badges {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+.ba-fb-subject {
+    font: var(--ba-h3);
+    color: var(--ba-text);
+    margin: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.ba-fb-when {
+    flex-shrink: 0;
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    white-space: nowrap;
+}
+.ba-fb-sender {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0 0 10px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.ba-fb-sender strong { color: var(--ba-text); }
+.ba-fb-sender-sep { margin: 0 6px; }
+
+.ba-fb-body {
+    font: var(--ba-body);
+    color: var(--ba-text);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: normal;
+    margin: 0 0 12px;
+}
+
+/* Attached photo evidence */
+.ba-fb-photos { margin: 0 0 12px; }
+.ba-fb-photos-label {
+    font: var(--ba-caption);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ba-text-muted);
+    margin: 0 0 8px;
+}
+.ba-fb-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 8px;
+}
+.ba-fb-photo {
+    display: block;
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-sm);
+    overflow: hidden;
+    background: var(--ba-surface-2);
+    line-height: 0;
+}
+.ba-fb-photo img {
+    width: 100%;
+    height: 88px;
+    object-fit: cover;
+    display: block;
+}
+.ba-fb-photo:hover { border-color: var(--ba-primary); }
+
+/* Existing admin reply shown inline on the card.
+   Identity comes from the 1px success-tinted border plus the
+   badge-check caption - no left accent bar. */
+.ba-fb-reply-quote {
+    border: 1px solid rgba(74, 143, 126, .28);
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    padding: 12px 14px;
+    margin: 0;
+}
+.ba-fb-reply-quote-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: var(--ba-caption);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ba-text-muted);
+    margin: 0 0 6px;
+}
+.ba-fb-reply-quote-head .lucide { width: 13px; height: 13px; stroke-width: 2.2; }
+.ba-fb-reply-quote-body {
+    font: var(--ba-body);
+    color: var(--ba-text);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: normal;
+    margin: 0;
+}
+
+/* ---------------- Reply panel ---------------- */
+.ba-fb-reply-panel {
+    background: var(--ba-surface);
+    border: 1px solid var(--ba-border);
+    border-radius: var(--ba-radius-md);
+    box-shadow: var(--ba-shadow-sm);
+    overflow: hidden;
+}
+.ba-fb-reply-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface-2);
+}
+.ba-fb-reply-head h2 {
+    font: var(--ba-h3);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.ba-fb-reply-head h2 .lucide { color: var(--ba-primary); stroke-width: 2.1; }
+/* Only meaningful on the mobile bottom sheet; the desktop sidebar is
+   always on screen so it needs no dismiss affordance. */
+.ba-fb-reply-close { display: none; }
+.ba-fb-reply-body { padding: 18px; }
+
+/* Selected-message context. Two visual states, driven by a class
+   instead of swapping Bootstrap bg-* utilities from JS. */
+.ba-fb-ctx {
+    border: 1px dashed var(--ba-border-strong);
+    border-radius: var(--ba-radius-sm);
+    background: var(--ba-surface-2);
+    padding: 14px;
+    margin-bottom: 16px;
+    min-height: 72px;
+}
+.ba-fb-ctx.is-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--ba-text-muted);
+    font: var(--ba-small);
+}
+.ba-fb-ctx-empty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+.ba-fb-ctx-empty .lucide { width: 16px; height: 16px; stroke-width: 2.1; }
+.ba-fb-ctx.is-filled { border-style: solid; border-color: var(--ba-primary); background: var(--ba-primary-tint); }
+.ba-fb-ctx-name {
+    font: var(--ba-h3);
+    color: var(--ba-text);
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.ba-fb-ctx-name .lucide { width: 16px; height: 16px; stroke-width: 2.1; color: var(--ba-primary); }
+.ba-fb-ctx-subject {
+    font: var(--ba-body);
+    color: var(--ba-text);
+    margin: 0 0 6px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.ba-fb-ctx-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+}
+.ba-fb-ctx-meta .lucide { width: 13px; height: 13px; stroke-width: 2.1; }
+.ba-fb-ctx-meta-sep { margin: 0 2px; }
+.ba-fb-ctx-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+.ba-fb-reply-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.ba-fb-reply-actions .btn-primary { flex: 1 1 160px; }
+.ba-fb-hint {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 12px 0 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+.ba-fb-hint .lucide { width: 14px; height: 14px; stroke-width: 2.1; flex-shrink: 0; margin-top: 3px; }
+
+/* ---------- Mobile: reply panel becomes a bottom sheet ----------
+   One form, one set of IDs. The same element that is a sticky
+   sidebar on >=992px slides up from the bottom below that, so the
+   "reply box sits above the list" mobile bug cannot happen. */
+.ba-fb-reply-backdrop { display: none; }
+@media (max-width: 991.98px) {
+    .ba-fb-reply-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(31, 41, 55, .45);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease;
+        z-index: 1055;
+    }
+    .ba-fb-reply-backdrop.is-open { opacity: 1; pointer-events: auto; }
+    .ba-fb-reply-panel {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        z-index: 1056;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        border-radius: var(--ba-radius-lg) var(--ba-radius-lg) 0 0;
+        border-bottom: 0;
+        transform: translateY(101%);
+        transition: transform .24s ease;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .ba-fb-reply-panel.is-open { transform: translateY(0); }
+    .ba-fb-reply-panel:not(.is-open) { visibility: hidden; }
+    .ba-fb-reply-panel.is-open { visibility: visible; }
+    .ba-fb-reply-head { flex-shrink: 0; }
+    .ba-fb-reply-body { flex: 1 1 auto; }
+    .ba-fb-reply-sheet-grip { display: block; }
+    .ba-fb-reply-close { display: inline-flex; }
+    body.ba-fb-sheet-open { overflow: hidden; }
+}
+@media (min-width: 992px) {
+    .ba-fb-reply-panel { position: sticky; top: 76px; }
+    .ba-fb-reply-sheet-grip { display: none; }
+}
+.ba-fb-reply-sheet-grip {
+    display: none;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--ba-border-strong);
+    margin: 8px auto 0;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   FAQ TAB
+   ========================================================= */
+.ba-fb-faq-list { background: var(--ba-surface); }
+.ba-fb-faq-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--ba-border);
+    background: var(--ba-surface);
+    transition: background-color .18s ease;
+}
+.ba-fb-faq-row:last-child { border-bottom: 0; }
+@media (hover: hover) {
+    .ba-fb-faq-row:hover { background: var(--ba-surface-2); }
+}
+.ba-fb-faq-main { flex: 1 1 auto; min-width: 0; }
+.ba-fb-faq-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+.ba-fb-faq-num {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: var(--ba-radius-pill);
+    background: var(--ba-primary);
+    color: #fff;
+    font: var(--ba-caption);
+    letter-spacing: .02em;
+    white-space: nowrap;
+}
+.ba-fb-faq-num .lucide { width: 12px; height: 12px; stroke-width: 2.3; }
+.ba-fb-faq-q {
+    font: var(--ba-h3);
+    color: var(--ba-text);
+    margin: 0 0 6px;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.ba-fb-faq-a {
+    font: var(--ba-small);
+    color: var(--ba-text-muted);
+    margin: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+.ba-fb-faq-side { flex-shrink: 0; display: flex; gap: 6px; flex-wrap: wrap; }
+.ba-fb-faq-actions { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.ba-fb-faq-actions .btn { min-height: 40px; }
+
+/* ---------------- FAQ editor ----------------
+   The dialog itself is the shared .mc-editor-dialog block in common.css
+   (centred, width-capped, body scrolls while header + Save/Cancel stay put,
+   dvh cap so the mobile keyboard cannot bury Save). What is left here is
+   only what is specific to this page.
+
+   `.mc-admin-offcanvas-form` / `.mc-admin-offcanvas-body` and the
+   `.ba-fb-editor` offcanvas width were deleted: this was the last markup
+   consumer of those classes in the repo. Note they are still DECLARED, now
+   dead, in assets/css/admin/{ba_dashboard,ba_dropoffs,ba_notifications}.css
+   — same three declarations, no markup. Worth a separate sweep. */
+.mc-admin-form-group { margin-bottom: 16px; }
+/* The shared footer block knows #editorAlert, which is the id on the other
+   three pages. This page's alert is #faqEditorAlert, so it needs the same
+   two rules or it would sit inline at 44px next to the buttons instead of
+   taking its own full-width row above them. */
+.mc-editor-dialog .modal-footer > #faqEditorAlert {
+    flex: 1 1 100%;
+    min-width: 0;
+    order: 0;
+}
+.mc-editor-dialog #faqEditorAlert:empty { display: none; }
+.mc-editor-dialog #faqEditorAlert .alert { margin-bottom: 0; }
+
+/* =========================================================
+   Narrow-width adjustments
+   ========================================================= */
+@media (max-width: 991.98px) {
+    .ba-fb-toolbar > * { flex: 1 1 100%; }
+    .ba-fb-chip-group { justify-content: flex-start; }
+}
+@media (max-width: 767.98px) {
+    .ba-fb-item { padding: 14px 16px; }
+    .ba-fb-item-head { flex-direction: column; gap: 4px; }
+    .ba-fb-when { white-space: normal; }
+    .ba-fb-faq-row { flex-direction: column; gap: 12px; padding: 14px 16px; }
+    .ba-fb-faq-side { width: 100%; }
+    .ba-fb-faq-actions { width: 100%; }
+    .ba-fb-faq-actions .btn { flex: 1 1 auto; }
+    .mc-admin-section-head { padding: 14px 16px; }
+    .mc-admin-section-body { padding: 14px 16px; }
+}
+@media (max-width: 575.98px) {
+    .mc-admin-concerns-chip { min-height: 30px; padding: 5px 11px; font-size: .72rem; }
+    .mc-admin-concerns-icon-wrap { width: 44px; height: 44px; }
+    .mc-admin-concerns-icon-wrap .lucide { width: 20px; height: 20px; }
+    .mc-admin-kpi-card { padding: 16px; }
+    .mc-admin-kpi-value { font-size: 1.65rem; }
+    .mc-admin-concerns-title h1 { font-size: 1.3rem; }
+}

@@ -1,0 +1,271 @@
+@charset "UTF-8";
+/* =========================================================
+   public/ba_dropoff_map.php — Drop-off Point Locator (citizen)
+   Aligned 1:1 with admin/ba_dropoffs.css and the shared grid-table
+   pattern used by public/ba_schedule.css + public/ba_waste.css.
+   Primitives from common.css, tokens from variables.css.
+   ========================================================= */
+
+/* ---------------- Page container ---------------- */
+.mc-ba-schedule-page{max-width:1280px;margin-inline:auto;padding:16px 0 48px}
+@media(min-width:768px){.mc-ba-schedule-page{padding:24px 0 48px}}
+
+/* ---------------- Hero band ----------------
+   Was #F6F4ED + a blue-tinted border + 8px radius and no elevation.
+   Now matches the flat/tokenised admin hero (admin/concerns.css:4). */
+.mc-ba-sched-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+.mc-ba-sched-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);position:relative;padding:20px 24px;flex-wrap:wrap}
+@media(max-width:520px){.mc-ba-sched-hero-inner{padding:16px}}
+.mc-ba-sched-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0;flex:1 1 320px}
+.mc-ba-sched-hero-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.mc-ba-sched-hero-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-ba-sched-hero-title{min-width:0;flex:1 1 auto}
+.mc-ba-sched-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-ba-sched-hero-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-ba-sched-hero-brand{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.mc-ba-sched-brand-img{display:block;object-fit:contain;border-radius:var(--ba-radius-md);background:var(--ba-surface);padding:3px;border:1px solid var(--ba-border)}
+@media(max-width:520px){.mc-ba-sched-hero-brand .mc-ba-sched-brand-img{display:none}.mc-ba-sched-hero-brand{align-items:stretch;width:100%}.mc-ba-sched-hero-brand > div{width:100%}.mc-ba-sched-hero-brand .btn{width:100%}}
+
+/* ---------------- Filter info line ---------------- */
+.mc-ba-sched-info{margin-top:var(--ba-space-4);padding:0 2px;display:flex;align-items:center;gap:8px;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-ba-sched-info .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.1}
+
+/* ---------------- List card ----------------
+   The head is the shared .mc-list-card-head / -count in common.css — the same
+   block admin/dashboard.css uses for Recent Concerns, so the citizen and admin
+   halves read as one system. The page-local .mc-dropoff-list-head and
+   .mc-dropoff-list-count it replaces were tracked small caps with no icon,
+   which read as a form label rather than a section title, and nothing else
+   referenced them. */
+
+/* ---------------- Single-column list ----------------
+   DELIBERATE RULE #6 EXCEPTION, and the reason is narrowness, not laziness.
+
+   Rule #6 wants a pixel min-width plus horizontal scroll, and that is right for
+   a real multi-column data table. This list is not one: it lives in a .col-lg-4
+   panel, so it is only ever 410px wide at >=1280px and ~315px between 992px and
+   1199px, at every breakpoint. The old rules gave it min-width:640px and tracks
+   of minmax(180px,3fr) minmax(140px,1.1fr), so the table overflowed its box by
+   ~230px: a permanent horizontal scrollbar, and a 468px-wide Spot cell whose
+   address text ran past the visible right edge with no way to read it without
+   scrolling sideways. A two-column grid can never fit a one-third-width column.
+
+   So the hours value moved inline into each card (see the data-label="Hours"
+   cell in ba_dropoff_map.php) and the grid collapsed to one column everywhere.
+   The <=767.98px block further down used to do exactly this and nothing else
+   happened above 768px, which is why it only ever showed up on desktop.
+
+   Row count is unchanged and nothing is dropped: spot name, barangay, address,
+   accepted-waste badges and the hours line all still render. */
+.mc-list-card .mc-ba-schedule-table-wrap{border-radius:0;overflow-x:visible}
+.mc-ba-schedule-table{display:flex;flex-direction:column;width:100%;min-width:0;background:var(--ba-surface)}
+.mc-ba-sched-row{display:grid;grid-template-columns:minmax(0,1fr);align-items:stretch}
+/* The header row is display:none below. It is kept in the markup (and these
+   rules kept with it) so a future two-column layout only has to re-enable it. */
+.mc-ba-sched-head{display:none}
+.mc-ba-sched-head .mc-ba-sched-cell{padding:14px;display:flex;align-items:center;background:var(--ba-surface);border-bottom:2px solid var(--ba-border)}
+.mc-th-wrap{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;font:700 .82rem/1.25 'Montserrat',system-ui,sans-serif;color:var(--ba-text);white-space:nowrap}
+.mc-th-icon{width:16px;height:16px;flex-shrink:0;color:var(--ba-primary);stroke-width:2}
+/* Row border/hover/card styling lives in ONE place now (the single-column block
+   below). It used to be split across a border-only rule here and a fuller rule
+   inside the phone media query, so the desktop result depended entirely on
+   source order between the two. */
+.mc-ba-schedule-tbody .mc-ba-sched-cell{background:var(--ba-surface);min-width:0}
+.mc-cell-wrap{display:flex;align-items:flex-start;justify-content:flex-start;gap:8px;width:100%;min-width:0}
+.mc-cell-icon{width:14px;height:14px;flex-shrink:0;margin-top:4px;color:var(--ba-text-muted)}
+.mc-cell-content{min-width:0;flex:1 1 auto;max-width:100%;color:var(--ba-text);font-size:.9rem;line-height:1.45;overflow-wrap:break-word;word-break:normal;hyphens:auto}
+.mc-cell-content strong{color:var(--ba-text);font-weight:700;line-height:1.3}
+.mc-ba-sched-secondary{color:var(--ba-text-muted)!important;font-size:.82rem;line-height:1.4;margin-top:4px}
+.mc-cell-content .badge{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;padding:4px 10px;line-height:1.2;border-radius:var(--ba-radius-pill);white-space:nowrap;font-family:'Montserrat',system-ui,sans-serif;font-weight:600}
+.mc-ba-sched-empty{padding:60px 20px;text-align:center;color:var(--ba-text-muted);font-size:.9rem;grid-column:1 / -1!important}
+
+/* ------------------------------------------------------------------
+   The old 180px / 140px floors existed to hold the two grid tracks apart.
+   There is one track now, so they are gone -- a leftover floor is exactly
+   what would reintroduce the overflow. The PHP still emits both column
+   classes (and still needs them for the data-label hook below), so they
+   are kept as zero-min-width hooks rather than deleted.
+   ------------------------------------------------------------------ */
+.mc-dropoff-row{min-width:0}
+.mc-dropoff-col-spot,.mc-dropoff-col-hours{min-width:0}
+
+/* The list is single-column at EVERY width, so it also needs the card layout
+   and the labels at every width — the shared .mc-stacked-card block in
+   common.css is breakpoint-gated, because the other three adopting pages are
+   real column grids above 768px and must keep their columns there.
+
+   So this sheet re-emits the same rules, UNCONDITIONALLY, reading the same
+   --mc-sc-* tokens. The page carries the `mc-stacked-card` class purely for the
+   tokens; below 768px both blocks apply with identical values, so the shared
+   one simply wins on specificity and nothing doubles up.
+
+   The block that used to live here stacked the label above the value — ~250px
+   of card for one drop-off — and was a byte-identical copy of the same block in
+   17 other sheets. This one is the rail + promoted-header treatment instead. */
+.mc-dropoff-scroll{max-height:60vh;overflow:auto}
+/* Denser than the shared 12px: this list lives in a 60vh scroller beside the
+   map on desktop, so the gap between cards is what decides whether the panel
+   shows two drop-offs or four. Overriding the token keeps every rule below
+   reading the shared values.
+
+   This is the reference treatment, matching admin/dashboard.php's Recent
+   Concerns cards (admin/dashboard.css:538-568): a labelled field per row with
+   the label ABOVE its value, dashed dividers, and the first field labelled
+   like the rest instead of promoted to an unlabelled card title. Same switch
+   ba_waste.css and my_concern.css use — one column + value-col 1 + a head
+   label, all token values, so no second copy of the label block is emitted.
+
+   The first field is SPOT / ADDRESS, which is the card's real title, so its
+   value is promoted to heading type in this sheet (see .mc-dropoff-spot-name
+   below) while the LABEL stays. That is the one deliberate divergence from the
+   reference, which prints Report # in body weight: an address block in body
+   weight under a 11px uppercase label reads as an orphaned fragment.
+
+   --mc-sc-head-pad / -head-gap are deliberately not set: the first cell is an
+   ordinary field here, so it reads --mc-sc-cell-pad like every other one and
+   the header-only tokens are dead weight. */
+.mc-ba-schedule-table.mc-stacked-card{
+  --mc-sc-card-margin:10px;
+  --mc-sc-card-pad:4px 14px;
+  --mc-sc-cell-pad:12px 0;
+  --mc-sc-cell-cols:minmax(0,1fr);
+  --mc-sc-value-col:1;
+  --mc-sc-label-align:left;
+  --mc-sc-label-font:700 .7rem/1.2 'Montserrat',system-ui,sans-serif;
+  --mc-sc-row-gap:5px;
+  --mc-sc-cell-top:0 none;
+  --mc-sc-rule:1px dashed #E5E7EB;
+  --mc-sc-head-label-display:block;
+  --mc-sc-head-rule:1px dashed #E5E7EB;
+  --mc-sc-cell-align:start;
+}
+/* Desktop only: the reference gutters the white cards on the page cream so each
+   reads as a card. In the 410px col-lg-4 panel beside the map that gutter is
+   12px of a 410px column on each side, so it is phone-only. */
+@media (max-width:767.98px){
+  .mc-ba-schedule-table.mc-stacked-card{background:var(--ba-bg);padding:12px 12px 4px}
+}
+.mc-ba-schedule-tbody .mc-ba-sched-head{display:none}
+.mc-ba-schedule-tbody .mc-ba-sched-row{
+  display:block;
+  border:var(--mc-sc-card-frame);
+  border-radius:var(--mc-sc-card-radius);
+  padding:var(--mc-sc-card-pad);
+  margin-bottom:var(--mc-sc-card-margin);
+  min-height:var(--mc-sc-card-min);
+  background:var(--ba-surface);
+  cursor:pointer;
+}
+.mc-ba-schedule-tbody .mc-ba-sched-row:last-child{margin-bottom:0}
+.mc-ba-schedule-tbody .mc-ba-sched-row:hover{background:var(--ba-surface-2)}
+.mc-ba-schedule-tbody .mc-ba-sched-row:focus-visible{outline:2px solid var(--ba-primary);outline-offset:2px}
+.mc-ba-schedule-tbody .mc-ba-sched-cell{
+  display:grid;
+  grid-template-columns:var(--mc-sc-cell-cols);
+  column-gap:var(--mc-sc-col-gap);
+  row-gap:var(--mc-sc-row-gap);
+  align-items:var(--mc-sc-cell-align);
+  padding:var(--mc-sc-cell-pad);
+  min-width:0;
+  border:0;
+}
+.mc-ba-schedule-tbody .mc-ba-sched-cell + .mc-ba-sched-cell{border-top:var(--mc-sc-cell-top)}
+.mc-ba-schedule-tbody .mc-ba-sched-cell[data-label]::before{
+  content:attr(data-label);
+  display:block;
+  grid-column:1;
+  text-align:var(--mc-sc-label-align);
+  font:var(--mc-sc-label-font);
+  letter-spacing:var(--mc-sc-label-track);
+  text-transform:uppercase;
+  color:var(--mc-sc-label-color);
+  min-width:0;
+  max-width:100%;
+  /* Labels sit above their values, so nowrap is not needed to keep a rail
+     intact — "SPOT / ADDRESS" is the longest and it fits at 410px. */
+  overflow-wrap:break-word;
+}
+.mc-ba-schedule-tbody .mc-ba-sched-cell > *{grid-column:var(--mc-sc-value-col);min-width:0}
+.mc-ba-schedule-tbody .mc-ba-sched-row > :first-child{
+  grid-template-columns:var(--mc-sc-cell-cols);
+  padding:var(--mc-sc-cell-pad);
+  margin-bottom:0;
+  border-top:0;
+  border-bottom:var(--mc-sc-head-rule);
+}
+/* Reads --mc-sc-head-label-display like the shared primitive, so SPOT /
+   ADDRESS keeps its label instead of being promoted to an unlabelled card
+   title. */
+.mc-ba-schedule-tbody .mc-ba-sched-row > :first-child::before{display:var(--mc-sc-head-label-display)}
+/* The value has to span the row. Left at grid-column:var(--mc-sc-value-col) the
+   label and value would sit side by side in a one-track grid. Same rule as the
+   shared primitive. */
+.mc-ba-schedule-tbody .mc-ba-sched-row > :first-child > *{grid-column:1 / -1}
+.mc-ba-sched-empty{grid-column:1 / -1!important}
+
+/* Spot / address block. These were inline styles on the PHP, which is why the
+   clamp could not vary by breakpoint: a 410px desktop panel and a 358px phone
+   column both got the same two lines of address, and the desktop wasted the
+   width the fix above had just handed back. */
+.mc-dropoff-spot-name{display:block;line-height:1.3}
+.mc-dropoff-addr{
+  margin-top:4px;color:var(--ba-text-muted);font-size:.82rem;line-height:1.4;
+  overflow:hidden;text-overflow:ellipsis;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+}
+.mc-dropoff-accept{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.mc-dropoff-accept .badge{margin:0}
+@media(min-width:992px){
+  /* col-lg-4 is 410px at >=1280px, so a third address line fits without cramping. */
+  .mc-dropoff-addr{-webkit-line-clamp:3}
+}
+.mc-dropoff-hours{font-weight:600}
+#residentMap{border-radius:var(--ba-radius-md)}
+
+/* ---------------- Card polish (same pill/type language as ba_waste) ----
+   Page-local soft pills replace the Bootstrap bg-* solids the acceptance
+   meta carries (includes/BasuraAlert/Dropoffs.php also feeds the admin
+   table + map popups, so the mapping stays in this template, not there).
+   Hours stays a real data-label cell (StackedCardPrimitiveTest:404) but
+   renders as a compact one-line meta strip: no rail, no extra hairline. */
+.mc-dropoff-spot-name{font:600 1rem/1.3 Montserrat,system-ui,sans-serif;color:var(--ba-text)}
+.mc-dropoff-accept .badge.mc-drop-pill{font-size:.72rem;font-weight:700;padding:5px 12px;border:1px solid transparent;border-radius:var(--ba-radius-pill);white-space:nowrap}
+.mc-dropoff-accept .badge.mc-drop-bio{background:rgba(74,143,126,.14);border-color:rgba(74,143,126,.35);color:#2F6B5E}
+.mc-dropoff-accept .badge.mc-drop-nonbio{background:var(--ba-surface-2);border-color:var(--ba-border-strong);color:var(--ba-text-muted)}
+.mc-dropoff-accept .badge.mc-drop-rec{background:rgba(51,104,160,.12);border-color:var(--ba-border-blue);color:var(--ba-primary)}
+.mc-dropoff-accept .badge.mc-drop-haz{background:var(--ba-danger-light);border-color:rgba(168,68,68,.3);color:var(--ba-danger)}
+.mc-dropoff-accept .badge.mc-drop-bulky{background:rgba(90,100,115,.12);border-color:rgba(90,100,115,.3);color:#4A5568}
+/* Hours was a rail-less one-line meta strip (`auto minmax(0,1fr)`, no divider).
+   Under the reference it is an ordinary labelled field like DATE is on the admin
+   dashboard, so the override is gone and the cell icon comes back — the label
+   already says "Hours", so the clock is redundant noise at 14px. */
+.mc-ba-schedule-tbody .mc-dropoff-col-hours .mc-cell-icon{display:none}
+.mc-ba-schedule-tbody .mc-dropoff-col-hours .mc-cell-content{font-size:.9rem}
+
+/* ---------------- Mobile ----------------
+   Only the hero and scroll ownership are phone-only now. The list itself is
+   single-column at every width and carries the card layout unconditionally
+   (see the token block above), so the phone block no longer restates any of it. */
+@media (max-width:767.98px){
+  .mc-ba-sched-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+  .mc-ba-sched-hero-title-row{width:100%;flex:1 1 auto}
+  .mc-ba-sched-hero-title{width:100%}
+  .mc-ba-sched-hero-brand{flex:none;width:100%;align-items:stretch}
+  .mc-ba-sched-hero-brand > div{width:100%;text-align:left!important}
+  .mc-ba-sched-hero-brand .btn-group{width:100%;flex-wrap:wrap}
+  .mc-ba-sched-brand-img{margin-left:0!important}
+
+  /* The list itself is no longer in here: it is single-column at every width
+     and carries the shared .mc-stacked-card card layout, so the grid/head/cell
+     rules are all unconditional now. What genuinely remains phone-only is
+     scroll ownership -- .mc-dropoff-scroll lets the desktop panel scroll
+     internally beside the map, but on a phone that nested scroll region sits
+     inside an already-scrolling page. No !important needed: the max-height
+     and overflow used to be inline on the element, so nothing in a
+     stylesheet could reach them without one. */
+  .mc-dropoff-scroll{max-height:none;overflow:visible}
+}
+@media (max-width:440px){
+  .mc-ba-sched-hero-brand .btn-group > .btn:not(:first-child){border-radius:.25rem}
+  .mc-ba-sched-hero-brand .btn{padding:.42rem .55rem;font-size:.8rem;line-height:1.25;white-space:normal}
+}

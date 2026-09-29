@@ -1,0 +1,168 @@
+@charset "UTF-8";
+.mc-ba-schedule-page{max-width:1280px;margin-inline:auto;padding:16px 0 48px}
+@media(min-width:768px){.mc-ba-schedule-page{padding:24px 0 48px}}
+.mc-ba-sched-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+.mc-ba-sched-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);position:relative;padding:var(--ba-space-4) var(--ba-space-5)}
+@media(max-width:480px){.mc-ba-sched-hero-inner{padding:var(--ba-space-4)}}
+.mc-ba-sched-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0}
+.mc-ba-sched-hero-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.mc-ba-sched-hero-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-ba-sched-hero-title{min-width:0}
+.mc-ba-sched-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-ba-sched-hero-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-ba-sched-hero-brand{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end}
+.mc-ba-sched-brand-img{display:block;object-fit:contain;border-radius:var(--ba-radius-md);background:var(--ba-surface);padding:3px;border:1px solid var(--ba-border)}
+/* Mobile hero: stack title + brand so they never collide */
+@media (max-width:767.98px){
+  .mc-ba-sched-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+  .mc-ba-sched-hero-title-row{width:100%;flex:1 1 auto}
+  .mc-ba-sched-hero-title{width:100%}
+  .mc-ba-sched-hero-brand{flex:none;width:100%;align-items:stretch}
+  .mc-ba-sched-hero-brand > div{width:100%;text-align:left!important}
+  .mc-ba-sched-hero-brand .btn-group{width:100%;flex-wrap:wrap}
+  .mc-ba-sched-brand-img{margin-left:0!important}
+}
+@media (max-width:440px){
+  .mc-ba-sched-hero-brand .btn-group > .btn:not(:first-child){border-radius:.25rem}
+  .mc-ba-sched-hero-brand .btn{padding:.42rem .55rem;font-size:.8rem;line-height:1.25;white-space:normal}
+}
+.mc-ba-sched-search-wrap{position:relative;width:100%}
+.mc-ba-sched-search-icon{position:absolute;left:14px;top:14px;color:var(--ba-primary);pointer-events:none;z-index:2;stroke-width:2.1}
+.mc-ba-sched-info{margin-top:var(--ba-space-4);padding:0 2px;display:flex;align-items:center;gap:8px;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-ba-sched-info .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.1}
+/* The list sits inside .mc-list-card now, which owns the frame. This wrap is
+   the neutral middle layer between the section head and the grid. */
+.mc-list-card .mc-ba-schedule-table-wrap{border-radius:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mc-ba-schedule-table{display:flex;flex-direction:column;width:100%;min-width:720px;background:var(--ba-surface)}
+.mc-ba-sched-row{display:grid;grid-template-columns:minmax(140px,1.6fr) minmax(120px,1.1fr) minmax(100px,1fr) minmax(180px,2fr) minmax(180px,2fr);align-items:stretch}
+.mc-ba-sched-head .mc-ba-sched-cell{padding:14px;display:flex;align-items:center;background:var(--ba-surface);border-bottom:2px solid var(--ba-border)}
+.mc-th-wrap{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;font:700 .82rem/1.25 Montserrat,sans-serif;color:var(--ba-text);white-space:nowrap}
+.mc-th-icon{width:16px;height:16px;flex-shrink:0;color:var(--ba-primary);stroke-width:2}
+.mc-ba-schedule-tbody .mc-ba-sched-row{border-bottom:1px solid var(--ba-border)}
+.mc-ba-schedule-tbody .mc-ba-sched-row:last-child{border-bottom:0 none}
+.mc-ba-schedule-tbody .mc-ba-sched-row:hover{background:var(--ba-surface-2)}
+/* TABLE MODE ONLY. This rule is (0,2,0) — the same specificity as
+   .mc-stacked-card .mc-ba-sched-cell in common.css — and this sheet is linked
+   AFTER common.css (includes/partials/head.php:53-55), so source order alone
+   decided the winner. A media query adds no specificity; it wins here because it
+   makes the two rules apply to DISJOINT viewport ranges, so there is nothing left
+   to compete. Unscoped, display:flex beat the card layout's display:grid, the
+   label ::before became a flex sibling of .mc-cell-wrap{width:100%}, both shrank
+   proportionally, and every uppercase label broke mid-word: "CATEGO / RY",
+   "ACCEPTE / D". padding:14px also overrode --mc-sc-cell-pad, which is most of
+   why the rows read as badly spaced. */
+@media(min-width:768px){
+  .mc-ba-schedule-tbody .mc-ba-sched-cell{padding:14px;background:var(--ba-surface);display:flex;align-items:flex-start;min-width:0}
+}
+.mc-cell-wrap{display:flex;align-items:flex-start;justify-content:flex-start;gap:8px;width:100%;min-width:0}
+.mc-cell-icon{width:14px;height:14px;flex-shrink:0;margin-top:4px;color:var(--ba-text-muted)}
+.mc-cell-content{min-width:0;flex:1 1 auto;max-width:100%;color:var(--ba-text);font-size:.9rem;line-height:1.45;overflow-wrap:break-word;word-break:normal;hyphens:auto}
+.mc-cell-content strong{color:var(--ba-text);font-weight:700;line-height:1.3}
+.mc-ba-sched-secondary{color:var(--ba-text-muted)!important;font-size:.82rem;line-height:1.4;margin-top:4px}
+.mc-cell-content a{color:var(--ba-primary);text-decoration:none;font-weight:600;font-size:.82rem}
+.mc-cell-content a:hover{text-decoration:underline}
+.mc-cell-content .badge{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;padding:4px 10px;line-height:1.2;border-radius:var(--ba-radius-pill);white-space:nowrap;font-family:Montserrat,sans-serif;font-weight:600}
+.mc-cell-content .badge .lucide{width:12px;height:12px;flex-shrink:0}
+.mc-ba-sched-empty{padding:60px 20px;text-align:center;color:var(--ba-text-muted);font-size:.9rem;grid-column:1 / -1!important}
+
+/* Mobile: the phone card layout is the shared .mc-stacked-card primitive in
+   common.css. What stays here is what is specific to this page: releasing the
+   720px floor and dropping the scroll box so the cards can reach the full
+   viewport width. The label rule and the row/cell block live in the primitive
+   — they used to be byte-identical copies of the same block in 17 other
+   sheets. */
+@media (max-width:767.98px){
+  .mc-list-card .mc-ba-schedule-table-wrap{overflow:visible}
+  .mc-list-card .mc-ba-schedule-table{min-width:0;width:100%}
+}
+
+/* ------------------------------------------------------------------
+   Column classes. The PHP emits these on both the header row and the
+   body rows, but they had no definition anywhere, so alignment relied
+   purely on cell position. The min-widths mirror the grid track floors
+   (140 + 120 + 100 + 180 + 180 = 720px, exactly the container min-width),
+   which keeps PROJECT_GUIDE rule #6 satisfied and makes an insert or
+   reorder in one row a visible break rather than a silent one.
+   Weights follow the admin peer #wgTable (admin/ba_waste.css:50-57).
+   ------------------------------------------------------------------ */
+.mc-wg-row{min-width:0}
+.mc-wg-col-item{min-width:140px}
+.mc-wg-col-cat{min-width:120px}
+.mc-wg-col-acc{min-width:100px}
+.mc-wg-col-prep{min-width:180px}
+.mc-wg-col-disp{min-width:180px}
+@media(max-width:767.98px){
+  .mc-wg-col-item,.mc-wg-col-cat,.mc-wg-col-acc,.mc-wg-col-prep,.mc-wg-col-disp{min-width:0}
+}
+
+/* ------------------------------------------------------------------
+   Item cards — reference treatment, matching admin/dashboard.php's
+   Recent Concerns cards (admin/dashboard.css:538-568).
+
+   This is still token overrides, not a second copy of the label block.
+   A labelled stacked field is a single-column grid, so the whole
+   reference layout falls out of five token values plus the two switches
+   the primitive carries for it:
+
+     --mc-sc-cell-cols   one track, so the label sits ABOVE its value
+     --mc-sc-value-col   1 — the value shares that track (the primitive
+                         defaults to 2, the rail's value column)
+     --mc-sc-head-label  attr(data-label), so the FIRST field prints its
+                         label too. The default `none` is what makes the
+                         rail's first cell an unlabelled card title.
+     --mc-sc-cell-top    0 none, because --mc-sc-head-rule already draws
+                         the divider under field 1. Leaving it on would
+                         stack two lines between fields 1 and 2.
+     --mc-sc-rule        dashed, as the reference draws it.
+
+   The card is ~45% taller than the rail. That is the reference, and it
+   is the cost of matching it; the rail is still the default for the
+   other two adopters. */
+/* The wrap carries `mc-stacked-card` on this page (ba_waste.php), and the inner
+   .mc-ba-schedule-table on ba_dropoff_map.php, so anchor on the class itself.
+   Mobile-only: above 768px this list is a real five-column grid and the rail
+   tokens are irrelevant — the card layout is breakpoint-gated in common.css. */
+@media (max-width:767.98px){
+  .mc-list-card .mc-stacked-card{
+    --mc-sc-cell-cols:minmax(0,1fr);
+    --mc-sc-value-col:1;
+    --mc-sc-label-align:left;
+    --mc-sc-label-font:700 .7rem/1.2 'Montserrat',system-ui,sans-serif;
+    --mc-sc-row-gap:5px;
+    --mc-sc-cell-pad:12px 0;
+    --mc-sc-cell-top:0 none;
+    --mc-sc-rule:1px dashed #E5E7EB;
+    --mc-sc-head-label-display:block;
+    --mc-sc-head-pad:12px 0;
+    --mc-sc-head-gap:0;
+    --mc-sc-head-rule:1px dashed #E5E7EB;
+    --mc-sc-card-pad:4px 14px;
+    --mc-sc-card-margin:12px;
+    --mc-sc-cell-align:start;
+  }
+  /* The reference gutters the white cards on the page's own cream, which
+     is what makes each one read as a card rather than as a stacked block
+     inside the section card. */
+  .mc-list-card .mc-ba-schedule-table{background:var(--ba-bg);padding:12px 12px 4px}
+}
+.mc-wg-item-name{font:600 1.05rem/1.3 Montserrat,system-ui,sans-serif;color:var(--ba-text)}
+/* Accepted is the card's one verdict, so it centres — the reference does the
+   same for Status. The LABEL has to centre with it, and so does the badge:
+   .mc-cell-content is flex:1 and fills the row, so justify-content on the wrap
+   has nothing left to distribute and text-align is what moves the pill.
+   The label needs one more class than the primitive's own label rule carries,
+   because that rule is (0,2,1) and so is this one — source order alone would
+   be doing the deciding. */
+.mc-list-card .mc-stacked-card .mc-wg-col-acc::before{text-align:center}
+.mc-list-card .mc-wg-col-acc .mc-cell-content{text-align:center}
+.mc-cell-content .mc-wg-badge{font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:var(--ba-radius-pill);white-space:nowrap}
+.mc-cell-content .mc-wg-cat-biodegradable{background:rgba(74,143,126,.14);border-color:rgba(74,143,126,.35);color:#2F6B5E}
+.mc-cell-content .mc-wg-cat-non-biodegradable{background:var(--ba-surface-2);border-color:var(--ba-border-strong);color:var(--ba-text-muted)}
+.mc-cell-content .mc-wg-cat-recyclable{background:rgba(51,104,160,.12);border-color:var(--ba-border-blue);color:var(--ba-primary)}
+.mc-cell-content .mc-wg-cat-hazardous{background:var(--ba-danger-light);border-color:rgba(168,68,68,.3);color:var(--ba-danger)}
+.mc-cell-content .mc-wg-cat-special{background:var(--ba-warning-light);border-color:rgba(214,147,46,.35);color:#7A5410}
+.mc-cell-content .mc-wg-acc-yes,.mc-cell-content .mc-wg-acc-no{display:inline-flex;align-items:center;gap:7px}
+.mc-cell-content .mc-wg-acc-yes::before,.mc-cell-content .mc-wg-acc-no::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+.mc-cell-content .mc-wg-acc-yes{background:rgba(74,143,126,.14);border-color:rgba(74,143,126,.35);color:#2F6B5E}
+.mc-cell-content .mc-wg-acc-no{background:var(--ba-danger-light);border-color:rgba(168,68,68,.3);color:var(--ba-danger)}
+.mc-wg-col-prep .mc-cell-content,.mc-wg-col-disp .mc-cell-content{line-height:1.55}

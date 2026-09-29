@@ -1,0 +1,114 @@
+@charset "UTF-8";
+/* =========================================================
+   public/ba_faq.php — Help, Feedback & Contact Us (citizen)
+   Aligned 1:1 with the admin/ba_feedback.php reference design.
+   Primitives come from assets/css/common.css; tokens from variables.css.
+
+   Rule #14 (Pure Minimalism): flat fills, 1px borders, no gradients,
+   no skeuomorphic shadows, no translateY click animations.
+   The previous version carried a 3-stop linear-gradient hero, a
+   radial-gradient ::before, 3-layer inset-bevelled icon/chip
+   shadows and translateY(1px)/translateY(-1px) hover+active lifts.
+   All of it was unreachable anyway — the page rendered raw Bootstrap.
+   This sheet is now wired to real markup (see public/ba_faq.php).
+   ========================================================= */
+
+/* ---------------- Page container ----------------
+   max-width 1280px keeps inside PROJECT_GUIDE rule #15. Horizontal
+   padding is 0 because .mc-shell-main (common.css:140) already
+   supplies 24px — the same convention admin/ba_dropoffs.css uses,
+   so the shell padding is not doubled. */
+.mc-ba-faq-page{max-width:1280px;margin-inline:auto;padding:16px 0 48px}
+@media(min-width:768px){.mc-ba-faq-page{padding:24px 0 48px}}
+
+/* ---------------- Hero band ----------------
+   Matches admin/concerns.css:4 — #FDFCF9 fill, 1px var(--ba-border),
+   radius-md, shadow-sm. */
+.mc-ba-faq-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+.mc-ba-faq-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);position:relative;padding:20px 24px;flex-wrap:wrap}
+@media(max-width:520px){.mc-ba-faq-hero-inner{padding:16px}}
+.mc-ba-faq-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0}
+.mc-ba-faq-hero-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:none}
+.mc-ba-faq-hero-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-ba-faq-hero-title{min-width:0}
+.mc-ba-faq-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-ba-faq-hero-title p{margin:0;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-ba-faq-hero-media{flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--ba-surface-2);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:12px 16px}
+.mc-ba-faq-hero-media img{display:block;width:auto;height:auto;max-width:180px;max-height:96px;object-fit:contain}
+@media(max-width:767.98px){.mc-ba-faq-hero-media{display:none}}
+
+/* ---------------- Tab chips ----------------
+   Replaces Bootstrap .nav-tabs, which the design system does not
+   style (common.css:62 only covers .nav-pills). Gives the three
+   section switchers a 40px tap target, matching the admin chips. */
+.mc-ba-faq-tabs{display:flex;flex-wrap:wrap;gap:var(--ba-space-2);margin:0 0 20px}
+.mc-ba-faq-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;min-height:40px;border-radius:var(--ba-radius-pill);background:var(--ba-surface-2);color:var(--ba-text);border:1px solid var(--ba-border);font:var(--ba-caption);font-family:'Montserrat',system-ui,sans-serif;letter-spacing:0.02em;cursor:pointer;user-select:none;text-decoration:none;box-shadow:none;transition:background-color .18s ease,filter .15s ease,color .15s ease,border-color .15s ease}
+.mc-ba-faq-chip .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.2}
+.mc-ba-faq-chip:hover{filter:brightness(.98);background:#EDE7DA;border-color:var(--ba-border-strong);text-decoration:none}
+.mc-ba-faq-chip:active{filter:brightness(.94)}
+.mc-ba-faq-chip.active{background:var(--ba-primary)!important;color:#fff!important;border-color:var(--ba-primary)!important}
+.mc-ba-faq-chip.active .lucide{color:#fff}
+
+/* ---------------- Search card ---------------- */
+.mc-ba-faq-search-row{margin:0 0 var(--ba-space-4)}
+.mc-ba-faq-search-wrap{position:relative;width:100%}
+.mc-ba-faq-search-icon{position:absolute;left:14px;top:14px;color:var(--ba-primary);pointer-events:none;z-index:2;stroke-width:2.1;width:20px;height:20px}
+.mc-ba-faq-search-input{height:48px;padding-left:44px!important;border-radius:var(--ba-radius-md)!important}
+.mc-ba-faq-search-info{margin-top:var(--ba-space-4);padding:0 2px;display:flex;align-items:center;gap:8px;font:var(--ba-small);color:var(--ba-text-muted)}
+.mc-ba-faq-search-info .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.1}
+
+/* ---------------- Section card ----------------
+   Matches admin/ba_waste.css:31 / admin/ba_schedules.css:25. */
+.mc-ba-faq-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden}
+.mc-ba-faq-card-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--ba-border);background:var(--ba-surface-2)}
+.mc-ba-faq-card-head h2,.mc-ba-faq-card-head h3{font:var(--ba-h3);margin:0;display:inline-flex;align-items:center;gap:8px}
+.mc-ba-faq-card-head h2 .lucide,.mc-ba-faq-card-head h3 .lucide{color:var(--ba-primary);stroke-width:2.1}
+.mc-ba-faq-card-body{padding:var(--ba-space-4) var(--ba-space-5)}
+@media(max-width:575.98px){.mc-ba-faq-card-body{padding:var(--ba-space-4)}}
+
+/* ---------------- Accordion rows ----------------
+   common.css:78-81 already supplies the token-based accordion
+   chrome, so only the two mobile defects are patched here:
+   (1) the header is display:flex with no flex-wrap, so a long
+       question was squeezed into the residual width of a 3-item
+       row and broke one letter per line (PROJECT_GUIDE rule #7);
+   (2) the FAQ-number and category badges need to keep their size
+       when the header wraps. */
+.mc-ba-faq-acc .accordion-button{flex-wrap:wrap;row-gap:6px;overflow-wrap:break-word;word-break:normal;hyphens:auto}
+.mc-ba-faq-acc .accordion-button > span:last-child{min-width:0;flex:1 1 180px}
+.mc-ba-faq-acc .accordion-button .badge{flex-shrink:0;white-space:nowrap}
+.mc-ba-faq-acc .accordion-body{overflow-wrap:break-word;word-break:normal;hyphens:auto}
+.mc-ba-faq-acc .accordion-item + .accordion-item{margin-top:8px}
+.mc-ba-faq-zero{padding:48px 16px;text-align:center;color:var(--ba-text-muted);font-size:.9rem}
+.mc-ba-faq-zero .lucide-24{color:var(--ba-border-strong);stroke-width:1.5}
+
+/* ---------------- Status badges ---------------- */
+.mc-status-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);font-family:'Montserrat',system-ui,sans-serif;letter-spacing:0.02em;line-height:1.4;border:1px solid transparent;white-space:nowrap}
+.mc-status-badge .lucide{flex-shrink:0;stroke-width:2.2}
+.mc-status-new{background:rgba(51,104,160,0.10);color:var(--ba-primary);border-color:rgba(51,104,160,0.20)}
+.mc-status-new .lucide{color:var(--ba-primary)}
+.mc-status-ongoing{background:rgba(102,163,191,0.14);color:#2A6785;border-color:rgba(102,163,191,0.28)}
+.mc-status-ongoing .lucide{color:#2A6785}
+.mc-status-ack{background:rgba(200,223,219,0.55);color:#2F6A5C;border-color:rgba(74,143,126,0.22)}
+.mc-status-ack .lucide{color:#2F6A5C}
+.mc-status-completed{background:var(--ba-success);color:#fff;border-color:var(--ba-success)}
+.mc-status-completed .lucide{color:#fff}
+.mc-status-cancelled{background:var(--ba-danger);color:#fff;border-color:var(--ba-danger)}
+.mc-status-cancelled .lucide{color:#fff}
+.mc-status-muted{background:var(--ba-surface-2);color:var(--ba-text-muted);border-color:var(--ba-border)}
+.mc-status-muted .lucide{color:var(--ba-text-muted)}
+
+/* ---------------- Mobile ----------------
+   The sheet previously had no max-width:767.98px block at all, so
+   the admin and public FAQ pages shared no mobile breakpoint. */
+@media(max-width:767.98px){
+  .mc-ba-faq-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}
+  .mc-ba-faq-hero-title-row{width:100%;flex:1 1 auto}
+  .mc-ba-faq-chip{flex:1 1 auto;justify-content:center}
+  .mc-ba-faq-card-body{padding:var(--ba-space-4)}
+}
+@media(max-width:576px){
+  .mc-ba-faq-hero-icon-wrap{width:44px;height:44px}
+  .mc-ba-faq-hero-icon-wrap .lucide{width:20px;height:20px}
+  .mc-ba-faq-hero-title h1{font-size:1.375rem}
+}

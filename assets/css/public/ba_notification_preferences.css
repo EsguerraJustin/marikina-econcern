@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/* ba_notification_preferences.css · BasuraPrefs Notification Settings */
+.mc-ba-notification-preferences-page{max-width:1280px;margin-inline:auto;padding:16px 0 48px}
+@media(min-width:768px){.mc-ba-notification-preferences-page{padding:24px 0 48px}}
+.mc-ba-notification-preferences-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+/* Rule #14: no gradients. The previous 3-stop linear-gradient fill and the
+   radial-gradient ::before were removed to match admin/concerns.css:4-5. */
+.mc-ba-notification-preferences-hero::before{content:none}
+.mc-ba-notification-preferences-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);position:relative;padding:var(--ba-space-4) var(--ba-space-5)}
+@media(max-width:480px){.mc-ba-notification-preferences-hero-inner{padding:var(--ba-space-4)}}
+.mc-ba-notification-preferences-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0}
+.mc-ba-notification-preferences-hero-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:none}
+.mc-ba-notification-preferences-hero-icon-wrap .lucide{color:#fff;stroke-width:2.15;width:24px;height:24px}
+.mc-ba-notification-preferences-hero-title{min-width:0}
+.mc-ba-notification-preferences-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-ba-notification-preferences-hero-title p{margin:0}
+.mc-ba-notification-preferences-hero-brand{flex-shrink:0}
+.mc-ba-notification-preferences-brand-img{display:block;object-fit:contain;border-radius:10px;background:var(--ba-surface);padding:3px;box-shadow:var(--ba-shadow-sm)}
+@media(max-width:520px){.mc-ba-notification-preferences-hero-brand{display:none}}
+.mc-ba-notification-preferences-tabs{display:flex;flex-wrap:wrap;gap:var(--ba-space-2);margin:var(--ba-space-5) 0 var(--ba-space-4)}
+.mc-ba-notification-preferences-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;min-height:40px;border-radius:var(--ba-radius-pill);background:var(--ba-surface-2);color:var(--ba-text);border:1px solid var(--ba-border);font:var(--ba-caption);font-family:'Montserrat',system-ui,sans-serif;letter-spacing:0.02em;cursor:pointer;user-select:none;box-shadow:none;transition:background-color .18s ease,filter .15s ease,color .15s ease,border-color .15s ease}
+.mc-ba-notification-preferences-chip .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.2}
+.mc-ba-notification-preferences-chip:hover{filter:brightness(.98);background:#EDE7DA;border-color:var(--ba-border-strong)}
+/* Rule #14: no translateY on :active, no inset press-shadow. */
+.mc-ba-notification-preferences-chip:active{filter:brightness(.94)}
+.mc-ba-notification-preferences-chip.active{background:var(--ba-primary)!important;color:#fff!important;border-color:var(--ba-primary)!important;box-shadow:none}
+.mc-ba-notification-preferences-chip.active .lucide{color:#fff}
+.mc-ba-notification-preferences-search-row{margin:0 0 var(--ba-space-4)}
+.mc-ba-notification-preferences-search-wrap{position:relative;width:100%}
+.mc-ba-notification-preferences-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ba-primary);pointer-events:none;z-index:2;stroke-width:2.1;width:20px;height:20px}
+.mc-ba-notification-preferences-search-input{height:48px;padding-left:44px!important;border-radius:var(--ba-radius-lg)!important}
+.mc-ba-notification-preferences-section-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);padding:var(--ba-space-5);margin-bottom:var(--ba-space-4);transition:border-color .2s ease}
+.mc-ba-notification-preferences-section-card:hover{border-color:var(--ba-border-strong)}
+.mc-ba-notification-preferences-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);padding:var(--ba-space-3) 0;border-bottom:1px solid var(--ba-border)}
+.mc-ba-notification-preferences-toggle-row:last-child{border-bottom:none;padding-bottom:0}
+.mc-ba-notification-preferences-toggle-row:first-child{padding-top:0}
+.mc-status-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);font-family:'Montserrat',system-ui,sans-serif;letter-spacing:0.02em;line-height:1.4;border:1px solid transparent;white-space:nowrap}
+.mc-status-badge .lucide{flex-shrink:0;stroke-width:2.2}
+.mc-status-new{background:rgba(51,104,160,0.10);color:var(--ba-primary);border-color:rgba(51,104,160,0.20)}
+.mc-status-new .lucide{color:var(--ba-primary)}
+.mc-status-ongoing{background:rgba(102,163,191,0.14);color:#2A6785;border-color:rgba(102,163,191,0.28)}
+.mc-status-ongoing .lucide{color:#2A6785}
+.mc-status-ack{background:rgba(200,223,219,0.55);color:#2F6A5C;border-color:rgba(74,143,126,0.22)}
+.mc-status-ack .lucide{color:#2F6A5C}
+.mc-status-completed{background:var(--ba-success);color:#fff;border-color:var(--ba-success)}
+.mc-status-completed .lucide{color:#fff}
+.mc-status-cancelled{background:var(--ba-danger);color:#fff;border-color:var(--ba-danger)}
+.mc-status-cancelled .lucide{color:#fff}
+.mc-status-muted{background:var(--ba-surface-2);color:var(--ba-text-muted);border-color:var(--ba-border)}
+.mc-status-muted .lucide{color:var(--ba-text-muted)}
+@media(max-width:767.98px){.mc-ba-notification-preferences-hero-inner{flex-direction:column;align-items:flex-start;justify-content:flex-start}.mc-ba-notification-preferences-hero-title-row{width:100%;flex:1 1 auto}.mc-ba-notification-preferences-chip{flex:1 1 auto;justify-content:center}.mc-ba-notification-preferences-section-card{padding:var(--ba-space-4)}}
+@media(max-width:576px){.mc-ba-notification-preferences-hero-icon-wrap{width:44px;height:44px}.mc-ba-notification-preferences-hero-icon-wrap .lucide{width:20px;height:20px}.mc-ba-notification-preferences-hero-title h1{font-size:1.375rem}}

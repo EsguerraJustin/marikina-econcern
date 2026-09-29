@@ -1,0 +1,81 @@
+@charset "UTF-8";
+/* submit_concern.css */
+.mc-app-shell{background-position:50% 100%!important;background-attachment:fixed!important;background-size:100% auto!important}
+.mc-submit-concern-page{max-width:1280px;margin-inline:auto;padding:16px 0 48px}
+.mc-submit-concern-page .mc-neo-card{background:var(--ba-surface);border:1px solid var(--ba-border)!important;border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);margin-bottom:20px}
+.mc-submit-concern-page .mc-neo-card .card-body{padding:22px!important}
+.mc-submit-concern-page .card-body .text-primary{font:700 1.65rem/1.15 Montserrat,system-ui,sans-serif!important;color:#3368A0!important}
+.mc-submit-concern-page .card-body>.text-muted,.mc-submit-concern-page #selectedTypeText,.mc-submit-concern-page .text-muted:not(.badge):not(.btn):not(.form-text-meta){color:#4A5568!important;font-size:.95rem!important}
+.mc-submit-concern-page .card-body .fw-bold:first-child{font:700 1.1rem/1.2 Montserrat,system-ui,sans-serif;color:#1F2937}
+.mc-submit-concern-page .form-label{font:600 .92rem/1.35 Montserrat,system-ui,sans-serif;color:#1F2937;margin-bottom:8px!important}
+.mc-submit-concern-page .small.text-muted{color:#52606D!important}
+.mc-photo-preview-grid{display:grid;grid-template-columns:repeat(auto-fill,92px);gap:10px}.mc-photo-preview-item{position:relative;width:92px;height:92px;border-radius:10px;border:1px solid #D9DEE5;background:#fff;overflow:hidden}.mc-photo-preview-item img{width:100%;height:100%;object-fit:cover;display:block}.mc-photo-preview-del{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:9999px;border:1px solid #D2D8E1;background:#fff;color:#C33;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}.mc-photo-preview-del:hover{color:#922;border-color:#C33}.mc-photo-preview-del .lucide{width:14px;height:14px;stroke-width:2.4}
+@media(min-width:768px){.mc-submit-concern-page{padding:24px 0 48px}}
+.mc-submit-concern-hero{background:#FDFCF9;border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);box-shadow:var(--ba-shadow-sm);overflow:hidden;position:relative;margin-bottom:24px}
+/* Rule #14: no gradients. The radial-gradient dot-grid ::before was
+   removed to match admin/concerns.css:4-5. */
+.mc-submit-concern-hero::before{content:none}
+.mc-submit-concern-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:var(--ba-space-4);position:relative;padding:var(--ba-space-4) var(--ba-space-5)}
+@media(max-width:480px){.mc-submit-concern-hero-inner{padding:var(--ba-space-4)}}
+.mc-submit-concern-hero-title-row{display:flex;align-items:center;gap:var(--ba-space-4);min-width:0}
+.mc-submit-concern-hero-icon-wrap{flex-shrink:0;width:52px;height:52px;border-radius:var(--ba-radius-md);background:var(--ba-primary);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.mc-submit-concern-hero-icon-wrap .lucide{color:#fff;stroke-width:2.1;width:24px;height:24px}
+.mc-submit-concern-hero-title{min-width:0}
+.mc-submit-concern-hero-title h1{font:var(--ba-h1);margin:0 0 2px;color:var(--ba-text)}
+.mc-submit-concern-hero-title p{margin:0}
+.mc-submit-concern-hero-brand{flex-shrink:0}
+.mc-submit-concern-brand-img{display:block;object-fit:contain;border-radius:10px;background:var(--ba-surface);padding:3px;border:1px solid var(--ba-border)}
+@media(max-width:520px){.mc-submit-concern-hero-brand{display:none}}
+.mc-submit-concern-tabs{display:flex;flex-wrap:wrap;gap:var(--ba-space-2);margin:var(--ba-space-5) 0 var(--ba-space-4)}
+.mc-submit-concern-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;min-height:32px;border-radius:var(--ba-radius-pill);background:var(--ba-surface-2);color:var(--ba-text);border:1px solid var(--ba-border);font:var(--ba-caption);font-family:'Montserrat',system-ui,sans-serif;letter-spacing:.02em;cursor:pointer;user-select:none;transition:background-color .18s ease,color .15s ease,border-color .15s ease}
+.mc-submit-concern-chip .lucide{width:14px;height:14px;flex-shrink:0;stroke-width:2.2}
+.mc-submit-concern-chip:hover{background:#EDE7DA;border-color:var(--ba-border-strong)}
+.mc-submit-concern-chip.active{background:#3368A0!important;color:#fff!important;border-color:#3368A0!important}
+.mc-submit-concern-chip.active .lucide{color:#fff}
+.mc-submit-concern-search-row{margin:0 0 var(--ba-space-4)}
+.mc-submit-concern-search-wrap{position:relative;width:100%}
+.mc-submit-concern-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ba-primary);pointer-events:none;z-index:2;stroke-width:2.1;width:20px;height:20px}
+.mc-submit-concern-search-input{height:48px;padding-left:44px!important;border-radius:var(--ba-radius-lg)!important}
+.mc-submit-concern-form-card{background:var(--ba-surface);border:1px solid var(--ba-border);border-radius:var(--ba-radius-md);padding:var(--ba-space-5);margin-bottom:var(--ba-space-4);transition:border-color .2s ease}
+.mc-submit-concern-form-card:hover{border-color:var(--ba-border-strong)}
+.mc-submit-concern-attach-card{background:var(--ba-surface);border:1px dashed var(--ba-primary);border-radius:var(--ba-radius-md);padding:var(--ba-space-5);margin-bottom:var(--ba-space-4)}
+.mc-status-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:var(--ba-radius-pill);font:var(--ba-caption);font-family:'Montserrat',system-ui,sans-serif;letter-spacing:.02em;line-height:1.4;border:1px solid transparent;white-space:nowrap}
+.mc-status-badge .lucide{flex-shrink:0;stroke-width:2.2}
+.mc-status-new{background:rgba(51,104,160,.10);color:#3368A0;border-color:rgba(51,104,160,.20)}
+.mc-status-new .lucide{color:#3368A0}
+.mc-status-ongoing{background:rgba(102,163,191,.14);color:#2A6785;border-color:rgba(102,163,191,.28)}
+.mc-status-ongoing .lucide{color:#2A6785}
+.mc-status-ack{background:rgba(200,223,219,.55);color:#2F6A5C;border-color:rgba(74,143,126,.22)}
+.mc-status-ack .lucide{color:#2F6A5C}
+.mc-status-completed{background:#4A8F7E;color:#fff;border-color:#4A8F7E}
+.mc-status-completed .lucide{color:#fff}
+.mc-status-cancelled{background:#B95454;color:#fff;border-color:#B95454}
+.mc-status-cancelled .lucide{color:#fff}
+.mc-status-muted{background:var(--ba-surface-2);color:var(--ba-text-muted);border-color:var(--ba-border)}
+.mc-status-muted .lucide{color:var(--ba-text-muted)}
+.mc-submit-confirm-modal .modal-backdrop{background-color:rgba(31,41,55,.56)}
+.mc-submit-confirm-modal .modal-dialog{max-width:620px;width:calc(100% - 32px);margin:40px auto}
+@media(min-width:576px){.mc-submit-confirm-modal .modal-dialog{margin:10vh auto}}
+.mc-submit-confirm-modal .modal-content{border:1px solid var(--ba-border);border-radius:var(--ba-radius-lg);box-shadow:none;overflow:hidden;background:#fff}
+.mc-submit-confirm-modal .modal-header{padding:22px 26px 14px;border-bottom:1px solid var(--ba-border);background:transparent;display:flex;align-items:center;gap:10px}
+.mc-submit-confirm-modal .modal-title{font:600 1.125rem/1.25 'Montserrat',system-ui,sans-serif;color:var(--ba-text);margin:0;display:inline-flex;align-items:center;gap:10px}
+.mc-submit-confirm-modal .modal-title .lucide{width:22px;height:22px;stroke-width:2;color:#3368A0}
+.mc-submit-confirm-modal .btn-close{width:36px;height:36px;padding:0;border:1px solid var(--ba-border);border-radius:50%;background:#fff;background-image:none;display:inline-flex;align-items:center;justify-content:center;color:var(--ba-text-muted);opacity:1}
+.mc-submit-confirm-modal .btn-close:hover{background:var(--ba-surface-2);color:var(--ba-text)}
+.mc-submit-confirm-modal .modal-body{padding:20px 26px 26px;background:#fff}
+.mc-submit-confirm-warning{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;border-radius:var(--ba-radius-md);background:#FFF8EC;border:1px solid #EFD9A7;color:#7A5310;margin-bottom:18px}
+.mc-submit-confirm-warning .lucide{width:22px;height:22px;stroke-width:2.1;color:#C78A1D;flex-shrink:0;margin-top:1px}
+.mc-submit-confirm-warning span{font:var(--ba-body);color:#7A5310;line-height:1.55}
+.mc-submit-confirm-check{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--ba-radius-sm);border:1px solid transparent;transition:background-color .15s ease,border-color .15s ease;cursor:pointer}
+.mc-submit-confirm-check:hover{background:var(--ba-surface-2);border-color:var(--ba-border)}
+.mc-submit-confirm-check .form-check-input{width:22px;height:22px;accent-color:#3368A0;cursor:pointer;margin:0;flex-shrink:0;border:1px solid var(--ba-border-strong)}
+.mc-submit-confirm-check .form-check-label{font:600 .9375rem/1.4 'Montserrat',system-ui,sans-serif;color:var(--ba-text);margin:0;cursor:pointer}
+.mc-submit-confirm-modal .modal-footer{padding:0 26px 24px;border-top:0;background:transparent;display:flex;gap:12px;justify-content:flex-end}
+.mc-submit-confirm-modal .modal-footer .btn{min-height:46px;padding-inline:26px;border-radius:9999px;font:600 .9375rem/1 'Montserrat',system-ui,sans-serif;display:inline-flex;align-items:center;gap:8px;border-width:1px;cursor:pointer;transition:background-color .18s ease,color .15s ease,border-color .15s ease,opacity .12s ease}
+.mc-submit-confirm-modal .modal-footer .btn .lucide{width:17px;height:17px;stroke-width:2}
+.mc-submit-confirm-modal .modal-footer .btn-outline-secondary{background:#fff;color:#4B5563;border-color:#D1D5DB}
+.mc-submit-confirm-modal .modal-footer .btn-outline-secondary:hover{background:var(--ba-surface-2);color:var(--ba-text);border-color:var(--ba-border-strong)}
+.mc-submit-confirm-modal .modal-footer .btn-primary{background:#3368A0;color:#fff;border-color:#3368A0}
+.mc-submit-confirm-modal .modal-footer .btn-primary:hover:not([disabled]){background:#2B5A8C}
+.mc-submit-confirm-modal .modal-footer .btn-primary:disabled{background:#B5C5D9;border-color:#B5C5D9;cursor:not-allowed;opacity:.7}
+@media(max-width:576px){.mc-submit-concern-chip{min-height:30px;padding:5px 11px;font-size:.72rem}.mc-submit-concern-chip .lucide{width:13px;height:13px}.mc-submit-concern-hero-icon-wrap{width:44px;height:44px}.mc-submit-concern-hero-icon-wrap .lucide{width:20px;height:20px}.mc-submit-confirm-modal .modal-footer{flex-direction:column-reverse}.mc-submit-confirm-modal .modal-footer .btn{width:100%;justify-content:center}}

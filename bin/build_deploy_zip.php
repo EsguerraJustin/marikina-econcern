@@ -21,7 +21,6 @@ $excludedPaths = [
     'deploy.zip',
     'deploy.zip.zip',
     'repomix-output.xml',
-    'PROJECT_GUIDE.md',
     'vendor/',
     'node_modules/',
     'tests/',

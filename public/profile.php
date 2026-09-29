@@ -194,6 +194,16 @@ $avatarActionsId = 'cAvatarBox';
             <div class="mc-profile-card-body">
                 <form id="notifPrefsForm" method="POST" onsubmit="event.preventDefault(); window.__prefsSubmit ? window.__prefsSubmit() : null;">
                     <div class="text-muted small">Configure how you'd like to be notified. All channels deliver live: In-app (immediate), Email (Brevo SMTP), and SMS (TextBee gateway).</div>
+                    <?php /* The quick switches below cover the three channels and
+                        the lead time. The fine-grained per-event matrix (6 events
+                        x 3 channels) lives on its own page, which until now had
+                        no inbound link anywhere in public/ and was reachable
+                        only by typing the URL. */
+                    ?>
+                    <a class="small d-inline-block mt-1" href="<?= e(app_url('/public/ba_notification_preferences.php')) ?>">
+                        <i data-lucide="sliders-horizontal" class="lucide-14"></i>
+                        Per-event notification settings &rarr;
+                    </a>
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="save_notification_prefs">
 

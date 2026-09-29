@@ -480,10 +480,18 @@ echo $_holidayBlock;
         $_wCardInner = '';
         if ($_weatherCurrent !== null) {
             $_wIcon = $_weatherCurrent['icon'] ?? '<i data-lucide="cloud-sun" class="lucide-14"></i>';
-            $_wTemp = (float)($_weatherCurrent['temp_c'] ?? 0);
-            $_wFeels = (float)($_weatherCurrent['feels_like_c'] ?? ($_weatherCurrent['temp_c'] ?? 0));
-            $_wHum = (int)($_weatherCurrent['humidity_pct'] ?? 0);
-            $_wWind = (float)($_weatherCurrent['wind_kph'] ?? 0);
+            // null (field genuinely absent upstream) renders as an em dash, not
+            // 0. Same treatment as public/ba_dashboard.php.
+            $_wTemp = isset($_weatherCurrent['temp_c']) && $_weatherCurrent['temp_c'] !== null ? (float) $_weatherCurrent['temp_c'] : null;
+            $_wFeels = isset($_weatherCurrent['feels_like_c']) && $_weatherCurrent['feels_like_c'] !== null
+                ? (float) $_weatherCurrent['feels_like_c']
+                : (isset($_weatherCurrent['temp_c']) && $_weatherCurrent['temp_c'] !== null ? (float) $_weatherCurrent['temp_c'] : null);
+            $_wHum = isset($_weatherCurrent['humidity_pct']) && $_weatherCurrent['humidity_pct'] !== null ? (int) $_weatherCurrent['humidity_pct'] : null;
+            $_wWind = isset($_weatherCurrent['wind_kph']) && $_weatherCurrent['wind_kph'] !== null ? (float) $_weatherCurrent['wind_kph'] : null;
+            $_wTempD = $_wTemp !== null ? $_wTemp . '°C' : '—';
+            $_wFeelsD = $_wFeels !== null ? $_wFeels . '°C' : '—';
+            $_wHumD = $_wHum !== null ? $_wHum . '%' : '—';
+            $_wWindD = $_wWind !== null ? (string) $_wWind : '—';
             $_wCond = e((string)($_weatherCurrent['condition'] ?? 'Clear'));
             $_wAdv = e((string)($_weatherCurrent['advisory'] ?? 'Normal conditions.'));
             $_wCityE = e($_weatherCity);
@@ -491,15 +499,24 @@ echo $_holidayBlock;
             foreach ($_weatherForecast as $_fc) {
                 $_fcTs = strtotime((string)($_fc['date'] ?? ''));
                 $_fcDate = ($_fcTs !== false) ? date('M j', $_fcTs) : '—';
-                $_fcMax = (float)($_fc['max_c'] ?? 0);
-                $_fcMin = (float)($_fc['min_c'] ?? 0);
-                $_fcCondE = e((string)($_fc['condition'] ?? '—'));
-                $_fcRain = (int)($_fc['rain_chance_pct'] ?? 0);
+                // Same null treatment as public/ba_dashboard.php: a field the
+                // provider omitted must render as a gap, never as 0.
+                $_fcMax = isset($_fc['max_c']) && $_fc['max_c'] !== null ? (float) $_fc['max_c'] : null;
+                $_fcMin = isset($_fc['min_c']) && $_fc['min_c'] !== null ? (float) $_fc['min_c'] : null;
+                $_fcCondRaw = isset($_fc['condition']) && is_string($_fc['condition']) && $_fc['condition'] !== '' ? (string) $_fc['condition'] : null;
+                $_fcCondE = ($_fcCondRaw === null || $_fcCondRaw === 'Atmosphere') ? '—' : e($_fcCondRaw);
+                $_fcRain = isset($_fc['rain_chance_pct']) && $_fc['rain_chance_pct'] !== null ? (int) $_fc['rain_chance_pct'] : null;
+                $_fcTempHtml = ($_fcMax !== null && $_fcMin !== null)
+                    ? $_fcMax . '° <span class="text-muted fw-normal">/</span> ' . $_fcMin . '°'
+                    : '<span class="text-muted">—</span>';
+                $_fcRainHtml = $_fcRain !== null ? $_fcRain . '% rain' : '—';
+                $_isTodayPht = (string)($_fc['date'] ?? '') === gmdate('Y-m-d', time() + 28800);
+                $_fcLabel = $_fcDate . ($_isTodayPht || !empty($_fc['partial']) ? ' · rest of day' : '');
                 $_fcHtml .= '<div class="mc-admin-weather-day">
-                    <div class="small text-muted fw-semibold">' . $_fcDate . '</div>
+                    <div class="small text-muted fw-semibold">' . e($_fcLabel) . '</div>
                     <div class="small fw-semibold text-truncate" title="' . $_fcCondE . '">' . $_fcCondE . '</div>
-                    <div class="fw-bold">' . $_fcMax . '° <span class="text-muted fw-normal">/</span> ' . $_fcMin . '°</div>
-                    <div class="small text-muted"><i data-lucide="droplets" class="lucide-14"></i> ' . $_fcRain . '% rain</div>
+                    <div class="fw-bold">' . $_fcTempHtml . '</div>
+                    <div class="small text-muted"><i data-lucide="droplets" class="lucide-14"></i> ' . $_fcRainHtml . '</div>
                 </div>';
             }
             $_wCardInner = '<div class="mc-admin-section-card">
@@ -511,14 +528,14 @@ echo $_holidayBlock;
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <div class="fs-2">' . $_wIcon . '</div>
                         <div>
-                            <div class="h3 fw-bold mb-0 lh-1">' . $_wTemp . '°C</div>
-                            <div class="small text-muted">Feels like ' . $_wFeels . '°C · ' . $_wCond . '</div>
+                            <div class="h3 fw-bold mb-0 lh-1">' . $_wTempD . '</div>
+                            <div class="small text-muted">Feels like ' . $_wFeelsD . ' · ' . $_wCond . '</div>
                         </div>
                     </div>
                     <div class="d-flex gap-2 text-center small mb-2">
-                        <div class="flex-grow-1 border rounded p-1"><div class="fw-bold"><i data-lucide="droplets" class="lucide-14"></i> ' . $_wHum . '%</div><div class="text-muted">Humidity</div></div>
+                        <div class="flex-grow-1 border rounded p-1"><div class="fw-bold"><i data-lucide="droplets" class="lucide-14"></i> ' . $_wHumD . '</div><div class="text-muted">Humidity</div></div>
                         <div class="flex-grow-1 border rounded p-1"><div class="fw-bold"><i data-lucide="wind" class="lucide-14"></i> ' . $_wWind . '</div><div class="text-muted">Wind km/h</div></div>
-                        <div class="flex-grow-1 border rounded p-1"><div class="fw-bold"><i data-lucide="thermometer" class="lucide-14"></i> ' . $_wFeels . '°</div><div class="text-muted">Feels</div></div>
+                        <div class="flex-grow-1 border rounded p-1"><div class="fw-bold"><i data-lucide="thermometer" class="lucide-14"></i> ' . ($_wFeels !== null ? $_wFeels . '°' : '—') . '</div><div class="text-muted">Feels</div></div>
                     </div>
                     <div class="small border-top pt-2">' . $_wAdv . '</div>
                     ' . ($_fcHtml !== '' ? '<div class="fw-bold small mt-3 mb-2 text-muted">2-Day Outlook</div><div class="mc-admin-weather-forecast">' . $_fcHtml . '</div>' : '') . '

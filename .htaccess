@@ -80,17 +80,25 @@ Header always set X-Frame-Options "SAMEORIGIN"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# --- Deny direct .env access even without mod_rewrite ---
-<FilesMatch "^\.env">
-Require all denied
-</FilesMatch>
-<FilesMatch "app_error\.log">
-Require all denied
-</FilesMatch>
-
 # --- Uploads: no PHP execution ---
 <IfModule mod_rewrite.c>
 RewriteRule ^uploads/.*\.php$ - [F,L]
 # Same for the now-web-reachable evidence-photo directory.
 RewriteRule ^storage/mock_images/.*\.php$ - [F,L]
 </IfModule>
+</IfModule>
+
+# --- Deny direct secret access even WITHOUT mod_rewrite ---
+# Deliberately OUTSIDE every <IfModule>. These used to sit inside the
+# mod_rewrite block opened at the top of this file, which was never closed -
+# so on a host without mod_rewrite the whole file failed to parse (HTTP 500 on
+# every request, secrets included) and the "even without mod_rewrite" promise
+# in the comment was never actually true. Apache 2.4 <FilesMatch> needs no
+# rewrite module, so placing it here makes the backstop real. The file above
+# now also has its IfModule properly closed.
+<FilesMatch "^\.env">
+Require all denied
+</FilesMatch>
+<FilesMatch "^app_error\.log$">
+Require all denied
+</FilesMatch>

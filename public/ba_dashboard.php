@@ -183,26 +183,86 @@ if ($_todayHoliday !== null) {
 $_weatherCard = '';
 if ($_weatherCurrent !== null) {
     $_wIcon = $_weatherCurrent['icon'] ?? '<i data-lucide="cloud-sun" class="lucide-14"></i>';
-    $_wTemp = (float)($_weatherCurrent['temp_c'] ?? 0);
-    $_wFeels = (float)($_weatherCurrent['feels_like_c'] ?? 0);
-    $_wHum = (int)($_weatherCurrent['humidity_pct'] ?? 0);
-    $_wWind = (float)($_weatherCurrent['wind_kph'] ?? 0);
+    // null (field genuinely absent upstream) renders as an em dash, not 0°C.
+    // A cached 0 is a lie the resident cannot detect.
+    $_wTemp = isset($_weatherCurrent['temp_c']) && $_weatherCurrent['temp_c'] !== null ? (float) $_weatherCurrent['temp_c'] : null;
+    $_wFeels = isset($_weatherCurrent['feels_like_c']) && $_weatherCurrent['feels_like_c'] !== null ? (float) $_weatherCurrent['feels_like_c'] : null;
+    $_wHum = isset($_weatherCurrent['humidity_pct']) && $_weatherCurrent['humidity_pct'] !== null ? (int) $_weatherCurrent['humidity_pct'] : null;
+    $_wWind = isset($_weatherCurrent['wind_kph']) && $_weatherCurrent['wind_kph'] !== null ? (float) $_weatherCurrent['wind_kph'] : null;
+    $_wTempD = $_wTemp !== null ? $_wTemp . '°C' : '<span class="text-muted">—</span>';
+    $_wFeelsD = $_wFeels !== null ? $_wFeels . '°C' : '—';
+    $_wHumD = $_wHum !== null ? $_wHum . '%' : '—';
+    $_wWindD = $_wWind !== null ? (string) $_wWind : '—';
+    $_wFeelsShort = $_wFeels !== null ? $_wFeels . '°' : '—';
     $_wCond = e((string)($_weatherCurrent['condition'] ?? 'Clear'));
     $_wAdv = e((string)($_weatherCurrent['advisory'] ?? 'Normal collection conditions.'));
     $_wCityE = e($_weatherCity);
+    /* Provenance label. The outlook used to be generated from the current
+       temperature by fixed offsets and the panel still called it a forecast, so
+       it now states where the numbers came from.
+
+       The outlook has its own staleness flag: the current reading and the
+       /forecast data have independent TTLs (10m vs 30m), so a fresh reading can
+       sit beside a day-old outlook. Labelling the pair with the current
+       reading's age is what previously let a stale forecast read as live. */
+    /* Defaulting a missing 'source' to 'live_api' is what let bundled sample
+       numbers render under a "Live from OpenWeather" label. The provider sets
+       the key on every return path, so an absent one means an unrecognised
+       path - treat that as unknown rather than as live. */
+    $_weatherSrc = isset($_weatherData['source']) && is_string($_weatherData['source']) && $_weatherData['source'] !== ''
+        ? (string) $_weatherData['source']
+        : 'unknown';
+    $_fcStale = !empty($_weatherData['forecast_stale']);
+    if ($_weatherSrc === 'fixture' || $_weatherSrc === 'unknown') {
+        $_weatherSourceLabel = 'Sample data, not live';
+    } elseif ($_weatherSrc === 'cache_stale') {
+        $_weatherSourceLabel = 'Cached copy — API did not respond';
+    } elseif ($_fcStale) {
+        $_weatherSourceLabel = 'Outlook from cached copy — forecast API did not respond';
+    } elseif ($_weatherSrc === 'cache') {
+        $_weatherSourceLabel = 'Live · cached ' . (int) ($_weatherData['cache_age'] ?? 0) . 's ago';
+    } else {
+        $_weatherSourceLabel = 'Live from OpenWeather';
+    }
     $_fcHtml = '';
     foreach ($_weatherForecast as $_fc) {
         $_fcTs = strtotime((string)($_fc['date'] ?? ''));
         $_fcDate = ($_fcTs !== false) ? date('M j', $_fcTs) : '—';
-        $_fcMax = (float)($_fc['max_c'] ?? 0);
-        $_fcMin = (float)($_fc['min_c'] ?? 0);
-        $_fcCondE = e((string)($_fc['condition'] ?? ''));
-        $_fcRain = (int)($_fc['rain_chance_pct'] ?? 0);
+        $_fcMax = isset($_fc['max_c']) && $_fc['max_c'] !== null ? (float) $_fc['max_c'] : null;
+        $_fcMin = isset($_fc['min_c']) && $_fc['min_c'] !== null ? (float) $_fc['min_c'] : null;
+        // null condition means no slot reported one; never print the raw
+        // "Atmosphere" bucket name as if it were a description.
+        $_fcCondRaw = isset($_fc['condition']) && is_string($_fc['condition']) && $_fc['condition'] !== '' ? (string) $_fc['condition'] : null;
+        $_fcCondE = ($_fcCondRaw === null || $_fcCondRaw === 'Atmosphere')
+            ? '<span class="text-muted">—</span>'
+            : e($_fcCondRaw);
+        $_fcRain = isset($_fc['rain_chance_pct']) && $_fc['rain_chance_pct'] !== null ? (int) $_fc['rain_chance_pct'] : null;
+        // A null reading is omitted rather than printed as 0°: the live API can
+        // legitimately omit a field, and a fabricated-looking 0°C / 0% is worse
+        // than an honest gap.
+        $_fcTempHtml = $_fcMax !== null && $_fcMin !== null
+            ? '<span class="mc-ba-temp-hi">' . $_fcMax . '°</span> / <span class="mc-ba-temp-lo">' . $_fcMin . '°</span>'
+            : '<span class="text-muted">—</span>';
+        // No precipitation figure in a slot means "not reported", not "zero".
+        $_fcRainHtml = $_fcRain !== null
+            ? '<i data-lucide="droplets" class="lucide-14"></i> ' . $_fcRain . '% rain'
+            : '<i data-lucide="droplets" class="lucide-14"></i> <span class="text-muted">—</span>';
+        /* "Rest of day" is recomputed here rather than trusted from the payload.
+           The payload's 'partial' flag was computed at fetch time, so a cached
+           entry can carry a flag that is up to one TTL old - which means a day
+           row that stopped being partial still reads as partial, or vice
+           versa. The date string is the stable input: today in Philippine time
+           is today, so derive the label from that. */
+        $_isTodayPht = (string)($_fc['date'] ?? '') === gmdate('Y-m-d', time() + 28800);
+        $_fcLabel = $_fcDate;
+        if ($_isTodayPht || !empty($_fc['partial'])) {
+            $_fcLabel .= ' · rest of day';
+        }
         $_fcHtml .= '<div class="mc-ba-forecast-day">
-            <div class="mc-ba-forecast-date">' . $_fcDate . '</div>
+            <div class="mc-ba-forecast-date">' . e($_fcLabel) . '</div>
             <div class="mc-ba-forecast-cond">' . $_fcCondE . '</div>
-            <div class="mc-ba-forecast-temp"><span class="mc-ba-temp-hi">' . $_fcMax . '°</span> / <span class="mc-ba-temp-lo">' . $_fcMin . '°</span></div>
-            <div class="mc-ba-forecast-rain"><i data-lucide="droplets" class="lucide-14"></i> ' . $_fcRain . '% rain</div>
+            <div class="mc-ba-forecast-temp">' . $_fcTempHtml . '</div>
+            <div class="mc-ba-forecast-rain">' . $_fcRainHtml . '</div>
         </div>';
     }
     $_weatherCard = '<div class="mc-ba-card mc-ba-weather-card">
@@ -217,17 +277,20 @@ if ($_weatherCurrent !== null) {
             <div class="mc-ba-weather-now">
                 <div class="mc-ba-weather-icon">' . $_wIcon . '</div>
                 <div>
-                    <div class="mc-ba-weather-temp">' . $_wTemp . '°C</div>
-                    <div class="mc-ba-weather-cond">Feels like ' . $_wFeels . '°C · ' . $_wCond . '</div>
+                    <div class="mc-ba-weather-temp">' . $_wTempD . '</div>
+                    <div class="mc-ba-weather-cond">Feels like ' . $_wFeelsD . ' · ' . $_wCond . '</div>
                 </div>
             </div>
             <div class="mc-ba-weather-meta">
-                <div class="mc-ba-weather-stat"><strong><i data-lucide="droplets" class="lucide-14"></i> ' . $_wHum . '%</strong><span>Humidity</span></div>
-                <div class="mc-ba-weather-stat"><strong><i data-lucide="wind" class="lucide-14"></i> ' . $_wWind . '</strong><span>Wind km/h</span></div>
-                <div class="mc-ba-weather-stat"><strong><i data-lucide="thermometer" class="lucide-14"></i> ' . $_wFeels . '°</strong><span>Feels</span></div>
+                <div class="mc-ba-weather-stat"><strong><i data-lucide="droplets" class="lucide-14"></i> ' . $_wHumD . '</strong><span>Humidity</span></div>
+                <div class="mc-ba-weather-stat"><strong><i data-lucide="wind" class="lucide-14"></i> ' . $_wWindD . '</strong><span>Wind km/h</span></div>
+                <div class="mc-ba-weather-stat"><strong><i data-lucide="thermometer" class="lucide-14"></i> ' . $_wFeelsShort . '</strong><span>Feels</span></div>
             </div>
             <div class="' . $_weatherAdvisoryClass . ' small border-top pt-2 mb-3">' . $_wAdv . '</div>
-            <div class="fw-bold small mb-2 text-muted">2-Day Outlook</div>
+            <div class="d-flex justify-content-between align-items-baseline mb-2">
+                <div class="fw-bold small text-muted">2-Day Outlook</div>
+                <div class="small text-muted">' . $_weatherSourceLabel . '</div>
+            </div>
             <div class="mc-ba-forecast">' . $_fcHtml . '</div>
         </div>
     </div>';
@@ -406,7 +469,31 @@ if ($_weatherCurrent !== null) {
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="mhn">Data from Calendarific (national, local, and observance types). Exact dates for movable holidays (Maundy Thu, Good Fri, National Heroes Day, Eid holidays) are official as published.</div>
+                <div class="mhn">Data from Calendarific (national, local, and observance types). Exact dates for movable holidays (Maundy Thu, Good Fri, National Heroes Day, Eid holidays) are official as published.
+                    <?php
+                    /* Provenance line. The calendar claimed to be Calendarific
+                       data while the API was rate-limited and the fixtures were
+                       being served instead, so the source is now stated and
+                       time-stamped rather than asserted. */
+                    $_holidaySource = (string) ($_holidayData['source'] ?? 'fixture');
+                    /* Class is derived from the source, not from a variable that
+                       used to be computed here and then dropped. Live and
+                       cached reads are both real Calendarific data, so both
+                       render green; only the fixture path and a stale copy warn. */
+                    $_holidayLive = in_array($_holidaySource, ['live_api', 'cache'], true);
+                    ?>
+                    <span class="d-block mt-1 <?= $_holidayLive ? 'text-success' : 'text-warning' ?>">
+                        <?php if ($_holidaySource === 'live_api') : ?>
+                            <i data-lucide="radio" class="lucide-14"></i> Fetched live from Calendarific<?= !empty($_holidayData['cached_at']) ? ' · ' . e((string) $_holidayData['cached_at']) : '' ?>
+                        <?php elseif ($_holidaySource === 'cache') : ?>
+                            <i data-lucide="database" class="lucide-14"></i> Calendarific data (cached<?= isset($_holidayData['cache_age']) ? ' ' . (int) $_holidayData['cache_age'] . 's ago' : '' ?>)
+                        <?php elseif ($_holidaySource === 'cache_stale') : ?>
+                            <i data-lucide="database" class="lucide-14"></i> Calendarific data, cached copy<?= isset($_holidayData['cache_age']) ? ' ' . (int) $_holidayData['cache_age'] . 's old' : '' ?> — the live API did not respond, so this may be out of date
+                        <?php else : ?>
+                            <i data-lucide="alert-triangle" class="lucide-14"></i> <strong>Sample data, not live.</strong> The Calendarific API was unavailable, so bundled sample dates are shown.
+                        <?php endif; ?>
+                    </span>
+                </div>
                 <div class="mha">
                     <a class="btn btn-outline-secondary" href="<?= e(app_url('/public/ba_schedule.php')) ?>"><i data-lucide="calendar-days" class="lucide-14"></i> My collection schedule</a>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>

@@ -92,7 +92,6 @@ $excludeFiles = [
     'deploy.zip',
     'marikina-econcern-source.zip',
     'repomix-output.xml',
-    'PROJECT_GUIDE.md',
     'bin/build.gradle',
     'bin/settings.gradle',
     'bin/gradle.properties',

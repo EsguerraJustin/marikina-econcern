@@ -56,6 +56,39 @@ define('OPENWEATHER_API_KEY', (string) _cfg_env('OPENWEATHER_API_KEY', ''));
  * Generate one with: php -r "echo bin2hex(random_bytes(32)), PHP_EOL;" */
 define('SETUP_RECOVERY_KEY', (string) _cfg_env('SETUP_RECOVERY_KEY', ''));
 
+/* --- External API cache TTLs (seconds) ---
+ * Every integration below sits on a metered free tier while three dashboards
+ * read it on each page render. Without these the quota is exhausted within
+ * minutes and the app silently serves its bundled fixtures instead.
+ *
+ * Calendarific free tier (per calendarific.com/pricing): 500 calls per MONTH.
+ * There is no daily reset. The arithmetic that matters: three dashboards at
+ * ~20 views/day is ~60 calls/day = ~1,800/month, about 3.6x over the limit and
+ * therefore a guaranteed HTTP 429 within days of deploy. At 24h per entry the
+ * holiday set is refetched about once a day, ~30 calls/month, leaving ~16x
+ * headroom. Holidays for a given year do not change, so nothing is traded away
+ * by caching this aggressively.
+ *
+ * An earlier version of this comment claimed a "~1 call/day quota with a UTC-day
+ * reset" and recommended 25h to avoid straddling that boundary. Both claims were
+ * wrong: the limit is monthly, and a UTC day is exactly 86400s, so any TTL at or
+ * above 86400 already caps usage at one call per UTC day. 25h bought nothing
+ * except roughly one fewer refresh per week. The value is now a plain 24h.
+ */
+define('CALENDARIFIC_CACHE_TTL', (int) _cfg_env('CALENDARIFIC_CACHE_TTL', 86400));
+define('OPENWEATHER_CURRENT_CACHE_TTL', (int) _cfg_env('OPENWEATHER_CURRENT_CACHE_TTL', 600));
+define('OPENWEATHER_FORECAST_CACHE_TTL', (int) _cfg_env('OPENWEATHER_FORECAST_CACHE_TTL', 1800));
+
+/* Failure backoff. A provider that is down must not be re-probed on every page
+ * view: each attempt costs the full connect timeout and a slice of quota, and
+ * the outage path would otherwise be the most expensive one rather than the
+ * cheapest. These short-lived markers are written on a live-call failure and
+ * suppress further attempts for their TTL, so a dead provider costs one attempt
+ * per window instead of one per request. Recovery is automatic once they
+ * expire, so there is no state to clear by hand. */
+define('CALENDARIFIC_FAIL_TTL', (int) _cfg_env('CALENDARIFIC_FAIL_TTL', 300));
+define('OPENWEATHER_FAIL_TTL', (int) _cfg_env('OPENWEATHER_FAIL_TTL', 120));
+
 define('MOCK_EMAIL_FAIL_PCT', (int) _cfg_env('MOCK_EMAIL_FAIL_PCT', 0));
 define('MOCK_WEATHER_FIXTURE', (string) _cfg_env('MOCK_WEATHER_FIXTURE', 'sunny-2-day'));
 define('MOCK_HOLIDAY_FIXTURE', (string) _cfg_env('MOCK_HOLIDAY_FIXTURE', 'split-2026'));

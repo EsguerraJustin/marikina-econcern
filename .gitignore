@@ -1,10 +1,10 @@
-# --- Marikina E-Concern .gitignore ---
+﻿# --- Marikina E-Concern .gitignore ---
 
 # Secrets / env
 .env
 !.env.example
 
-# Uploads (user content — never commit)
+# Uploads (user content â€” never commit)
 uploads/
 !uploads/.gitkeep
 
@@ -15,7 +15,7 @@ storage/logs/
 storage/cache/
 storage/qa_harnesses/_tmp_sessions/
 
-# QA harnesses — debug scripts, not production
+# QA harnesses â€” debug scripts, not production
 storage/qa_harnesses/
 !storage/qa_harnesses/README.md
 
@@ -63,14 +63,23 @@ apk-admin/
 # Repomix
 repomix-output.xml
 
-# Internal documentation — PROJECT_GUIDE.md is a developer document that
+# Internal documentation â€” PROJECT_GUIDE.md is a developer document that
 # documents the credential layout. It must never be committed. The .htaccess
 # blocks *.md from being served, which is what protects the deployed site; the
 # repo itself is expected to carry README.md and docs/.
 PROJECT_GUIDE.md
+# ...but the systems reference in docs/ carries no credentials - that is
+# re-asserted on every test run by
+# SecurityHardeningTest::test_project_guide_carries_no_live_secret_values - and it
+# is meant to be readable, so it is explicitly un-ignored. The rule above matches
+# at any depth, so without this line docs/PROJECT_GUIDE.md would be excluded too.
+!docs/PROJECT_GUIDE.md
 
 # Temp
 tmp/
 temp/
 *.tmp
 *.temp
+
+# Agent tool config (231 files, 1.4MB) - not part of the application
+.claude/

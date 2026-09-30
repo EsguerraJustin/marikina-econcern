@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS ba_announcements (
 CREATE TABLE IF NOT EXISTS ba_notifications (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id INT UNSIGNED NOT NULL COMMENT 'Resident recipient',
-  type ENUM('reminder','schedule_change','announcement','report_submit','report_update','feedback_reply','email_mock','sms_mock') NOT NULL,
+  type ENUM('reminder','schedule_change','announcement','report_submit','report_update','feedback_reply','concern_message','email_mock','sms_mock') NOT NULL,
   title VARCHAR(190) NOT NULL,
   message TEXT NOT NULL,
   ref_table VARCHAR(60) NULL COMMENT 'Related table e.g. ba_collection_schedules',

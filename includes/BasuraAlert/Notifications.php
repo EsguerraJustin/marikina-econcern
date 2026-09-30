@@ -462,6 +462,48 @@ function ba_push_notification_via_prefs(?mysqli $db, int $userId, string $type, 
     return $last;
 }
 
+/**
+ * Where a notification should take the citizen when its card is tapped.
+ *
+ * ref_table / ref_id have been written by ba_push_notification() since the
+ * column pair was introduced and are already indexed (idx_notif_ref), but
+ * nothing in the application ever rendered or followed them -- a tap could only
+ * ever flip the unread dot. That is why an admin's message to a citizen, and
+ * equally the pre-existing report_update notifications, left the citizen with no
+ * way to reach the thing they were being told about.
+ *
+ * The mapping lives here rather than in the page script or in JS so the routes
+ * stay next to app_url(), and so an unrecognised ref_table degrades to the old
+ * mark-read-only behaviour instead of a broken link.
+ *
+ * @return string empty when the notification has no navigable target
+ */
+function ba_notification_target_url(?array $notification): string
+{
+    if (!is_array($notification)) {
+        return '';
+    }
+    $refTable = isset($notification['ref_table']) ? trim((string) $notification['ref_table']) : '';
+    $refId = isset($notification['ref_id']) ? (int) $notification['ref_id'] : 0;
+    if ($refTable === '' || $refId <= 0) {
+        return '';
+    }
+    switch ($refTable) {
+        case 'concerns':
+            return app_url('/public/concern_view.php?id=' . $refId);
+        case 'ba_reports':
+            return app_url('/public/ba_my_reports.php?id=' . $refId);
+        case 'ba_announcements':
+            return app_url('/public/ba_announcements.php');
+        case 'ba_collection_schedules':
+            return app_url('/public/ba_schedule.php');
+        default:
+            // Includes ba_feedback, and anything added later that has no page of
+            // its own: no target is strictly better than a wrong one.
+            return '';
+    }
+}
+
 function ba_list_faqs(?mysqli $db, string $q = '', ?string $category = null): array
 {
     if (!($db instanceof mysqli)) return [];

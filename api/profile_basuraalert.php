@@ -219,32 +219,89 @@ if ($action === 'save_notification_prefs') {
     json_response(['ok' => $ok, 'message' => $ok ? 'Notification preferences saved.' : 'Failed to save preferences.']);
 }
 
+/* -------------------------------------------------------------------------
+   OTP preference (2FA on login)
+
+   This is the only writer of users.otp_enabled in the whole application, and
+   the report that prompted this rewrite is that a citizen switched it OFF here,
+   saw the card flip to "Less secure", and was still asked for an SMS code on
+   the next login.
+
+   The write itself was never the problem -- public/login.php:97 evaluates the
+   same expression against the same column of the same row. The problem was that
+   the response reported *intent* rather than *state*: it echoed $otpEnabled
+   straight back, and public/profile.php:597-608 paints the switch and the badge
+   from that echo. db_prepared_execute() returns $stmt->execute(), which only
+   proves the statement RAN -- not that a row matched, not that the value stuck.
+   A write that never landed was therefore indistinguishable from one that did,
+   and with no log line anywhere, the failure left no trace in app_error.log.
+
+   So: read the value back, log the outcome, and only report success for a
+   verified write. Failure responses stay on HTTP 200 deliberately -- jQuery
+   routes a 5xx to .fail(), which shows a generic "Network error" instead of the
+   server's actual message and gives the citizen nothing to act on.
+   ------------------------------------------------------------------------- */
 if ($action === 'save_otp_pref') {
     $otpEnabled = isset($_POST['otp_enabled']) ? (int) $_POST['otp_enabled'] : 0;
     $otpEnabled = $otpEnabled === 1 ? 1 : 0;
 
     $stmt = $db->prepare('UPDATE users SET otp_enabled = ? WHERE id = ?');
     if (!$stmt) {
-        json_response(['ok' => false, 'error' => 'Database error.']);
+        _auth_diag('save_otp_pref_prepare_failed', ['user_id' => $userId, 'intended' => $otpEnabled]);
+        json_response(['ok' => false, 'error' => 'Database error. Please try again.']);
     }
     $ok = db_prepared_execute($stmt, 'ii', [$otpEnabled, $userId]);
     $stmt->close();
 
     if (!$ok) {
-        json_response(['ok' => false, 'error' => 'Failed to update OTP preference.']);
+        _auth_diag('save_otp_pref_execute_failed', ['user_id' => $userId, 'intended' => $otpEnabled]);
+        json_response(['ok' => false, 'error' => 'Failed to update OTP preference. Please try again.']);
     }
 
-    // Echo the persisted state back so the client can reconcile its UI without
-    // re-rendering from a possibly-stale page. See the admin twin in
-    // admin/api/update_profile.php for the rationale.
+    // Read back the value the database actually holds. mobile is taken from the
+    // same row so the masked number in the response cannot be a stale copy of
+    // $user either.
+    $persisted = null;
     $mobileNow = (string) ($user['mobile'] ?? '');
-    $mobileOk  = $mobileNow !== '' && normalize_ph_mobile($mobileNow) !== false;
+    $rs = $db->prepare('SELECT otp_enabled, mobile FROM users WHERE id = ? LIMIT 1');
+    if ($rs instanceof mysqli_stmt) {
+        db_prepared_execute($rs, 'i', [$userId]);
+        $rr = $rs->get_result();
+        $row = $rr ? $rr->fetch_assoc() : null;
+        $rs->close();
+        if (is_array($row) && array_key_exists('otp_enabled', $row)) {
+            $persisted = (int) $row['otp_enabled'] === 1 ? 1 : 0;
+            $mobileNow = (string) ($row['mobile'] ?? $mobileNow);
+        }
+    }
+
+    _auth_diag('save_otp_pref', [
+        'user_id'   => $userId,
+        'intended'  => $otpEnabled,
+        'persisted' => $persisted,
+        'verified'  => $persisted === $otpEnabled,
+    ]);
+
+    if ($persisted === null) {
+        json_response([
+            'ok'     => false,
+            'error'  => 'Could not confirm the saved OTP preference. Please try again.',
+        ]);
+    }
+    if ($persisted !== $otpEnabled) {
+        json_response([
+            'ok'     => false,
+            'error'  => 'The OTP preference could not be saved. Please try again.',
+        ]);
+    }
+
+    $mobileOk = $mobileNow !== '' && normalize_ph_mobile($mobileNow) !== false;
 
     json_response([
         'ok'             => true,
-        'otp_enabled'    => $otpEnabled,
-        'masked_mobile'  => ($otpEnabled && $mobileOk) ? mask_mobile($mobileNow) : '',
-        'message'        => $otpEnabled === 1
+        'otp_enabled'    => $persisted,
+        'masked_mobile'  => ($persisted && $mobileOk) ? mask_mobile($mobileNow) : '',
+        'message'        => $persisted === 1
             ? 'OTP enabled. Next login will ask for SMS code.'
             : 'OTP disabled. Next login will proceed with email + password only.',
     ]);

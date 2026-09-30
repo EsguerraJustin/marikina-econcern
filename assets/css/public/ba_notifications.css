@@ -57,6 +57,7 @@
 }
 .mc-notif-icon-svg{stroke-width:2.05}
 .mc-notif-icon--report_update{background:rgba(74,143,126,.14);color:var(--ba-success);border-color:rgba(74,143,126,.28)}
+.mc-notif-icon--concern_message{background:rgba(51,104,160,.12);color:var(--ba-primary);border-color:rgba(51,104,160,.26)}
 .mc-notif-icon--schedule_change{background:var(--ba-warning-light);color:#7A4A10;border-color:rgba(214,147,46,.25)}
 .mc-notif-icon--reminder{background:rgba(102,163,191,.14);color:#2A6785;border-color:rgba(102,163,191,.28)}
 .mc-notif-icon--announcement{background:rgba(200,223,219,.55);color:#2F6A5C;border-color:rgba(74,143,126,.22)}
@@ -73,6 +74,11 @@
 .mc-notif-title{font-family:Merriweather,Georgia,serif;font-weight:700;color:#111827;font-size:1.1rem;line-height:1.4;margin:0}
 .mc-notif-message{color:#1F2937;line-height:1.65;font-size:.92rem;margin:0}
 .mc-notif-time{font-family:Montserrat,sans-serif;color:#374151;font-size:.8rem;font-weight:700;letter-spacing:.2px}
+/* Chevron shown only on cards that have a data-href target, so a tappable
+   notification is visibly tappable. Pointer-events:none keeps the whole card
+   the click target rather than just the glyph. */
+.mc-notif-open{display:inline-flex;align-items:center;justify-content:center;min-height:40px;min-width:24px;height:40px;width:24px;flex-shrink:0;color:var(--ba-primary);opacity:.55;pointer-events:none;transition:opacity .15s ease,transform .15s ease}
+.mc-notif-card:hover .mc-notif-open{opacity:1;transform:translateX(2px)}
 .mc-notif-meta{color:#4B5563;line-height:1.6;font-size:.82rem;margin-top:2px}
 .mc-notif-delivery-badge{font-family:'Montserrat',system-ui,sans-serif;font-weight:700;font-size:.73rem;padding:4px 11px;line-height:1.3;border-radius:var(--ba-radius-pill);letter-spacing:.15px;color:var(--ba-text);background:var(--ba-surface-2);border:1px solid var(--ba-border);display:inline-block}
 .mc-notif-del{display:inline-flex!important;align-items:center;justify-content:center;min-height:40px;min-width:40px;height:40px;width:40px;flex-shrink:0;border-radius:var(--ba-radius-sm);background:var(--ba-surface);border:1px solid var(--ba-border);color:var(--ba-danger);padding:0}

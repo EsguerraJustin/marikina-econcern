@@ -13,6 +13,7 @@ declare(strict_types=1);
  *   1 schema.sql → 2 auth_security → 3 citizen_management → 4 admin → 5 basuraalert
  *   → 6 sync_departments → 7 20260906_tier3 → 8 citizen_archive
  *   → 9 20260927_notification_delivery_columns → 10 20260928_infinityfree_baseline
+ *   → 11 20260929_concern_message_notification
  *
  * New migrations MUST be appended to $MIGRATIONS (never inserted mid-list) and
  * MUST be written idempotently: bin/migrate.php skips a whole file by name once
@@ -38,6 +39,7 @@ $MIGRATIONS = [
     'citizen_archive'    => 'database/citizen_archive_migration.sql',
     'notif_delivery_cols' => 'database/20260927_notification_delivery_columns.sql',
     'infinityfree_baseline' => 'database/20260928_infinityfree_baseline.sql',
+    'concern_message_notification' => 'database/20260929_concern_message_notification.sql',
 ];
 
 $args = $argv ?? [];

@@ -12,6 +12,15 @@ $errors = [];
 $notice = '';
 $otpInput = '';
 
+/* This is the only page in the application that renders the code prompt, and it
+   was the only OTP screen without this guard -- admin/login_otp.php:9-11 has had
+   one all along. Without it, any surviving pending challenge served the prompt
+   to an already-authenticated citizen. */
+if (is_logged_in()) {
+    clear_pending_login_state();
+    redirect(app_url('/public/dashboard.php'));
+}
+
 $pending = get_pending_login();
 if (!is_array($pending)) {
     $_SESSION['flash_error'] = 'Your login session has expired or is invalid. Please start over.';
@@ -21,6 +30,27 @@ if (!is_array($pending)) {
 $userId = (int) $pending['user_id'];
 $otpId = (int) $pending['otp_id'];
 $maskedDest = (string) $pending['masked_destination'];
+
+/* Re-read the stored preference rather than trusting the session. A citizen can
+   turn 2FA off at any time, including while a challenge is pending, and
+   public/login.php:97-108 honours the flag on the next attempt -- so the flag has
+   to be honoured here too or the prompt outlives the opt-out. The password has
+   already been verified at this point (public/login.php), so completing the
+   login is correct, not a bypass. */
+$otpPrefStmt = db_prepare($mysqli, 'SELECT otp_enabled FROM users WHERE id = ? LIMIT 1');
+if ($otpPrefStmt instanceof mysqli_stmt) {
+    db_prepared_execute($otpPrefStmt, 'i', [$userId]);
+    $otpPrefRes = $otpPrefStmt->get_result();
+    $otpPrefRow = $otpPrefRes ? $otpPrefRes->fetch_assoc() : null;
+    $otpPrefStmt->close();
+    if (is_array($otpPrefRow) && array_key_exists('otp_enabled', $otpPrefRow)
+        && (int) $otpPrefRow['otp_enabled'] !== 1) {
+        _auth_diag('login_otp_bypassed_preference_disabled', ['user_id' => $userId]);
+        clear_pending_login_state();
+        login_user($userId);
+        redirect(app_url('/public/dashboard.php'));
+    }
+}
 
 $activeOtp = get_active_otp($mysqli, $userId, true);
 if (!is_array($activeOtp)) {

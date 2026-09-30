@@ -49,6 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($matchFound && is_user_locked($mysqli, $userId)) {
                 $errors[] = 'This account has been temporarily locked due to too many failed login attempts. Please try again later or reset your password.';
             } elseif (!$matchFound || !$passwordOk) {
+                /* Drop any challenge left over from an earlier attempt. Without
+                   this an abandoned SMS challenge outlives the login that
+                   created it: get_active_otp() (includes/otp.php:200) returns the
+                   newest unconsumed row for the user, and invalidate_active_otps()
+                   only runs when a NEW code is issued, so nothing else ever
+                   cleared it. A stale login_otp.php tab would then re-render the
+                   code prompt long after the citizen had walked away from it. */
+                clear_pending_login_state();
                 if (!$matchFound || !$activeOk) {
                     $errors[] = 'Invalid email or password.';
                 } else {
@@ -103,6 +111,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         db_prepared_execute($stmt, 'i', [$userId]);
                         $stmt->close();
                     }
+                    /* The citizen twin of admin/login.php:90. The admin portal has
+                       always logged which way this branch went; the citizen one
+                       did not, so "was OTP skipped or demanded?" was unanswerable
+                       from app_error.log after the fact -- which is the entire
+                       reason the 2026-09-30 report could not be pinned down. */
+                    _auth_diag('login_success_otp_disabled', [
+                        'user_id' => $userId,
+                        'email'   => mask_email($email),
+                    ]);
                     login_user($userId);
                     redirect(app_url('/public/dashboard.php'));
                 }
@@ -114,6 +131,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     try {
                         $otp = create_login_otp($mysqli, $userId, $e164);
                         set_pending_login_state($userId, $otp['id'], $otp['masked_destination']);
+                        _auth_diag('login_otp_required', [
+                            'user_id'            => $userId,
+                            'email'              => mask_email($email),
+                            'otp_id'             => (int) $otp['id'],
+                            'masked_destination' => (string) $otp['masked_destination'],
+                        ]);
                         $smsBody = '[Marikina E-Concern] Your 6-digit login code is ' . $otp['otp_plain'] . '. Valid for 5 minutes. Do not share this code with anyone.';
                         $smsResult = send_sms($e164, $smsBody);
                         if (!$smsResult['ok']) {

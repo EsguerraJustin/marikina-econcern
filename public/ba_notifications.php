@@ -132,11 +132,14 @@ $visibleCount = count($notifications);
             $typeSafe = e($typeRaw);
             $typeDisplay = e(ucwords(str_replace('_', ' ', $typeRaw)));
             $nid = (int) $n['id'];
+            $targetUrl = ba_notification_target_url($n);
         ?>
-            <div class="mc-notif-card list-group-item list-group-item-action<?= $isUnread ? ' ba-notif-unread' : ' mc-notif-row-read' ?>" data-id="<?= $nid ?>" data-is-unread="<?= $isUnread ? '1' : '0' ?>">
+            <div class="mc-notif-card list-group-item list-group-item-action<?= $isUnread ? ' ba-notif-unread' : ' mc-notif-row-read' ?>" data-id="<?= $nid ?>" data-is-unread="<?= $isUnread ? '1' : '0' ?>"<?= $targetUrl !== '' ? ' data-href="' . e($targetUrl) . '"' : '' ?>>
                 <div class="mc-notif-icon-wrap mc-notif-icon--<?= $typeSafe ?>">
                     <?php
                         switch ($typeRaw) {
+                            case 'concern_message':
+                                $ico = 'message-circle'; break;
                             case 'report_update':
                                 $ico = 'clipboard-check'; break;
                             case 'schedule_change':
@@ -164,6 +167,11 @@ $visibleCount = count($notifications);
                         </div>
                         <div class="d-flex align-items-center gap-3 flex-shrink-0">
                             <div class="mc-notif-time"><?= date('M j g:i A', strtotime((string) $n['created_at'])) ?></div>
+<?php if ($targetUrl !== '') : ?>
+                            <span class="mc-notif-open" title="Open">
+                                <i data-lucide="chevron-right" class="lucide lucide-14"></i>
+                            </span>
+<?php endif; ?>
                             <button type="button" class="ba-del-notif btn btn-outline-danger mc-notif-del" data-id="<?= $nid ?>" title="Delete notification" aria-label="Delete notification">
                                 <i data-lucide="trash-2" class="lucide lucide-14"></i>
                             </button>
@@ -482,10 +490,21 @@ $pageScripts = <<<'HTML'
       });
       return;
     }
-    const row = ev && ev.target ? ev.target.closest(".ba-notif-unread") : null;
+    /* Any card can be a link, not just the unread ones: the original selector
+       was .ba-notif-unread, so once a notification had been read it became
+       completely inert. Marking read is still conditional on being unread, but
+       the navigation is not. The delete button returned above, so it is safe. */
+    const row = ev && ev.target ? ev.target.closest(".mc-notif-card") : null;
     if (!row) return;
     if (ev && ev.target && isDeleteBtnEl(ev.target)) return;
-    markRowRead(row);
+    if (row.classList.contains("ba-notif-unread")) {
+      markRowRead(row);
+    }
+    const href = row.getAttribute("data-href");
+    if (href) {
+      ev.preventDefault();
+      window.location.href = href;
+    }
   });
 })();
 </script>

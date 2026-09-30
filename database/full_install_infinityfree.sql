@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `ba_notification_preferences` (
 CREATE TABLE IF NOT EXISTS `ba_notifications` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL COMMENT 'Resident recipient',
-  `type` enum('reminder','schedule_change','announcement','report_submit','report_update','feedback_reply','email_mock','sms_mock') NOT NULL,
+  `type` enum('reminder','schedule_change','announcement','report_submit','report_update','feedback_reply','concern_message','email_mock','sms_mock') NOT NULL,
   `title` varchar(190) NOT NULL,
   `message` text NOT NULL,
   `ref_table` varchar(60) DEFAULT NULL COMMENT 'Related table e.g. ba_collection_schedules',

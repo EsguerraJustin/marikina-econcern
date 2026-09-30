@@ -19,7 +19,7 @@ if ($token !== '' && preg_match('/^[a-f0-9]{64}$/', $token)) {
     if ($userId !== false) {
         $status = 'verified';
         $result = ['user_id' => $userId];
-        $stmt = $mysqli->prepare('SELECT first_name, email FROM users WHERE id = ? LIMIT 1');
+        $stmt = $mysqli->prepare('SELECT first_name, email, otp_enabled FROM users WHERE id = ? LIMIT 1');
         db_prepared_execute($stmt, 'i', [$userId]);
         $res = $stmt->get_result();
         $row = $res ? $res->fetch_assoc() : null;
@@ -28,7 +28,23 @@ if ($token !== '' && preg_match('/^[a-f0-9]{64}$/', $token)) {
             $result['first_name'] = (string) ($row['first_name'] ?? '');
             $result['email'] = (string) ($row['email'] ?? '');
         }
-        login_user($userId);
+
+        /* 2FA is not a formality. public/login.php:97-108 routes any account with
+           users.otp_enabled = 1 through an SMS challenge, so calling login_user()
+           here unconditionally meant a valid verification link skipped it
+           entirely -- inconsistent with every other sign-in path in the app, and
+           reachable by anyone forwarding a link they still had. Verify the
+           address, then send the citizen through the normal login so the stored
+           preference decides. */
+        $otpEnabled = is_array($row) && array_key_exists('otp_enabled', $row)
+            ? (int) $row['otp_enabled'] === 1
+            : true;
+        $result['auto_logged_in'] = !$otpEnabled;
+        if (!$otpEnabled) {
+            login_user($userId);
+        } else {
+            _auth_diag('verify_email_otp_login_required', ['user_id' => $userId]);
+        }
     } else {
         $status = 'failed';
     }
@@ -53,9 +69,18 @@ require_once __DIR__ . '/../includes/partials/head.php';
                         <div class="text-muted mb-4">
                             Hello, <strong><?= e($result['first_name'] ?? '') ?></strong>. Your email address has been confirmed and your account is now fully active.
                         </div>
+<?php if (!empty($result['auto_logged_in'])) : ?>
                         <div class="d-grid">
                             <a class="btn btn-primary" href="<?= e(app_url('/public/dashboard.php')) ?>">Continue to Dashboard</a>
                         </div>
+<?php else : ?>
+                        <div class="text-muted mb-4">
+                            Two-Factor Authentication is enabled on your account, so log in to receive your SMS verification code.
+                        </div>
+                        <div class="d-grid">
+                            <a class="btn btn-primary" href="<?= e(app_url('/public/login.php?verified=1')) ?>">Continue to Login</a>
+                        </div>
+<?php endif; ?>
                     </div>
                 </div>
             <?php elseif ($status === 'failed') : ?>
